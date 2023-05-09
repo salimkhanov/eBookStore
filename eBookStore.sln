@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "eBookStore", "eBookStore\eB
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{6F18390A-3B33-4227-893A-715CD2052259}"
 	ProjectSection(SolutionItems) = preProject
-		C:\Users\Samir Salimkhanov\Downloads\eBookStore.docx = C:\Users\Samir Salimkhanov\Downloads\eBookStore.docx
+		AboutForTeam.txt = AboutForTeam.txt
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "APIs", "APIs", "{EECBEDCD-3690-44DD-8596-226C2BDDB5A0}"

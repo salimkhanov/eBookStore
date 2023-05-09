@@ -1,0 +1,21 @@
+﻿eBookStore
+eBookStore proqram təyinatı kitabların onlayn şəkilində alışı-satışı üçün nəzərdə tutulub.
+Funksional olaraq proqram təminatı 2 hissəyə bölünəcək:
+1. Administrativ
+2. Public
+Proqramın istifadə qaydası:
+1. Administrativ hissə*
+* - Super user imkanı. İstifadəçilər daxil edə bilməlidir. İstifadəçilər rollara görə bölünməli.
+Adminstrativ hissədən Proqram təminatına kitabları daxil etmə imkanları olmalıdır. Kitabları idarəetmə funksionalı olmalıdır. İstifadəçilərin idarəetmə funksionalı olmalıdır.
+2. Public hissə*
+* - Resursu istifadə edən şəxs özü özünü qeydiyyatdan keçmə imkanı olmaılıdr. Şəxsi kabinet imkanı olmalıdır. Kitablarım sifariş etmə və sifarişi izləmə imkanları.
+Proqram təminatının texniki tərəfi.
+Proqram təminatı ASP.net core platforma üzərində. Proqramlaşdırma dili C#.
+Framework WEB API. Database SQL-Server Express edition.
+Proqram üzərində işləyən team-lər: Ceyhun TeamLead və Nigar TeamLead.
+Ceyhun Team: Nigar Team:
+1. Ceyhun   1. Nigar
+2. Ülvi 2.  Əli
+3. Abdulla  3. Cavad
+4. Orxan 4.  Böyükkişi
+5. İlkin 5.  İlkin

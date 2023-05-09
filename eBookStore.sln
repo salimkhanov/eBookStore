@@ -3,23 +3,26 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.33627.172
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "eBookStore", "eBookStore\eBookStore.csproj", "{7A6B845D-BFD8-4E2E-8994-E72850B3CCC1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "eBookStore", "eBookStore\eBookStore.csproj", "{7A6B845D-BFD8-4E2E-8994-E72850B3CCC1}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{6F18390A-3B33-4227-893A-715CD2052259}"
+	ProjectSection(SolutionItems) = preProject
+		C:\Users\Samir Salimkhanov\Downloads\eBookStore.docx = C:\Users\Samir Salimkhanov\Downloads\eBookStore.docx
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "APIs", "APIs", "{EECBEDCD-3690-44DD-8596-226C2BDDB5A0}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{DDE1E90C-EB9B-42BB-9761-5E4F11B945DF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "eBookStore.Domain", "eBookStore.Domain\eBookStore.Domain.csproj", "{A5B525C3-85CD-4F24-A7E8-E68255445FD5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "eBookStore.Domain", "eBookStore.Domain\eBookStore.Domain.csproj", "{A5B525C3-85CD-4F24-A7E8-E68255445FD5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "eBookStore.Application", "eBookStore.Application\eBookStore.Application.csproj", "{A4BFE2A0-2A2A-466A-B91B-10DADCD18F35}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "eBookStore.Application", "eBookStore.Application\eBookStore.Application.csproj", "{A4BFE2A0-2A2A-466A-B91B-10DADCD18F35}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "eBookStore.Shared", "eBookStore.Shared\eBookStore.Shared.csproj", "{8872EE7B-94E3-4131-AA8E-18FC26E76AEF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "eBookStore.Shared", "eBookStore.Shared\eBookStore.Shared.csproj", "{8872EE7B-94E3-4131-AA8E-18FC26E76AEF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "eBookStore.Infrastructure", "eBookStore.Infrastructure\eBookStore.Infrastructure.csproj", "{0BFAD620-7D87-4413-AC7B-3860B5FD6807}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "eBookStore.Infrastructure", "eBookStore.Infrastructure\eBookStore.Infrastructure.csproj", "{0BFAD620-7D87-4413-AC7B-3860B5FD6807}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "eBookStore.Persistence", "eBookStore.Persistence\eBookStore.Persistence.csproj", "{8E95CF51-683F-4813-B324-76021909383B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "eBookStore.Persistence", "eBookStore.Persistence\eBookStore.Persistence.csproj", "{8E95CF51-683F-4813-B324-76021909383B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

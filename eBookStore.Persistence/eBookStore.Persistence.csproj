@@ -7,7 +7,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="EntityTypeConfigurations\" />
+    <Compile Remove="EntityTypeConfigurations\**" />
+    <EmbeddedResource Remove="EntityTypeConfigurations\**" />
+    <None Remove="EntityTypeConfigurations\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="EntityConfigurations\BookConfiguration\" />
   </ItemGroup>
 
   <ItemGroup>

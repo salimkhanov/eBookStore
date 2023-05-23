@@ -9,14 +9,17 @@ public class ProductConfigSqlServer : IEntityTypeConfiguration<Product>
 {
     public void Configure(EntityTypeBuilder<Product> builder)
     {
-        #region Configuration
+        #region BaseConfiguration
         builder.ToTable("Product", DbObject.SchemaNameProducts).HasKey(k => k.Id);
+
+        builder.HasKey(k => k.Id);
 
         builder.
             Property(x => x.Id).
+            ValueGeneratedOnAdd().
             HasColumnName("Id").
-            HasColumnType("int").
-            HasMaxLength(35).IsRequired();
+            HasColumnType("int");
+
 
         builder.
             Property(x => x.CreateDate).
@@ -51,53 +54,28 @@ public class ProductConfigSqlServer : IEntityTypeConfiguration<Product>
             HasColumnName("Note").
             HasColumnType("nvarchar(max)").
             IsRequired();
+        #endregion
+
+        #region Configuration
+
 
         builder.
             Property(x => x.Price).
             HasColumnName("Price").
             HasColumnType("float").
-            HasMaxLength(20).IsRequired();
+            IsRequired();
 
         builder.
             Property(x => x.StockCount).
             HasColumnName("StockCount").
-            HasColumnType("int").
-            HasMaxLength(15);
+            HasColumnType("int");
+
 
         builder.
             Property(x => x.SoldCount).
             HasColumnName("SoldCount").
-            HasColumnType("int").
-            HasMaxLength(35);
+            HasColumnType("int");
 
-        builder.
-            Property(x => x.Book).
-            HasColumnName("Book").
-            HasColumnType("varchar").
-            HasMaxLength(55).IsRequired();
-
-        builder.
-            Property(x => x.User).
-            HasColumnName("User").
-            HasColumnType("varchar").
-            HasMaxLength(55).IsRequired();
-
-        builder.
-            Property(x => x.OrderProducts).
-            HasColumnName("OrderProducts").
-            HasColumnType("nvarchar(max)").
-            IsRequired();
-
-        builder.
-            Property(x => x.Offers).
-            HasColumnName("Offers").
-            HasColumnType("nvarchar(max)");
-
-        builder.
-            Property(x => x.Reviews).
-            HasColumnName("Reviews").
-            HasColumnType("nvarchar(max)");
         #endregion
-
     }
 }

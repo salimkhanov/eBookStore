@@ -11,14 +11,17 @@ public class PublisherConfigSqlServer : IEntityTypeConfiguration<Publisher>
 {
     public void Configure(EntityTypeBuilder<Publisher> builder)
     {
-        #region Configurations
+        #region BaseConfiguration
         builder.ToTable("Publisher", DbObject.SchemaNamePublishers).HasKey(k => k.Id);
+
+        builder
+           .HasKey(k => k.Id);
 
         builder.
             Property(x => x.Id).
+            ValueGeneratedOnAdd().
             HasColumnName("Id").
-            HasColumnType("int").
-            HasMaxLength(35).IsRequired();
+            HasColumnType("int");
 
         builder.
             Property(x => x.CreateDate).
@@ -53,18 +56,17 @@ public class PublisherConfigSqlServer : IEntityTypeConfiguration<Publisher>
             HasColumnName("Note").
             HasColumnType("nvarchar(max)").
             IsRequired();
+        #endregion
+
+        #region Configurations
+
 
         builder.
             Property(x => x.PublisherName).
             HasColumnName("PublisherName").
-            HasColumnType("varchar").
-            HasMaxLength(55).IsRequired();
+            HasColumnType("nvarchar").
+            HasMaxLength(60).IsRequired();
 
-        builder.
-            Property(x => x.Books).
-            HasColumnName("Books").
-            HasColumnType("nvarchar(max)").
-            IsRequired();
 
         #endregion
     }

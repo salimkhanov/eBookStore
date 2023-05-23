@@ -8,14 +8,16 @@ public class ReviewConfigSqlServer : IEntityTypeConfiguration<Review>
 {
     public void Configure(EntityTypeBuilder<Review> builder)
     {
-        #region Configurations
-        builder.ToTable("Publisher", DbObject.SchemaNamePublishers).HasKey(k => k.Id);
+        #region BaseConfiguration
+
+        builder
+           .HasKey(k => k.Id);
 
         builder.
             Property(x => x.Id).
+            ValueGeneratedOnAdd().
             HasColumnName("Id").
-            HasColumnType("int").
-            HasMaxLength(35).IsRequired();
+            HasColumnType("int");
 
         builder.
             Property(x => x.CreateDate).
@@ -51,63 +53,31 @@ public class ReviewConfigSqlServer : IEntityTypeConfiguration<Review>
             HasColumnType("nvarchar(max)").
             IsRequired();
 
+        #endregion
+
+        #region Configurations
+
         builder.
             Property(x => x.LikeCount).
             HasColumnName("LikeCount").
-            HasColumnType("int").
-            HasMaxLength(35);
+            HasColumnType("int");
 
         builder.
             Property(x => x.DislikeCount).
             HasColumnName("DislikeCount").
-            HasColumnType("int").
-            HasMaxLength(35);
+            HasColumnType("int");
+
 
         builder.
             Property(x => x.Content).
             HasColumnName("Content").
-            HasColumnType("nvarchar(max)").
+            HasColumnType("nvarchar").
+            HasMaxLength(300).
             IsRequired();
 
-        builder.
-            Property(x => x.UserId).
-            HasColumnName("UserId").
-            HasColumnType("int").
-            HasMaxLength(35).IsRequired();
 
-        builder.
-            Property(x => x.User).
-            HasColumnName("User").
-            HasColumnType("varchar").
-            HasMaxLength(55).IsRequired();
 
-        builder.
-            Property(x => x.ProductId).
-            HasColumnName("ProductId").
-            HasColumnType("int").
-            HasMaxLength(35).IsRequired();
 
-        builder.
-            Property(x => x.Product).
-            HasColumnName("Product").
-            HasColumnType("varchar").
-            HasMaxLength(55).IsRequired();
-
-        builder.
-            Property(x => x.ReviewId).
-            HasColumnName("ReviewId").
-            HasColumnType("int").
-            HasMaxLength(35).IsRequired();
-
-        builder.
-            Property(x => x.ResponseOfReview).
-            HasColumnName("ResponseOfReview").
-            HasColumnType("nvarchar(max)");
-
-        builder.
-            Property(x => x.Reviews).
-            HasColumnName("Reviews").
-            HasColumnType("nvarchar(max)");
         #endregion
 
     }

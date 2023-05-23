@@ -9,14 +9,19 @@ public class GenreConfigSqlServer : IEntityTypeConfiguration<Genre>
 {
     public void Configure(EntityTypeBuilder<Genre> builder)
     {
-        #region Configuration
+
+        #region BaseConfiguration
         builder.ToTable("Genre", DbObject.SchemaNameGenres).HasKey(k => k.Id);
+
+        builder
+          .HasKey(k => k.Id);
 
         builder.
             Property(x => x.Id).
+            ValueGeneratedOnAdd().
             HasColumnName("Id").
-            HasColumnType("int").
-            HasMaxLength(35).IsRequired();
+            HasColumnType("int");
+
 
         builder.
             Property(x => x.CreateDate).
@@ -51,25 +56,19 @@ public class GenreConfigSqlServer : IEntityTypeConfiguration<Genre>
             HasColumnName("Note").
             HasColumnType("nvarchar(max)").
             IsRequired();
+        #endregion
+
+        #region Configuration
+
 
         builder.
             Property(x => x.GenreName).
             HasColumnName("GenreName").
-            HasColumnType("varchar").
-            HasMaxLength(35).IsRequired();
+            HasColumnType("nvarchar").
+            HasMaxLength(40).IsRequired();
 
-        builder.
-            Property(x => x.Authors).
-            HasColumnName("Authors").
-            HasColumnType("varchar").
-            HasMaxLength(35);
 
-        builder.
-            Property(x => x.Books).
-            HasColumnName("Books").
-            HasColumnType("varchar").
-            HasMaxLength(35);
 
-        # endregion
+        #endregion
     }
 }

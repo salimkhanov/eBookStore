@@ -9,14 +9,17 @@ public class TranslatorConfigSqlServer : IEntityTypeConfiguration<Translator>
 {
     public void Configure(EntityTypeBuilder<Translator> builder)
     {
-        #region Configurations
+        #region BaseConfiguration
         builder.ToTable("Translator", DbObject.SchemaNameTranslators).HasKey(k => k.Id);
+
+        builder
+          .HasKey(k => k.Id);
 
         builder.
             Property(x => x.Id).
+            ValueGeneratedOnAdd().
             HasColumnName("Id").
-            HasColumnType("int").
-            HasMaxLength(35).IsRequired();
+            HasColumnType("int");
 
         builder.
             Property(x => x.CreateDate).
@@ -52,34 +55,34 @@ public class TranslatorConfigSqlServer : IEntityTypeConfiguration<Translator>
             HasColumnType("nvarchar(max)").
             IsRequired();
 
+        #endregion
+
+
+        #region Configurations
         builder.
             Property(x => x.FirstName).
             HasColumnName("FirstName").
             HasColumnType("varchar").
-            HasMaxLength(35).IsRequired();
+            HasMaxLength(30).IsRequired();
 
         builder.
             Property(x => x.LastName).
             HasColumnName("LastName").
             HasColumnType("varchar").
-            HasMaxLength(35).IsRequired();
+            HasMaxLength(30).IsRequired();
 
         builder.
             Property(x => x.Email).
             HasColumnName("Email").
-            HasColumnType("nvarchar(max)");
+            HasColumnType("nvarchar(40)").
+            HasMaxLength(40);
 
         builder.
             Property(x => x.PhoneNumber).
             HasColumnName("PhoneNumber").
             HasColumnType("varchar").
-            HasMaxLength(35).IsRequired();
+            HasMaxLength(30).IsRequired();
 
-        builder.
-            Property(x => x.Books).
-            HasColumnName("Books").
-            HasColumnType("nvarchar(max)").
-            IsRequired();
         #endregion
     }
 }

@@ -9,14 +9,17 @@ public class OrderConfigSqlServer : IEntityTypeConfiguration<Order>
 {
     public void Configure(EntityTypeBuilder<Order> builder)
     {
-        #region Configuration
+        #region BaseConfiguration
         builder.ToTable("Order", DbObject.SchemaNameOrders).HasKey(k => k.Id);
+
+        builder
+            .HasKey(k => k.Id);
 
         builder.
             Property(x => x.Id).
+            ValueGeneratedOnAdd().
             HasColumnName("Id").
-            HasColumnType("int").
-            HasMaxLength(35).IsRequired();
+            HasColumnType("int");
 
         builder.
             Property(x => x.CreateDate).
@@ -52,6 +55,10 @@ public class OrderConfigSqlServer : IEntityTypeConfiguration<Order>
             HasColumnType("nvarchar(max)").
             IsRequired();
 
+        #endregion 
+
+        #region Configuration
+
         builder.
             Property(x => x.OrderDate).
             HasColumnName("OrderDate").
@@ -65,32 +72,18 @@ public class OrderConfigSqlServer : IEntityTypeConfiguration<Order>
         builder.
             Property(x => x.ShipStreet).
             HasColumnName("ShipStreet").
-            HasColumnType("varchar").
-            HasMaxLength(55).IsRequired();
+            HasColumnType("nvarchar").
+            HasMaxLength(80).IsRequired();
 
         builder.
             Property(x => x.ShipCity).
             HasColumnName("ShipCity").
             HasColumnType("varchar").
-            HasMaxLength(35).IsRequired();
+            HasMaxLength(80).IsRequired();
 
-        builder.
-            Property(x => x.UserId).
-            HasColumnName("UserId").
-            HasColumnType("int").
-            HasMaxLength(10).IsRequired();
 
-        builder.
-            Property(x => x.User).
-            HasColumnName("User").
-            HasColumnType("varchar").
-            HasMaxLength(35).IsRequired();
 
-        builder.
-            Property(x => x.OrderProducts).
-            HasColumnName("OrderProducts").
-            HasColumnType("nvarchar(max)").
-            IsRequired();
+
 
         #endregion
     }

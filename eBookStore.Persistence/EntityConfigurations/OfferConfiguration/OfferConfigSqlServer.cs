@@ -9,14 +9,17 @@ public class OfferConfigSqlServer : IEntityTypeConfiguration<Offer>
 {
     public void Configure(EntityTypeBuilder<Offer> builder)
     {
-        #region Configuration
+        #region BaseConfiguration
         builder.ToTable("Offer", DbObject.SchemaNameOffers).HasKey(k => k.Id);
+
+        builder
+          .HasKey(k => k.Id);
 
         builder.
             Property(x => x.Id).
+            ValueGeneratedOnAdd().
             HasColumnName("Id").
-            HasColumnType("int").
-            HasMaxLength(35).IsRequired();
+            HasColumnType("int");
 
         builder.
             Property(x => x.CreateDate).
@@ -51,6 +54,10 @@ public class OfferConfigSqlServer : IEntityTypeConfiguration<Offer>
             HasColumnName("Note").
             HasColumnType("nvarchar(max)").
             IsRequired();
+        #endregion
+
+        #region Configuration
+
 
         builder.
             Property(x => x.OfferStartDate).
@@ -65,26 +72,15 @@ public class OfferConfigSqlServer : IEntityTypeConfiguration<Offer>
         builder.
             Property(x => x.OfferPrice).
             HasColumnName("OfferPrice").
-            HasColumnType("varchar").
-            HasMaxLength(30).IsRequired();
+            HasColumnType("float").
+           IsRequired();
 
         builder.
             Property(x => x.OfferContent).
             HasColumnName("OfferContent").
-            HasColumnType("varchar").
-            HasMaxLength(35);
+            HasColumnType("nvarchar").
+            HasMaxLength(500);
 
-        builder.
-            Property(x => x.ProductId).
-            HasColumnName("ProductId").
-            HasColumnType("int").
-            HasMaxLength(10).IsRequired();
-
-        builder.
-            Property(x => x.Product).
-            HasColumnName("Product").
-            HasColumnType("varchar").
-            HasMaxLength(40).IsRequired();
 
         #endregion
     }

@@ -9,15 +9,19 @@ public class AuthorConfigSqlServer : IEntityTypeConfiguration<Author>
 {
     public void Configure(EntityTypeBuilder<Author> builder)
     {
-        #region Configuration
+        #region BaseConfiguration
 
         builder.ToTable("Author", DbObject.SchemaNameAuthors).HasKey(k => k.Id);
 
+        builder
+           .HasKey(k => k.Id);
+
         builder.
             Property(x => x.Id).
+            ValueGeneratedOnAdd().
             HasColumnName("Id").
-            HasColumnType("int").
-            HasMaxLength(35).IsRequired();
+            HasColumnType("int");
+
 
         builder.
             Property(x => x.CreateDate).
@@ -32,80 +36,84 @@ public class AuthorConfigSqlServer : IEntityTypeConfiguration<Author>
         builder.
             Property(x => x.CreateByName).
             HasColumnName("CreateByName").
-            HasColumnType("varchar").
-            HasMaxLength(30).IsRequired();
+            HasColumnType("nvarchar").
+            HasMaxLength(30).
+            IsRequired();
 
         builder.
             Property(x => x.UpdateByName).
             HasColumnName("UpdateByName").
-            HasColumnType("varchar").
-            HasMaxLength(30).IsRequired();
+            HasColumnType("nvarchar").
+            HasMaxLength(30).
+            IsRequired();
 
         builder.
             Property(x => x.EntityStatus).
             HasColumnName("EntityStatus").
-            HasColumnType("int").
-            HasMaxLength(1).IsRequired();
+            HasColumnType("tinyint").
+            IsRequired();
 
         builder.
             Property(x => x.Note).
             HasColumnName("Note").
-            HasColumnType("nvarchar(max)").
-            IsRequired();
+            HasColumnType("nvarchar(300)").
+            HasMaxLength(300).
+            IsRequired(false);
+
+        #endregion
+
+        #region Configuration
 
         builder.
             Property(x => x.FirstName).
             HasColumnName("FirstName").
-            HasColumnType("varchar").
-            HasMaxLength(30).IsRequired();
+            HasColumnType("nvarchar").
+            HasMaxLength(30).
+            IsRequired();
 
         builder.
            Property(x => x.LastName).
            HasColumnName("LastName").
-           HasColumnType("varchar").
-           HasMaxLength(30).IsRequired();
+           HasColumnType("nvarchar").
+           HasMaxLength(30).
+           IsRequired();
 
         builder.
            Property(x => x.Resume).
            HasColumnName("Resume").
            HasColumnType("nvarchar").
-           HasMaxLength(35);
+           HasMaxLength(300).
+           IsRequired();
 
         builder.
             Property(x => x.Email).
             HasColumnName("Email").
             HasColumnType("nvarchar").
-            HasMaxLength(35);
+            HasMaxLength(40).
+            IsRequired();
 
         builder.
             Property(x => x.Instagram).
             HasColumnName("Instagram").
             HasColumnType("nvarchar").
-            HasMaxLength(35);
+            HasMaxLength(40).
+            IsRequired(false);
 
         builder.
             Property(x => x.Facebook).
             HasColumnName("Facebook").
             HasColumnType("nvarchar").
-            HasMaxLength(35);
+            HasMaxLength(40).
+            IsRequired(false);
 
         builder.
             Property(x => x.Tvitter).
             HasColumnName("Tvitter").
             HasColumnType("nvarchar").
-            HasMaxLength(35);
+            HasMaxLength(40).
+            IsRequired(false);
 
-        builder.
-            Property(x => x.Genres).
-            HasColumnName("Genres").
-            HasColumnType("nvarchar").
-            HasMaxLength(55);
 
-        builder.
-            Property(x => x.Books).
-            HasColumnName("Books").
-            HasColumnType("nvarchar").
-            HasMaxLength(55);
 
         #endregion
     }

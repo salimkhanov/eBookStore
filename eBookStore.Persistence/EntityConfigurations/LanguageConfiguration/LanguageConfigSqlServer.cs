@@ -9,14 +9,18 @@ public class LanguageConfigSqlServer : IEntityTypeConfiguration<Language>
 {
     public void Configure(EntityTypeBuilder<Language> builder)
     {
-        #region Configuration
+        #region BaseConfiguration
         builder.ToTable("Language", DbObject.SchemaNameLanguages).HasKey(k => k.Id);
+
+        builder
+          .HasKey(k => k.Id);
 
         builder.
             Property(x => x.Id).
+            ValueGeneratedOnAdd().
             HasColumnName("Id").
-            HasColumnType("int").
-            HasMaxLength(35).IsRequired();
+            HasColumnType("int");
+
 
         builder.
             Property(x => x.CreateDate).
@@ -51,19 +55,19 @@ public class LanguageConfigSqlServer : IEntityTypeConfiguration<Language>
             HasColumnName("Note").
             HasColumnType("nvarchar(max)").
             IsRequired();
+        #endregion
+
+        #region Configuration
+
 
         builder.
             Property(x => x.LanguageName).
             HasColumnName("GenreName").
-            HasColumnType("varchar").
-            HasMaxLength(35).IsRequired();
+            HasColumnType("nvarchar").
+            HasMaxLength(30).IsRequired();
 
-        builder.
-            Property(x => x.Books).
-            HasColumnName("Books").
-            HasColumnType("varchar").
-            HasMaxLength(35);
 
-        # endregion
+
+        #endregion
     }
 }

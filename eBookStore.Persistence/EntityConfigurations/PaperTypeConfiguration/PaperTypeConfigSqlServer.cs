@@ -9,14 +9,17 @@ public class PaperTypeConfigSqlServer : IEntityTypeConfiguration<PaperType>
 {
     public void Configure(EntityTypeBuilder<PaperType> builder)
     {
-        #region Configuration
+        #region BaseConfiguration
         builder.ToTable("PaperType", DbObject.SchemaNamePaperTypes).HasKey(k => k.Id);
+
+        builder
+           .HasKey(k => k.Id);
 
         builder.
             Property(x => x.Id).
+            ValueGeneratedOnAdd().
             HasColumnName("Id").
-            HasColumnType("int").
-            HasMaxLength(35).IsRequired();
+            HasColumnType("int");
 
         builder.
             Property(x => x.CreateDate).
@@ -51,24 +54,17 @@ public class PaperTypeConfigSqlServer : IEntityTypeConfiguration<PaperType>
             HasColumnName("Note").
             HasColumnType("nvarchar(max)").
             IsRequired();
+        #endregion
+        #region Configuration
+
 
         builder.
             Property(x => x.PaperTypeName).
             HasColumnName("PaperTypeName").
-            HasColumnType("varchar").
-            HasMaxLength(35).IsRequired();
+            HasColumnType("nvarchar").
+            HasMaxLength(30).IsRequired();
 
-        builder.
-            Property(x => x.BookCovers).
-            HasColumnName("BookCovers").
-            HasColumnType("varchar").
-            HasMaxLength(55);
 
-        builder.
-            Property(x => x.BookPapers).
-            HasColumnName("BookPapers").
-            HasColumnType("varchar").
-            HasMaxLength(55);
 
         #endregion
     }

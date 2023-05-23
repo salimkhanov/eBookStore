@@ -5,9 +5,9 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace eBookStore.Persistence.EntityConfigurations.RoleConfiguration;
 
-public class RoleConfigSqlServer : IEntityTypeConfiguration<Role>
+public class RoleConfigSqlServer : IEntityTypeConfiguration<BookStoreRole>
 {
-    public void Configure(EntityTypeBuilder<Role> builder)
+    public void Configure(EntityTypeBuilder<BookStoreRole> builder)
     {
         #region Configurations
         builder.ToTable("Role", DbObject.SchemaNameRoles).HasKey(k => k.Id);

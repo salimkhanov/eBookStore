@@ -10,9 +10,9 @@ using System.Threading.Tasks;
 
 namespace eBookStore.Persistence.EntityConfigurations.UserConfiguration
 {
-    public class UserConfigSqlServer : IEntityTypeConfiguration<User>
+    public class UserConfigSqlServer : IEntityTypeConfiguration<BookStoreUser>
     {
-        public void Configure(EntityTypeBuilder<User> builder)
+        public void Configure(EntityTypeBuilder<BookStoreUser> builder)
         {
             #region Configurations
             builder.ToTable("User", DbObject.SchemaNameUsers).HasKey(k => k.Id);

@@ -20,7 +20,7 @@ public class UserService : IUserService
         _roleManager = roleManager;
     }
 
-    public async Task<bool> AddRoleToUserAsync(int UserId,int RoleId)
+    public async Task<bool> AddRoleToUserAsync(int UserId, int RoleId)
     {
         User user = _userManager.Users.SingleOrDefault(u => u.Id == UserId && u.EntityStatus == EntityStatus.Active);
         Role role = _roleManager.Roles.SingleOrDefault(r => r.Id == RoleId && r.EntityStatus == EntityStatus.Active);
@@ -36,7 +36,7 @@ public class UserService : IUserService
         }
         return true;
     }
-    public async Task<bool> RemoveUserRoleAsync(int UserId,int RoleId)
+    public async Task<bool> RemoveUserFromRoleAsync(int UserId, int RoleId)
     {
         User user = _userManager.Users.SingleOrDefault(u => u.Id == UserId && u.EntityStatus == EntityStatus.Active);
         Role role = _roleManager.Roles.SingleOrDefault(r => r.Id == RoleId && r.EntityStatus == EntityStatus.Active);
@@ -114,7 +114,7 @@ public class UserService : IUserService
         User user = _userManager.Users.SingleOrDefault(u => u.Id == UserId && u.EntityStatus == EntityStatus.Active);
         if (user == null)
         {
-           return false;
+            return false;
         }
         user.EntityStatus = EntityStatus.Deactive;
         var result = await _userManager.UpdateAsync(user);

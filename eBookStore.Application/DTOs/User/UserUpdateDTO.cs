@@ -15,7 +15,7 @@ namespace eBookStore.Application.DTOs.User
         public string FirstName { get; set; }
         public string LastName { get; set; }
 
-        [DataType(DataType.EmailAddress)]
+        //[DataType(DataType.EmailAddress)]
         [Required]
         public string Email { get; set; }
     }

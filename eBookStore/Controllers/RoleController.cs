@@ -22,7 +22,7 @@ namespace eBookStore.Controllers
         [HttpPost]
         public async Task<IActionResult> AddRole(string roleName)
         {
-            var result = await _roleService.AddRoleAsync(roleName);
+            var result = await _roleService.CreateRole(roleName);
             if (result)
             {
                 return Ok("Role added successfully");

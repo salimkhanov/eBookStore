@@ -11,7 +11,7 @@ public class UserConfigurationMsSql : IEntityTypeConfiguration<User>
     {
         #region Configurations
 
-        builder.ToTable("Users",DbObject.SchemaNameUsers).HasKey(k => k.Id);
+        builder.ToTable("Users", DbObject.SchemaNameUsers).HasKey(k => k.Id);
 
         builder.Property(x => x.EntityStatus)
             .HasColumnName("ENTITY_STATUS")

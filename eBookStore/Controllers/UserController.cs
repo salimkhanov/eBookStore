@@ -51,7 +51,7 @@ namespace eBookStore.Controllers
         [HttpDelete]
         public async Task<IActionResult> RemoveUserRole(int UserId,int RoleId)
         {
-            var result = await _userService.RemoveUserRoleAsync(UserId,RoleId);
+            var result = await _userService.RemoveUserFromRoleAsync(UserId,RoleId);
             if (result)
             {
                 return Ok("Role removed from user successfully");

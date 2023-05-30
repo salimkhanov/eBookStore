@@ -13,9 +13,8 @@ namespace eBookStore.Controllers
     //[Authorize(Roles = "hr")]
     public class AuthController : ControllerBase
     {
-        private readonly IAuthService _authService;
-
-        public AuthController(IAuthService authService)
+        private readonly IAuthenticationService _authService;
+        public AuthController(IAuthenticationService authService)
         {
             _authService = authService;
         }
@@ -24,7 +23,7 @@ namespace eBookStore.Controllers
         [Route("/Login")]
         [AllowAnonymous]
         [HttpPost]
-        public async Task<IActionResult> Login([FromQuery] LoginDTO userLogin)
+        public async Task<IActionResult> Login([FromBody] LoginDTO userLogin)
         {
             var token = await _authService.Login(userLogin);
             if (token != null)
@@ -37,7 +36,6 @@ namespace eBookStore.Controllers
 
         [Route("/Registration")]
         [HttpPost]
-
         public async Task<IActionResult> Registration(RegistrationDTO registrationDTO)
         {
             var message = await _authService.Registration(registrationDTO);

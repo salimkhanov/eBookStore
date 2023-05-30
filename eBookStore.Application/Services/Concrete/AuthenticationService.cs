@@ -12,14 +12,14 @@ using System.Security.Claims;
 using System.Text;
 
 namespace eBookStore.Application.Services.Concrete;
-public class AuthService : IAuthService
+public class AuthenticationService : IAuthenticationService
 {
     private readonly UserManager<User> _userManager;
     private readonly RoleManager<Role> _roleManager;
     private readonly IConfiguration _config;
     private readonly IMapper _mapper;
 
-    public AuthService(
+    public AuthenticationService(
         UserManager<User> userManager,
         RoleManager<Role> roleManager,
         IConfiguration config,
@@ -30,41 +30,15 @@ public class AuthService : IAuthService
         _config = config;
         _mapper = mapper;
     }
-
-    public async Task<string> GenerateTokenAsync(User user, List<string> roles)
-    {
-        var claims = new List<Claim>();
-
-        claims.Add(new Claim(ClaimTypes.Email, user.Email));
-
-        foreach (var role in roles)
-        {
-            claims.Add(new Claim(ClaimTypes.Role, role));
-        }
-
-
-        var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
-        var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
-
-        var token = new JwtSecurityToken(
-        _config["Jwt:Issuer"],
-        _config["Jwt:Audience"],
-        claims,
-        expires: DateTime.Now.AddMinutes(15),
-        signingCredentials: credentials);
-
-        return new JwtSecurityTokenHandler().WriteToken(token);
-    }
     public async Task<string> Login(LoginDTO login)
     {
         var user = await _userManager.FindByEmailAsync(login.Email);
-
         if (user.EntityStatus == EntityStatus.Active)
         {
             if (user != null && await _userManager.CheckPasswordAsync(user, login.Password))
             {
                 var roles = await _userManager.GetRolesAsync(user);
-                return await GenerateTokenAsync(user, roles.ToList());
+                return GenerateJWTToken(user, roles.ToList());
             }
         }
         return "Invalid email or password or User does not exist";
@@ -85,5 +59,22 @@ public class AuthService : IAuthService
             return "User registration failed. Errors: " + string.Join(", ", errors);
         }
     }
+    private string GenerateJWTToken(User user, List<string> roles)
+    {
+        var claims = new List<Claim>();
+        claims.Add(new Claim(ClaimTypes.Email, user.Email));
+        foreach (var role in roles)
+        {
+            claims.Add(new Claim(ClaimTypes.Role, role));
+        }
+        var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
+        var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
+        var token = new JwtSecurityToken(
+        _config["Jwt:Issuer"],
+        _config["Jwt:Audience"],
+        claims,
+        expires: DateTime.Now.AddMinutes(15),
+        signingCredentials: credentials);
+        return new JwtSecurityTokenHandler().WriteToken(token);
+    }
 }
-

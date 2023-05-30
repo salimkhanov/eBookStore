@@ -18,7 +18,7 @@ namespace eBookStore.Controllers
             _roleService = roleService;
         }
 
-        [Route("/AddRole")]
+        [Route("AddRole")]
         [HttpPost]
         public async Task<IActionResult> AddRole(string roleName)
         {
@@ -32,7 +32,6 @@ namespace eBookStore.Controllers
                 return BadRequest("Failed to add role");
             }
         }
-
         
         [Route("GetRoles")]
         [HttpGet]
@@ -41,7 +40,7 @@ namespace eBookStore.Controllers
             return Ok(_roleService.GetRoles());
         }
 
-        [Route("/DeactivateRole")]
+        [Route("DeactivateRole")]
         [HttpPut]
         public async Task<IActionResult> DeactivateRole(int RoleId)
         {
@@ -56,5 +55,4 @@ namespace eBookStore.Controllers
             }
         }
     }
-
 }

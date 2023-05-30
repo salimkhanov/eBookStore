@@ -17,7 +17,7 @@ namespace eBookStore.Controllers
         }
 
 
-        [Route("/AddRoleToUser")]
+        [Route("AddRoleToUser")]
         [HttpPost]
         public async Task<IActionResult> AddRoleToUser(int UserId,int RoleId)
         {
@@ -32,7 +32,7 @@ namespace eBookStore.Controllers
             }
         }
 
-        [Route("/AddRolesToUser")]
+        [Route("AddRolesToUser")]
         [HttpPost]
         public async Task<IActionResult> AddRolesToUser(int user,List<int> roles)
         {
@@ -47,7 +47,7 @@ namespace eBookStore.Controllers
             }
         }
 
-        [Route("/RemoveUserRole")]
+        [Route("RemoveUserRole")]
         [HttpDelete]
         public async Task<IActionResult> RemoveUserRole(int UserId,int RoleId)
         {
@@ -62,7 +62,7 @@ namespace eBookStore.Controllers
             }
         }
 
-        [Route("/ChangePassword")]
+        [Route("ChangePassword")]
         [HttpPut]
         public async Task<IActionResult> ChangePassword(ChangePasswordDTO changePasswordDTO)
         {
@@ -77,7 +77,7 @@ namespace eBookStore.Controllers
             }
         }
 
-        [Route("/ResetPassword")]
+        [Route("ResetPassword")]
         [HttpPut]
         public async Task<IActionResult> ResetPassword(UserResetPasswordDTO userResetPasswordDTO)
         {
@@ -92,7 +92,7 @@ namespace eBookStore.Controllers
             }
         }
 
-        [Route("/DeactivateUser")]
+        [Route("DeactivateUser")]
         [HttpPut]
         public async Task<IActionResult> DeactivateUser(int UserId)
         {
@@ -107,7 +107,7 @@ namespace eBookStore.Controllers
             }
         }
 
-        [Route("/ActivateUser")]
+        [Route("ActivateUser")]
         [HttpPut]
         public async Task<IActionResult> ActivateUser(int UserId)
         {
@@ -122,7 +122,7 @@ namespace eBookStore.Controllers
             }
         }
 
-        [Route("/UpdateUserRole")]
+        [Route("UpdateUserRole")]
         [HttpPut]
         public async Task<IActionResult> UpdateUserRole(int UserId,List<int> RoleIds)
         {
@@ -137,7 +137,7 @@ namespace eBookStore.Controllers
             }
         }
 
-        [Route("/EditUser")]
+        [Route("EditUser")]
         [HttpPut]
         public async Task<IActionResult> EditUser(UserUpdateDTO userUpdateDTO)
         {

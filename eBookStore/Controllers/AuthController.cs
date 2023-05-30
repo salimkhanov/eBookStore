@@ -20,7 +20,7 @@ namespace eBookStore.Controllers
         }
 
 
-        [Route("/Login")]
+        [Route("Login")]
         [AllowAnonymous]
         [HttpPost]
         public async Task<IActionResult> Login([FromBody] LoginDTO userLogin)
@@ -34,7 +34,7 @@ namespace eBookStore.Controllers
 
         }
 
-        [Route("/Registration")]
+        [Route("Registration")]
         [HttpPost]
         public async Task<IActionResult> Registration(RegistrationDTO registrationDTO)
         {

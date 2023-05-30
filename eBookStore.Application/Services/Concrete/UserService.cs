@@ -12,9 +12,7 @@ public class UserService : IUserService
     private readonly UserManager<User> _userManager;
     private readonly RoleManager<Role> _roleManager;
 
-    public UserService(
-        UserManager<User> userManager,
-        RoleManager<Role> roleManager)
+    public UserService(UserManager<User> userManager, RoleManager<Role> roleManager)
     {
         _userManager = userManager;
         _roleManager = roleManager;
@@ -22,8 +20,8 @@ public class UserService : IUserService
 
     public async Task<bool> AddRoleToUserAsync(int UserId, int RoleId)
     {
-        User user = _userManager.Users.SingleOrDefault(u => u.Id == UserId && u.EntityStatus == EntityStatus.Active);
-        Role role = _roleManager.Roles.SingleOrDefault(r => r.Id == RoleId && r.EntityStatus == EntityStatus.Active);
+        User? user = await _userManager.Users.SingleOrDefaultAsync(u => u.Id == UserId && u.EntityStatus == EntityStatus.Active);
+        Role? role = await _roleManager.Roles.SingleOrDefaultAsync(r => r.Id == RoleId && r.EntityStatus == EntityStatus.Active);
 
         if (user is null || role is null)
         {
@@ -38,8 +36,8 @@ public class UserService : IUserService
     }
     public async Task<bool> RemoveUserFromRoleAsync(int UserId, int RoleId)
     {
-        User user = _userManager.Users.SingleOrDefault(u => u.Id == UserId && u.EntityStatus == EntityStatus.Active);
-        Role role = _roleManager.Roles.SingleOrDefault(r => r.Id == RoleId && r.EntityStatus == EntityStatus.Active);
+        User? user = await _userManager.Users.SingleOrDefaultAsync(u => u.Id == UserId && u.EntityStatus == EntityStatus.Active);
+        Role? role = await _roleManager.Roles.SingleOrDefaultAsync(r => r.Id == RoleId && r.EntityStatus == EntityStatus.Active);
         if (user is null || role is null)
         {
             return false;
@@ -160,7 +158,6 @@ public class UserService : IUserService
         }
         return true;
     }
-
     public async Task<bool> EditUser(UserUpdateDTO userEdit)
     {
         User IdentityUser = _userManager.Users.SingleOrDefault(u => u.Id == userEdit.Id && u.EntityStatus == EntityStatus.Active);

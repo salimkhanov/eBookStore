@@ -62,11 +62,11 @@ public class AuthenticationService : IAuthenticationService
     private string GenerateJWTToken(User user, List<string> roles)
     {
         var claims = new List<Claim>();
-        claims.Add(new Claim(ClaimTypes.Email, user.Email));
-        foreach (var role in roles)
-        {
-            claims.Add(new Claim(ClaimTypes.Role, role));
-        }
+        //claims.Add(new Claim(ClaimTypes.Email, user.Email));
+        //foreach (var role in roles)
+        //{
+        //    claims.Add(new Claim(ClaimTypes.Role, role));
+        //}
         var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
         var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
         var token = new JwtSecurityToken(

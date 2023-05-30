@@ -10,7 +10,7 @@ namespace eBookStore.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    //[Authorize(Roles = "hr")]
+    [Authorize]
     public class AuthController : ControllerBase
     {
         private readonly IAuthenticationService _authService;

@@ -1,12 +1,14 @@
 ﻿using eBookStore.Application.DTOs.User;
 using IdentityTask.DTOs.User;
 using IdentityTask.Services.Abstract;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace eBookStore.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class UserController : ControllerBase
     {
         private readonly IUserService _userService;

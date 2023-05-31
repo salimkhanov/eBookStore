@@ -76,7 +76,7 @@ builder.Services.AddIdentity<User, Role>()
                 .AddDefaultTokenProviders();
 
 
-builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
 builder.Services.AddScoped<IRoleService, RoleService>();
 builder.Services.AddScoped<IUserService, UserService>();
 

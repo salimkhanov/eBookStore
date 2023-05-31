@@ -12,14 +12,14 @@ using System.Security.Claims;
 using System.Text;
 
 namespace eBookStore.Application.Services.Concrete;
-public class AuthService : IAuthService
+public class AuthenticationService : IAuthenticationService
 {
     private readonly UserManager<User> _userManager;
     private readonly RoleManager<Role> _roleManager;
     private readonly IConfiguration _config;
     private readonly IMapper _mapper;
 
-    public AuthService(
+    public AuthenticationService(
         UserManager<User> userManager,
         RoleManager<Role> roleManager,
         IConfiguration config,

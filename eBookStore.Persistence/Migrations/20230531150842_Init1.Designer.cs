@@ -12,7 +12,7 @@ using eBookStore.Persistence.Data;
 namespace eBookStore.Persistence.Migrations
 {
     [DbContext(typeof(eBookStoreContext))]
-    [Migration("20230531102104_Init1")]
+    [Migration("20230531150842_Init1")]
     partial class Init1
     {
         /// <inheritdoc />
@@ -286,13 +286,11 @@ namespace eBookStore.Persistence.Migrations
 
                     b.Property<string>("FirstName")
                         .IsRequired()
-                        .HasColumnType("nvarchar")
-                        .HasColumnName("FIRST_NAME");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("LastName")
                         .IsRequired()
-                        .HasColumnType("nvarchar")
-                        .HasColumnName("LAST_NAME");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");

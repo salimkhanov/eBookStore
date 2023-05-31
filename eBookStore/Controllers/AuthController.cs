@@ -13,9 +13,9 @@ namespace eBookStore.Controllers
     //[Authorize(Roles = "hr")]
     public class AuthController : ControllerBase
     {
-        private readonly IAuthService _authService;
+        private readonly IAuthenticationService _authService;
 
-        public AuthController(IAuthService authService)
+        public AuthController(IAuthenticationService authService)
         {
             _authService = authService;
         }

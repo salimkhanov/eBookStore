@@ -12,8 +12,7 @@ public class RegistrationDTO
 
     [Required]
     public string LastName { get; set; }
-
-    [DataType(DataType.EmailAddress)]
+    
     [Required]
     public string Email { get; set; }
 

@@ -125,6 +125,102 @@ namespace eBookStore.Persistence.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("eBookStore.Domain.Entities.Address", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasColumnName("ID");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("AddressLine1")
+                        .IsRequired()
+                        .HasColumnType("nvarchar")
+                        .HasColumnName("ADDRESS_LINE1");
+
+                    b.Property<string>("AddressLine2")
+                        .IsRequired()
+                        .HasColumnType("nvarchar")
+                        .HasColumnName("ADDRESS_LINE2");
+
+                    b.Property<string>("City")
+                        .IsRequired()
+                        .HasColumnType("nvarchar")
+                        .HasColumnName("CITY");
+
+                    b.Property<int>("CountryId")
+                        .HasColumnType("int")
+                        .HasColumnName("COUNTRY_ID");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("CREATED_AT");
+
+                    b.Property<int>("EntityStatus")
+                        .HasColumnType("int")
+                        .HasColumnName("ENTITY_STATUS");
+
+                    b.Property<string>("PostalCode")
+                        .IsRequired()
+                        .HasColumnType("nvarchar")
+                        .HasColumnName("POSTAL_CODE");
+
+                    b.Property<string>("Region")
+                        .IsRequired()
+                        .HasColumnType("nvarchar")
+                        .HasColumnName("REGION");
+
+                    b.Property<int>("StreetNumber")
+                        .HasColumnType("int")
+                        .HasColumnName("STREET_NUMBER");
+
+                    b.Property<int>("UnitNumber")
+                        .HasColumnType("int")
+                        .HasColumnName("UNIT_NUMBER");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("UPDATED_AT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CountryId");
+
+                    b.ToTable("Addresses", "Adresses");
+                });
+
+            modelBuilder.Entity("eBookStore.Domain.Entities.Country", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasColumnName("ID");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("CountryName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar")
+                        .HasColumnName("COUNTRY");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("CREATED_AT");
+
+                    b.Property<int>("EntityStatus")
+                        .HasColumnType("int")
+                        .HasColumnName("ENTITY_STATUS");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("UPDATED_AT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Countries", "Countries");
+                });
+
             modelBuilder.Entity("eBookStore.Domain.Entities.Role", b =>
                 {
                     b.Property<int>("Id")
@@ -187,11 +283,13 @@ namespace eBookStore.Persistence.Migrations
 
                     b.Property<string>("FirstName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar")
+                        .HasColumnName("FIRST_NAME");
 
                     b.Property<string>("LastName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar")
+                        .HasColumnName("LAST_NAME");
 
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
@@ -237,6 +335,44 @@ namespace eBookStore.Persistence.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("Users", "Users");
+                });
+
+            modelBuilder.Entity("eBookStore.Domain.Entities.UserAddress", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasColumnName("ID");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("AddressId")
+                        .HasColumnType("int")
+                        .HasColumnName("ADDRESS_ID");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("CREATED_AT");
+
+                    b.Property<int>("EntityStatus")
+                        .HasColumnType("int")
+                        .HasColumnName("ENTITY_STATUS");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("UPDATED_AT");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int")
+                        .HasColumnName("USER_ID");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AddressId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("UsersAddresses", "UsersAdresses");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
@@ -288,6 +424,51 @@ namespace eBookStore.Persistence.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("eBookStore.Domain.Entities.Address", b =>
+                {
+                    b.HasOne("eBookStore.Domain.Entities.Country", "Country")
+                        .WithMany("Addresses")
+                        .HasForeignKey("CountryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Country");
+                });
+
+            modelBuilder.Entity("eBookStore.Domain.Entities.UserAddress", b =>
+                {
+                    b.HasOne("eBookStore.Domain.Entities.Address", "Address")
+                        .WithMany("UserAddress")
+                        .HasForeignKey("AddressId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("eBookStore.Domain.Entities.User", "User")
+                        .WithMany("UserAddress")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Address");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("eBookStore.Domain.Entities.Address", b =>
+                {
+                    b.Navigation("UserAddress");
+                });
+
+            modelBuilder.Entity("eBookStore.Domain.Entities.Country", b =>
+                {
+                    b.Navigation("Addresses");
+                });
+
+            modelBuilder.Entity("eBookStore.Domain.Entities.User", b =>
+                {
+                    b.Navigation("UserAddress");
                 });
 #pragma warning restore 612, 618
         }

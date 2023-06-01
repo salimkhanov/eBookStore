@@ -12,8 +12,8 @@ using eBookStore.Persistence.Data;
 namespace eBookStore.Persistence.Migrations
 {
     [DbContext(typeof(eBookStoreContext))]
-    [Migration("20230531150842_Init1")]
-    partial class Init1
+    [Migration("20230601102803_Init3")]
+    partial class Init3
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -248,6 +248,10 @@ namespace eBookStore.Persistence.Migrations
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
 
+                    b.Property<int>("OrderIndex")
+                        .HasColumnType("int")
+                        .HasColumnName("ORDER_INDEX");
+
                     b.HasKey("Id");
 
                     b.HasIndex("NormalizedName")
@@ -286,11 +290,13 @@ namespace eBookStore.Persistence.Migrations
 
                     b.Property<string>("FirstName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(30)")
+                        .HasColumnName("FIRST_NAME");
 
                     b.Property<string>("LastName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(30)")
+                        .HasColumnName("LAST_NAME");
 
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");

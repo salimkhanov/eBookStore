@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
+using eBookStore.Application.DTOs.User;
 using eBookStore.Domain.Entities;
-using IdentityTask.DTOs.Authentication;
 
 namespace IdentityTask.AutoMapper;
 

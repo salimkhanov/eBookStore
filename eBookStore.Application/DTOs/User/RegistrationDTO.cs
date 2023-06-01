@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace IdentityTask.DTOs.Authentication;
+namespace eBookStore.Application.DTOs.User;
 
 public class RegistrationDTO
 {
@@ -12,7 +12,7 @@ public class RegistrationDTO
 
     [Required]
     public string LastName { get; set; }
-    
+
     [Required]
     public string Email { get; set; }
 

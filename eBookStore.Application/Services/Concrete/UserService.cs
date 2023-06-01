@@ -1,56 +1,43 @@
-﻿using eBookStore.Application.DTOs.User;
+﻿using AutoMapper;
+using eBookStore.Application.DTOs.RoleDTO;
+using eBookStore.Application.DTOs.User;
 using eBookStore.Domain.Entities;
 using eBookStore.Domain.Enums;
 using IdentityTask.DTOs.User;
 using IdentityTask.Services.Abstract;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 
 namespace eBookStore.Application.Services.Concrete;
 public class UserService : IUserService
 {
     private readonly UserManager<User> _userManager;
-    private readonly RoleManager<Role> _roleManager;
+    private readonly IMapper _mapper;
+
 
     public UserService(
-        UserManager<User> userManager,
-        RoleManager<Role> roleManager)
+        UserManager<User> userManager,IMapper mapper)
     {
         _userManager = userManager;
-        _roleManager = roleManager;
+        _mapper = mapper;
     }
 
-    public async Task<bool> AddRoleToUserAsync(int UserId,int RoleId)
+    public async Task<string> Registration(RegistrationDTO registrationDTO)
     {
-        User user = _userManager.Users.SingleOrDefault(u => u.Id == UserId && u.EntityStatus == EntityStatus.Active);
-        Role role = _roleManager.Roles.SingleOrDefault(r => r.Id == RoleId && r.EntityStatus == EntityStatus.Active);
+        var user = _mapper.Map<User>(registrationDTO);
 
-        if (user is null || role is null)
+        var result = await _userManager.CreateAsync(user, registrationDTO.Password);
+
+        if (result.Succeeded)
         {
-            return false;
+            return "User registration successful.";
         }
-        var result = await _userManager.AddToRoleAsync(user, role.Name);
-        if (result.Succeeded == false)
+        else
         {
-            return false;
+            var errors = result.Errors.Select(e => e.Description).ToList();
+            return "User registration failed. Errors: " + string.Join(", ", errors);
         }
-        return true;
     }
-    public async Task<bool> RemoveUserRoleAsync(int UserId,int RoleId)
-    {
-        User user = _userManager.Users.SingleOrDefault(u => u.Id == UserId && u.EntityStatus == EntityStatus.Active);
-        Role role = _roleManager.Roles.SingleOrDefault(r => r.Id == RoleId && r.EntityStatus == EntityStatus.Active);
-        if (user is null || role is null)
-        {
-            return false;
-        }
-        var result = await _userManager.RemoveFromRoleAsync(user, role.Name);
-        if (result.Succeeded == false)
-        {
-            return false;
-        }
-        return true;
-    }
+
     public async Task<bool> ChangePasswordAsync(ChangePasswordDTO changePasswordDTO)
     {
         var user = await _userManager.FindByEmailAsync(changePasswordDTO.Email);
@@ -84,31 +71,7 @@ public class UserService : IUserService
         }
         return true;
     }
-    public async Task<bool> AddRolesToUserAsync(int UserId, List<int> RoleIds)
-    {
-        User user = _userManager.Users.SingleOrDefault(u => u.Id == UserId && u.EntityStatus == EntityStatus.Active);
-        List<Role> rolesInApp = _roleManager.Roles.Where(x => RoleIds.Contains(x.Id)).ToList();
-        if (user is null || rolesInApp is null || rolesInApp.Count == 0)
-        {
-            return false;
-        }
-        List<string> roleNames = rolesInApp.Select(n => n.Name).ToList();
-        IList<string> userRoles = await _userManager.GetRolesAsync(user);
-        List<string> newRolesForUser = new List<string>();
-        foreach (string role in roleNames)
-        {
-            if (!userRoles.Contains(role))
-            {
-                newRolesForUser.Add(role);
-            }
-        }
-        var result = await _userManager.AddToRolesAsync(user, newRolesForUser);
-        if (result.Succeeded == false)
-        {
-            return false;
-        }
-        return true;
-    }
+    
     public async Task<bool> DeactivateUser(int UserId)
     {
         User user = _userManager.Users.SingleOrDefault(u => u.Id == UserId && u.EntityStatus == EntityStatus.Active);
@@ -139,27 +102,7 @@ public class UserService : IUserService
         }
         return true;
     }
-    public async Task<bool> UpdateUserRoles(int UserId, List<int> RoleIds)
-    {
-        User user = _userManager.Users.SingleOrDefault(u => u.Id == UserId && u.EntityStatus == EntityStatus.Active);
-        IList<string> userRoles = await _userManager.GetRolesAsync(user);
-        if (user is null)
-        {
-            return false;
-        }
-        var result = await _userManager.RemoveFromRolesAsync(user, userRoles);
-        if (result.Succeeded == false)
-        {
-            return false;
-        }
-        List<string> rolesByIds = _roleManager.Roles.Where(x => RoleIds.Contains(x.Id)).Select(n => n.Name).ToList();
-        result = await _userManager.AddToRolesAsync(user, rolesByIds);
-        if (result.Succeeded == false)
-        {
-            return false;
-        }
-        return true;
-    }
+    
 
     public async Task<bool> EditUser(UserUpdateDTO userEdit)
     {
@@ -178,5 +121,15 @@ public class UserService : IUserService
             return false;
         }
         return true;
+    }
+
+    public List<UsersDropDownDTO> AllUsersForDropDown()
+    {
+        List<UsersDropDownDTO> users = null;
+
+        users = _userManager.Users.Where(x => x.EntityStatus == EntityStatus.Active)
+            .OrderBy(u => u.UserName)
+            .Select(x => new UsersDropDownDTO() { Key = x.Id, Value = x.UserName }).ToList();
+        return users;
     }
 }

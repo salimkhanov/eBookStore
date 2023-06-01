@@ -10,7 +10,6 @@ namespace eBookStore.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    //[Authorize(Roles = "hr")]
     public class AuthController : ControllerBase
     {
         private readonly IAuthenticationService _authService;
@@ -20,10 +19,9 @@ namespace eBookStore.Controllers
             _authService = authService;
         }
 
-
         [Route("/Login")]
         [AllowAnonymous]
-        [HttpPost]
+        [HttpGet]
         public async Task<IActionResult> Login([FromQuery] LoginDTO userLogin)
         {
             var token = await _authService.Login(userLogin);
@@ -32,16 +30,6 @@ namespace eBookStore.Controllers
                 return Ok(token);
             }
             return NotFound("User not found");
-
-        }
-
-        [Route("/Registration")]
-        [HttpPost]
-
-        public async Task<IActionResult> Registration(RegistrationDTO registrationDTO)
-        {
-            var message = await _authService.Registration(registrationDTO);
-            return Ok(message);
         }
     }
 }

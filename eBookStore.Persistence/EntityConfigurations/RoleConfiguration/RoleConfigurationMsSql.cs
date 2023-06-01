@@ -13,6 +13,10 @@ public class RoleConfigurationMsSql : IEntityTypeConfiguration<Role>
 
         builder.ToTable("Roles",DbObject.SchemaNameRoles).HasKey(x => x.Id);
 
+        builder.Property(x => x.OrderIndex)
+            .HasColumnName("ORDER_INDEX")
+            .HasColumnType("int");
+
         builder.Property(x => x.EntityStatus)
             .HasColumnName("ENTITY_STATUS")
             .HasColumnType("tinyint");

@@ -1,4 +1,5 @@
 ﻿using eBookStore.Application.DTOs.User;
+using eBookStore.Application.Services.Concrete;
 using IdentityTask.DTOs.User;
 using IdentityTask.Services.Abstract;
 using Microsoft.AspNetCore.Mvc;
@@ -16,50 +17,12 @@ namespace eBookStore.Controllers
             _userService = userService;
         }
 
-
-        [Route("/AddRoleToUser")]
+        [Route("/Registration")]
         [HttpPost]
-        public async Task<IActionResult> AddRoleToUser(int UserId,int RoleId)
+        public async Task<IActionResult> Registration(RegistrationDTO registrationDTO)
         {
-            var result = await _userService.AddRoleToUserAsync(UserId,RoleId);
-            if (result)
-            {
-                return Ok("Role added to user successfully");
-            }
-            else
-            {
-                return BadRequest("Failed to add role to user");
-            }
-        }
-
-        [Route("/AddRolesToUser")]
-        [HttpPost]
-        public async Task<IActionResult> AddRolesToUser(int user,List<int> roles)
-        {
-            var result = await _userService.AddRolesToUserAsync(user,roles);
-            if (result)
-            {
-                return Ok("Role added to user successfully");
-            }
-            else
-            {
-                return BadRequest("Failed to add role to user");
-            }
-        }
-
-        [Route("/RemoveUserRole")]
-        [HttpDelete]
-        public async Task<IActionResult> RemoveUserRole(int UserId,int RoleId)
-        {
-            var result = await _userService.RemoveUserRoleAsync(UserId,RoleId);
-            if (result)
-            {
-                return Ok("Role removed from user successfully");
-            }
-            else
-            {
-                return BadRequest("Failed to remove role from user");
-            }
+            var message = await _userService.Registration(registrationDTO);
+            return Ok(message);
         }
 
         [Route("/ChangePassword")]
@@ -122,21 +85,6 @@ namespace eBookStore.Controllers
             }
         }
 
-        [Route("/UpdateUserRole")]
-        [HttpPut]
-        public async Task<IActionResult> UpdateUserRole(int UserId,List<int> RoleIds)
-        {
-            var result = await _userService.UpdateUserRoles(UserId,RoleIds);
-            if (true)
-            {
-                return Ok("Successful to update user");
-            }
-            else
-            {
-                return BadRequest("Failed to update user");
-            }
-        }
-
         [Route("/EditUser")]
         [HttpPut]
         public async Task<IActionResult> EditUser(UserUpdateDTO userUpdateDTO)
@@ -152,5 +100,11 @@ namespace eBookStore.Controllers
             }
         }
 
+        [Route("/AllUsersForDropDown")]
+        [HttpGet]
+        public IActionResult AllUsersForDropDown()
+        {
+            return Ok(_userService.AllUsersForDropDown());
+        }
     }
 }

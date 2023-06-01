@@ -1,16 +1,13 @@
-using eBookStore.Application.Services.Concrete;
+using eBookStore.Application.ServiceRegistration;
 using eBookStore.Domain.Entities;
 using eBookStore.Persistence.Data;
-using IdentityTask.Services.Abstract;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using System;
 using System.Text;
 
-var builder = WebApplication.CreateBuilder(args);
+var builder = WebApplication.CreateBuilder(args); 
 
 // Add services to the container.
 
@@ -68,7 +65,6 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         };
     });
 
-
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddDbContext<eBookStoreContext>();
 builder.Services.AddIdentity<User, Role>()
@@ -76,10 +72,7 @@ builder.Services.AddIdentity<User, Role>()
                 .AddDefaultTokenProviders();
 
 
-builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
-builder.Services.AddScoped<IRoleService, RoleService>();
-builder.Services.AddScoped<IUserService, UserService>();
-
+builder.Services.AddApplicationLayerService();
 
 var app = builder.Build();
 

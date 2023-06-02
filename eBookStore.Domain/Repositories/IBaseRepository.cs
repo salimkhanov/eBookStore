@@ -1,6 +1,17 @@
-﻿namespace eBookStore.Domain.Repositories;
+﻿using eBookStore.Domain.Entities.Base;
+using System.Linq.Expressions;
 
-internal interface IBaseRepository // generik yazmaq// numune men verecem
+namespace eBookStore.Domain.Repositories;
+
+public interface IBaseRepository<TEntity> where TEntity : BaseEntity
 {
-    /// qrup numuneye esasen repo yazamli
+    TEntity GetById(int id);
+    IEnumerable<TEntity> GetAll();
+    IEnumerable<TEntity> Find(Expression<Func<TEntity, bool>> expression);
+    void Add(TEntity entity);
+    void Update(TEntity entity);
+    public void UpdateRange(IEnumerable<TEntity> entities);
+    void AddRange(IEnumerable<TEntity> entities);
+    void Remove(TEntity entity);
+    void RemoveRange(IEnumerable<TEntity> entities);
 }

@@ -1,7 +1,7 @@
 ﻿namespace eBookStore.Domain.Enums;
 
-public enum EntityStatus // :int default
+public enum EntityStatus : byte
 {
-    IsDeleted = 0,
-    IsActive // 1
+    Deactive = 0,
+    Active
 }

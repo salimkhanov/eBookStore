@@ -11,4 +11,13 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\eBookStore.Domain\eBookStore.Domain.csproj" />
+    <ProjectReference Include="..\eBookStore.Persistence\eBookStore.Persistence.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Controllers\" />
+  </ItemGroup>
+
 </Project>

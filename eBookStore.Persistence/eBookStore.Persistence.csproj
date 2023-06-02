@@ -26,10 +26,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Repositories\EntityRepositories\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\eBookStore.Domain\eBookStore.Domain.csproj" />
   </ItemGroup>
 

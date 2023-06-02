@@ -10,19 +10,18 @@
     <Compile Remove="Exeptions\**" />
     <Compile Remove="Extensions\**" />
     <Compile Remove="Mappings\**" />
-    <Compile Remove="Services\**" />
     <EmbeddedResource Remove="Exeptions\**" />
     <EmbeddedResource Remove="Extensions\**" />
     <EmbeddedResource Remove="Mappings\**" />
-    <EmbeddedResource Remove="Services\**" />
     <None Remove="Exeptions\**" />
     <None Remove="Extensions\**" />
     <None Remove="Mappings\**" />
-    <None Remove="Services\**" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="DTOs\" />
+    <Folder Include="Services\Abstract\" />
+    <Folder Include="Services\Concrete\" />
   </ItemGroup>
 
 </Project>

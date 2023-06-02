@@ -5,14 +5,17 @@ using System.Linq.Expressions;
 
 namespace eBookStore.Persistence.Repositories;
 
-public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : BaseEntity
+public class BaseRepository<TEntity> : IBaseRepository<TEntity> 
 {
     protected readonly AppDbContext _dbContext;
     public BaseRepository(AppDbContext dbContext)
     {
         _dbContext = dbContext;
     }
-
+    public BaseRepository()
+    {
+        _dbContext = new AppDbContext();
+    }
     public void Add(TEntity entity)
     {
         _dbContext.Set<TEntity>().Add(entity);

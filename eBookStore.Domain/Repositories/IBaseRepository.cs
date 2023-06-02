@@ -3,7 +3,7 @@ using System.Linq.Expressions;
 
 namespace eBookStore.Domain.Repositories;
 
-public interface IBaseRepository<TEntity> where TEntity : BaseEntity
+public interface IBaseRepository<TEntity> 
 {
     TEntity GetById(int id);
     IEnumerable<TEntity> GetAll();

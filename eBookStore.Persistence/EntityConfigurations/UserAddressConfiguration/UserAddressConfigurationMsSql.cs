@@ -1,4 +1,5 @@
 ﻿using eBookStore.Domain.Entities;
+using eBookStore.Domain.Entities.Authorizations;
 using eBookStore.Persistence.DbObjects;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;

@@ -1,6 +1,6 @@
 ﻿using eBookStore.Application.DTOs.Role;
 using eBookStore.Application.DTOs.RoleDTO;
-using eBookStore.Domain.Entities;
+using eBookStore.Domain.Entities.Authorizations;
 using eBookStore.Domain.Enums;
 using IdentityTask.Services.Abstract;
 using Microsoft.AspNetCore.Identity;

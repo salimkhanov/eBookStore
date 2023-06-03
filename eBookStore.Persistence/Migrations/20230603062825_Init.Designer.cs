@@ -12,8 +12,8 @@ using eBookStore.Persistence.Data;
 namespace eBookStore.Persistence.Migrations
 {
     [DbContext(typeof(eBookStoreContext))]
-    [Migration("20230601102803_Init3")]
-    partial class Init3
+    [Migration("20230603062825_Init")]
+    partial class Init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -137,16 +137,6 @@ namespace eBookStore.Persistence.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("AddressLine1")
-                        .IsRequired()
-                        .HasColumnType("nvarchar")
-                        .HasColumnName("ADDRESS_LINE1");
-
-                    b.Property<string>("AddressLine2")
-                        .IsRequired()
-                        .HasColumnType("nvarchar")
-                        .HasColumnName("ADDRESS_LINE2");
-
                     b.Property<string>("City")
                         .IsRequired()
                         .HasColumnType("nvarchar")
@@ -163,6 +153,10 @@ namespace eBookStore.Persistence.Migrations
                     b.Property<int>("EntityStatus")
                         .HasColumnType("int")
                         .HasColumnName("ENTITY_STATUS");
+
+                    b.Property<string>("FullAddres")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PostalCode")
                         .IsRequired()
@@ -193,38 +187,7 @@ namespace eBookStore.Persistence.Migrations
                     b.ToTable("Addresses", "Adresses");
                 });
 
-            modelBuilder.Entity("eBookStore.Domain.Entities.Country", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasColumnName("ID");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("CountryName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar")
-                        .HasColumnName("COUNTRY");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2")
-                        .HasColumnName("CREATED_AT");
-
-                    b.Property<int>("EntityStatus")
-                        .HasColumnType("int")
-                        .HasColumnName("ENTITY_STATUS");
-
-                    b.Property<DateTime>("UpdatedAt")
-                        .HasColumnType("datetime2")
-                        .HasColumnName("UPDATED_AT");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Countries", "Countries");
-                });
-
-            modelBuilder.Entity("eBookStore.Domain.Entities.Role", b =>
+            modelBuilder.Entity("eBookStore.Domain.Entities.Authorizations.Role", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -262,7 +225,7 @@ namespace eBookStore.Persistence.Migrations
                     b.ToTable("Roles", "Roles");
                 });
 
-            modelBuilder.Entity("eBookStore.Domain.Entities.User", b =>
+            modelBuilder.Entity("eBookStore.Domain.Entities.Authorizations.User", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -344,6 +307,37 @@ namespace eBookStore.Persistence.Migrations
                     b.ToTable("Users", "Users");
                 });
 
+            modelBuilder.Entity("eBookStore.Domain.Entities.Country", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasColumnName("ID");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("CountryName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar")
+                        .HasColumnName("COUNTRY");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("CREATED_AT");
+
+                    b.Property<int>("EntityStatus")
+                        .HasColumnType("int")
+                        .HasColumnName("ENTITY_STATUS");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("UPDATED_AT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Countries", "Countries");
+                });
+
             modelBuilder.Entity("eBookStore.Domain.Entities.UserAddress", b =>
                 {
                     b.Property<int>("Id")
@@ -365,6 +359,9 @@ namespace eBookStore.Persistence.Migrations
                         .HasColumnType("int")
                         .HasColumnName("ENTITY_STATUS");
 
+                    b.Property<bool>("IsMain")
+                        .HasColumnType("bit");
+
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("datetime2")
                         .HasColumnName("UPDATED_AT");
@@ -384,7 +381,7 @@ namespace eBookStore.Persistence.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
                 {
-                    b.HasOne("eBookStore.Domain.Entities.Role", null)
+                    b.HasOne("eBookStore.Domain.Entities.Authorizations.Role", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -393,7 +390,7 @@ namespace eBookStore.Persistence.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<int>", b =>
                 {
-                    b.HasOne("eBookStore.Domain.Entities.User", null)
+                    b.HasOne("eBookStore.Domain.Entities.Authorizations.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -402,7 +399,7 @@ namespace eBookStore.Persistence.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<int>", b =>
                 {
-                    b.HasOne("eBookStore.Domain.Entities.User", null)
+                    b.HasOne("eBookStore.Domain.Entities.Authorizations.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -411,13 +408,13 @@ namespace eBookStore.Persistence.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<int>", b =>
                 {
-                    b.HasOne("eBookStore.Domain.Entities.Role", null)
+                    b.HasOne("eBookStore.Domain.Entities.Authorizations.Role", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("eBookStore.Domain.Entities.User", null)
+                    b.HasOne("eBookStore.Domain.Entities.Authorizations.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -426,7 +423,7 @@ namespace eBookStore.Persistence.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<int>", b =>
                 {
-                    b.HasOne("eBookStore.Domain.Entities.User", null)
+                    b.HasOne("eBookStore.Domain.Entities.Authorizations.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -452,7 +449,7 @@ namespace eBookStore.Persistence.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("eBookStore.Domain.Entities.User", "User")
+                    b.HasOne("eBookStore.Domain.Entities.Authorizations.User", "User")
                         .WithMany("UserAddress")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -468,14 +465,14 @@ namespace eBookStore.Persistence.Migrations
                     b.Navigation("UserAddress");
                 });
 
+            modelBuilder.Entity("eBookStore.Domain.Entities.Authorizations.User", b =>
+                {
+                    b.Navigation("UserAddress");
+                });
+
             modelBuilder.Entity("eBookStore.Domain.Entities.Country", b =>
                 {
                     b.Navigation("Addresses");
-                });
-
-            modelBuilder.Entity("eBookStore.Domain.Entities.User", b =>
-                {
-                    b.Navigation("UserAddress");
                 });
 #pragma warning restore 612, 618
         }

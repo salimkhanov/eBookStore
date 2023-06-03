@@ -1,7 +1,7 @@
 ﻿using eBookStore.Domain.Enums;
 using Microsoft.AspNetCore.Identity;
 
-namespace eBookStore.Domain.Entities;
+namespace eBookStore.Domain.Entities.Authorizations;
 
 public class Role : IdentityRole<int>
 {

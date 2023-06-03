@@ -2,7 +2,7 @@
 using IdentityTask.Services.Abstract;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace eBookStore.Application.ServiceRegistration
+namespace eBookStore.Application
 {
     public static class ServiceRegistration
     {
@@ -13,4 +13,9 @@ namespace eBookStore.Application.ServiceRegistration
             services.AddScoped<IUserService, UserService>();
         }
     }
+/*
+ 
+ add DI with Scan 
+ 
+ */
 }

@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using eBookStore.Application.DTOs.RoleDTO;
 using eBookStore.Application.DTOs.User;
-using eBookStore.Domain.Entities;
+using eBookStore.Domain.Entities.Authorizations;
 using eBookStore.Domain.Enums;
 using IdentityTask.DTOs.User;
 using IdentityTask.Services.Abstract;

@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Primitives;
 
-namespace eBookStore.Domain.Entities;
+namespace eBookStore.Domain.Entities.Authorizations;
 
 public class User : IdentityUser<int>
 {

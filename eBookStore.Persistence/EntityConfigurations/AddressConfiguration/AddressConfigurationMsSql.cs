@@ -39,13 +39,13 @@ namespace eBookStore.Persistence.EntityConfigurations.AddressConfiguration
                 .HasColumnType("int")
                 .IsRequired();
 
-            builder.Property(x => x.AddressLine1)
-                .HasColumnName("ADDRESS_LINE1")
-                .HasColumnType("nvarchar");
+            //builder.Property(x => x.AddressLine1)
+            //    .HasColumnName("ADDRESS_LINE1")
+            //    .HasColumnType("nvarchar");
 
-            builder.Property(x => x.AddressLine2)
-                .HasColumnName("ADDRESS_LINE2")
-                .HasColumnType("nvarchar");
+            //builder.Property(x => x.AddressLine2)
+            //    .HasColumnName("ADDRESS_LINE2")
+            //    .HasColumnType("nvarchar");
 
             builder.Property(x => x.City)
                 .HasColumnName("CITY")

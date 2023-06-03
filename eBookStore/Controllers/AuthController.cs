@@ -10,7 +10,7 @@ namespace eBookStore.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(Roles ="Admin")]
+   //[Authorize(Roles ="Admin")]
     public class AuthController : ControllerBase
     {
         private readonly IAuthenticationService _authService;
@@ -19,10 +19,10 @@ namespace eBookStore.Controllers
         {
             _authService = authService;
         }
-
-        [Route("/Login")]
-        //[AllowAnonymous]
         [HttpGet]
+        [Route("Login")]
+        //[AllowAnonymous]
+   
         public async Task<IActionResult> Login([FromQuery] LoginDTO userLogin)
         {
             var token = await _authService.Login(userLogin);

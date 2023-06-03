@@ -10,6 +10,7 @@ namespace eBookStore.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class RoleController : ControllerBase
     {
         private readonly IRoleService _roleService;
@@ -107,7 +108,7 @@ namespace eBookStore.Controllers
         public async Task<IActionResult> GetUsersRoles(int UserId)
         {
             return Ok(await _roleService.UserRoles(UserId));
-            
+
         }
 
         [Route("/AllRolesForDropDown")]

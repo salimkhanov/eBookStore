@@ -15,7 +15,7 @@ public class UserService : IUserService
 
 
     public UserService(
-        UserManager<User> userManager,IMapper mapper)
+        UserManager<User> userManager, IMapper mapper)
     {
         _userManager = userManager;
         _mapper = mapper;
@@ -71,13 +71,13 @@ public class UserService : IUserService
         }
         return true;
     }
-    
+
     public async Task<bool> DeactivateUser(int UserId)
     {
         User user = _userManager.Users.SingleOrDefault(u => u.Id == UserId && u.EntityStatus == EntityStatus.Active);
         if (user == null)
         {
-           return false;
+            return false;
         }
         user.EntityStatus = EntityStatus.Deactive;
         var result = await _userManager.UpdateAsync(user);
@@ -102,7 +102,7 @@ public class UserService : IUserService
         }
         return true;
     }
-    
+
 
     public async Task<bool> EditUser(UserUpdateDTO userEdit)
     {

@@ -58,7 +58,7 @@ public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : 
 
     public void Update(TEntity entity)
     {
-        _eBookStoreContext.ChangeTracker.Clear();
+        //_eBookStoreContext.ChangeTracker.Clear();
         _eBookStoreContext.Set<TEntity>().Update(entity);
         _eBookStoreContext.SaveChanges();
     }

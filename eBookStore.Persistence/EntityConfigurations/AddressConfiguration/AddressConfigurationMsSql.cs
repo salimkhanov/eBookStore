@@ -41,21 +41,21 @@ namespace eBookStore.Persistence.EntityConfigurations.AddressConfiguration
 
             builder.Property(x => x.FullAddress)
                 .HasColumnName("FULL_ADDRESS")
-                .HasColumnType("nvarchar(70)");
+                .HasColumnType("nvarchar(MAX)");
 
             builder.Property(x => x.City)
                 .HasColumnName("CITY")
-                .HasColumnType("nvarchar(20)")
+                .HasColumnType("nvarchar(MAX)")
                 .IsRequired();
 
             builder.Property(x => x.Region)
                 .HasColumnName("REGION")
-                .HasColumnType("nvarchar(20)")
+                .HasColumnType("nvarchar(MAX)")
                 .IsRequired();
 
             builder.Property(x => x.PostalCode)
                 .HasColumnName("POSTAL_CODE")
-                .HasColumnType("nvarchar(30)")
+                .HasColumnType("nvarchar(MAX)")
                 .IsRequired();
 
             builder.Property(x => x.CountryId)

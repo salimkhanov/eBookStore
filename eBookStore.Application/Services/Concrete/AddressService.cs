@@ -4,10 +4,11 @@ using eBookStore.Application.Services.Abstract;
 using eBookStore.Domain.Entities;
 using eBookStore.Domain.Enums;
 using eBookStore.Domain.Repositories.EntityRepositories;
+using IdentityTask.AutoMapper;
 
 namespace eBookStore.Application.Services.Concrete
 {
-    public class AddressService:IAddressService
+    public class AddressService : IAddressService
     {
         private readonly IAddressRepository _addressRepository;
         private readonly IMapper _mapper;
@@ -39,14 +40,37 @@ namespace eBookStore.Application.Services.Concrete
 
         public bool UpdateAddress(UpdateAddressDTO updateAddressDTO)
         {
-            var category = _addressRepository.GetById(updateAddressDTO.Id);
-            if (category != null && category.EntityStatus != EntityStatus.Deactive)
+            //var adress = _addressRepository.GetById(updateAddressDTO.Id);
+            //if (adress != null && adress.EntityStatus != EntityStatus.Deactive)
+            //{
+            //    var mapped = _mapper.Map<Address>(updateAddressDTO);
+            //    _addressRepository.Update(mapped);
+            //    return true;
+            //}
+            //return false;
+
+
+
+            var adress = _addressRepository.GetById(updateAddressDTO.Id);
+            if (adress is null)
             {
-                var mapped = _mapper.Map<Address>(updateAddressDTO);
-                _addressRepository.Update(mapped);
-                return true;
+                return false;
             }
-            return false;
+            adress.City = updateAddressDTO.City;
+
+
+            var mapped = _mapper.Map<Address>(updateAddressDTO);
+
+            //if (adress != null && adress.EntityStatus != EntityStatus.Deactive)
+            //{
+            //    var mapped = _mapper.Map<Address>(updateAddressDTO);
+            //    _addressRepository.Update(mapped);
+            //    return true;
+            //}
+            //return false;
+            _addressRepository.Update(adress);
+            return true;
+
         }
     }
 }

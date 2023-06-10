@@ -1,9 +1,6 @@
 ﻿using eBookStore.Application.DTOs.Role;
-using eBookStore.Application.Services.Concrete;
-using eBookStore.Domain.Entities;
 using IdentityTask.Services.Abstract;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace eBookStore.Controllers

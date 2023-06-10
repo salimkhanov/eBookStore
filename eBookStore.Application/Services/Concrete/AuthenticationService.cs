@@ -17,16 +17,14 @@ public class AuthenticationService : IAuthenticationService
     private readonly UserManager<User> _userManager;
     
     private readonly IConfiguration _config;
-    private readonly IMapper _mapper;
 
     public AuthenticationService(
         UserManager<User> userManager,
-        IConfiguration config,
-        IMapper mapper)
+        IConfiguration config
+       )
     {
         _userManager = userManager;
         _config = config;
-        _mapper = mapper;
     }
 
     private string GenerateJWTToken(User user, List<string> roles)
@@ -57,9 +55,9 @@ public class AuthenticationService : IAuthenticationService
     {
         var user = await _userManager.FindByEmailAsync(login.Email);
 
-        if (user.EntityStatus == EntityStatus.Active)
+        if (user != null && user.EntityStatus == EntityStatus.Active)
         {
-            if (user != null && await _userManager.CheckPasswordAsync(user, login.Password))
+            if (await _userManager.CheckPasswordAsync(user, login.Password))
             {
                 var roles = await _userManager.GetRolesAsync(user);
                 return GenerateJWTToken(user, roles.ToList());

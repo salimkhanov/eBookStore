@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace eBookStore.Persistence.Migrations
 {
     /// <inheritdoc />
-    public partial class Init3 : Migration
+    public partial class Init1 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -33,7 +33,7 @@ namespace eBookStore.Persistence.Migrations
                 {
                     ID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    COUNTRY = table.Column<string>(type: "nvarchar", nullable: false),
+                    COUNTRY = table.Column<string>(type: "nvarchar(30)", nullable: false),
                     CREATED_AT = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UPDATED_AT = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ENTITY_STATUS = table.Column<int>(type: "int", nullable: false)
@@ -100,11 +100,10 @@ namespace eBookStore.Persistence.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     UNIT_NUMBER = table.Column<int>(type: "int", nullable: false),
                     STREET_NUMBER = table.Column<int>(type: "int", nullable: false),
-                    ADDRESS_LINE1 = table.Column<string>(type: "nvarchar", nullable: false),
-                    ADDRESS_LINE2 = table.Column<string>(type: "nvarchar", nullable: false),
-                    CITY = table.Column<string>(type: "nvarchar", nullable: false),
-                    REGION = table.Column<string>(type: "nvarchar", nullable: false),
-                    POSTAL_CODE = table.Column<string>(type: "nvarchar", nullable: false),
+                    FULL_ADDRESS = table.Column<string>(type: "nvarchar(70)", nullable: false),
+                    CITY = table.Column<string>(type: "nvarchar(20)", nullable: false),
+                    REGION = table.Column<string>(type: "nvarchar(20)", nullable: false),
+                    POSTAL_CODE = table.Column<string>(type: "nvarchar(30)", nullable: false),
                     COUNTRY_ID = table.Column<int>(type: "int", nullable: false),
                     CREATED_AT = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UPDATED_AT = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -243,6 +242,7 @@ namespace eBookStore.Persistence.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     USER_ID = table.Column<int>(type: "int", nullable: false),
                     ADDRESS_ID = table.Column<int>(type: "int", nullable: false),
+                    IS_DEFAULT = table.Column<bool>(type: "bit", nullable: false),
                     CREATED_AT = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UPDATED_AT = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ENTITY_STATUS = table.Column<int>(type: "int", nullable: false)

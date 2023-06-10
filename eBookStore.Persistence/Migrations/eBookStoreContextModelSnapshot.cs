@@ -134,19 +134,9 @@ namespace eBookStore.Persistence.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("AddressLine1")
-                        .IsRequired()
-                        .HasColumnType("nvarchar")
-                        .HasColumnName("ADDRESS_LINE1");
-
-                    b.Property<string>("AddressLine2")
-                        .IsRequired()
-                        .HasColumnType("nvarchar")
-                        .HasColumnName("ADDRESS_LINE2");
-
                     b.Property<string>("City")
                         .IsRequired()
-                        .HasColumnType("nvarchar")
+                        .HasColumnType("nvarchar(20)")
                         .HasColumnName("CITY");
 
                     b.Property<int>("CountryId")
@@ -161,14 +151,19 @@ namespace eBookStore.Persistence.Migrations
                         .HasColumnType("int")
                         .HasColumnName("ENTITY_STATUS");
 
+                    b.Property<string>("FullAddress")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(70)")
+                        .HasColumnName("FULL_ADDRESS");
+
                     b.Property<string>("PostalCode")
                         .IsRequired()
-                        .HasColumnType("nvarchar")
+                        .HasColumnType("nvarchar(30)")
                         .HasColumnName("POSTAL_CODE");
 
                     b.Property<string>("Region")
                         .IsRequired()
-                        .HasColumnType("nvarchar")
+                        .HasColumnType("nvarchar(20)")
                         .HasColumnName("REGION");
 
                     b.Property<int>("StreetNumber")
@@ -201,7 +196,7 @@ namespace eBookStore.Persistence.Migrations
 
                     b.Property<string>("CountryName")
                         .IsRequired()
-                        .HasColumnType("nvarchar")
+                        .HasColumnType("nvarchar(30)")
                         .HasColumnName("COUNTRY");
 
                     b.Property<DateTime>("CreatedAt")
@@ -361,6 +356,10 @@ namespace eBookStore.Persistence.Migrations
                     b.Property<int>("EntityStatus")
                         .HasColumnType("int")
                         .HasColumnName("ENTITY_STATUS");
+
+                    b.Property<bool>("IsDefault")
+                        .HasColumnType("bit")
+                        .HasColumnName("IS_DEFAULT");
 
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("datetime2")

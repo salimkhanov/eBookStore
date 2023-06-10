@@ -36,6 +36,9 @@ namespace eBookStore.Persistence.EntityConfigurations.UserAddressConfiguration
             builder.Property(x => x.AddressId)
                 .HasColumnName("ADDRESS_ID");
 
+            builder.Property(x => x.IsDefault)
+                .HasColumnName("IS_DEFAULT");
+
             #endregion
 
             #region Relations

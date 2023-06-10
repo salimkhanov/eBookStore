@@ -2,12 +2,14 @@
 using eBookStore.Application.Services.Concrete;
 using IdentityTask.DTOs.User;
 using IdentityTask.Services.Abstract;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace eBookStore.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    
     public class UserController : ControllerBase
     {
         private readonly IUserService _userService;
@@ -17,6 +19,7 @@ namespace eBookStore.Controllers
             _userService = userService;
         }
 
+        
         [Route("/Registration")]
         [HttpPost]
         public async Task<IActionResult> Registration(RegistrationDTO registrationDTO)
@@ -40,6 +43,7 @@ namespace eBookStore.Controllers
             }
         }
 
+        [Authorize(Roles = "HR")]
         [Route("/ResetPassword")]
         [HttpPut]
         public async Task<IActionResult> ResetPassword(UserResetPasswordDTO userResetPasswordDTO)

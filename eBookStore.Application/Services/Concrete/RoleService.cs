@@ -1,10 +1,12 @@
 ﻿using eBookStore.Application.DTOs.Role;
 using eBookStore.Application.DTOs.RoleDTO;
+using eBookStore.Application.DTOs.User;
 using eBookStore.Domain.Entities;
 using eBookStore.Domain.Enums;
 using IdentityTask.Services.Abstract;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Cryptography.X509Certificates;
 
 namespace eBookStore.Application.Services.Concrete;
 
@@ -199,5 +201,26 @@ public class RoleService : IRoleService
             return new List<UserRolesViewDTO>();
         }
         return rolesDTO;
+    }
+
+    public GetAllRoleDTO GetRoleById(int roleId)
+    {
+        GetAllRoleDTO role = null;
+        Role domain = _roleManager.Roles.FirstOrDefault(x => x.Id == roleId);
+
+        if (domain != null)
+        {
+            role = new GetAllRoleDTO()
+            {
+                Id = domain.Id,
+                Name = domain.Name,
+                EntityStatus = domain.EntityStatus,
+                NormalizedName = domain.NormalizedName,
+                OrderIndex = domain.OrderIndex,
+                ConcurrencyStamp = domain.ConcurrencyStamp
+            };
+            return role;
+        }
+        return null;
     }
 }

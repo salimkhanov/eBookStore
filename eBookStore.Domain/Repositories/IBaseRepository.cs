@@ -14,4 +14,8 @@ public interface IBaseRepository<TEntity> where TEntity : BaseEntity
     void AddRange(IEnumerable<TEntity> entities);
     void Remove(TEntity entity);
     void RemoveRange(IEnumerable<TEntity> entities);
+    void Deactivate(TEntity entity);
+    void Activate(TEntity entity);
+    IEnumerable<TEntity> GetAllForDropDown();
+
 }

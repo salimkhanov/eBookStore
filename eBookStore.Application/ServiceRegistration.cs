@@ -11,8 +11,6 @@ namespace eBookStore.Application
 
         public static void AddApplicationLayerService(this IServiceCollection services)
         {
-            services.AddScoped<IAddressRepository, AddressRepository>();
-
             services.Scan(scan => scan.FromAssemblies(typeof(IApplicationAssemblyMarker).Assembly)
             .AddClasses(@class => @class.Where(type => !type.Name.StartsWith('I')
             && type.Name.EndsWith("Service")))

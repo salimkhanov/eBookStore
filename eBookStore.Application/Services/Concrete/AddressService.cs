@@ -39,11 +39,120 @@ namespace eBookStore.Application.Services.Concrete
 
         public bool UpdateAddress(UpdateAddressDTO updateAddressDTO)
         {
-            var category = _addressRepository.GetById(updateAddressDTO.Id);
-            if (category != null && category.EntityStatus != EntityStatus.Deactive)
+            var address = _addressRepository.GetById(updateAddressDTO.Id);
+            if (address != null && address.EntityStatus != EntityStatus.Deactive)
             {
-                var mapped = _mapper.Map<Address>(updateAddressDTO);
-                _addressRepository.Update(mapped);
+                address.UnitNumber = updateAddressDTO.UnitNumber;
+                address.StreetNumber = updateAddressDTO.StreetNumber;
+                address.FullAddress = updateAddressDTO.FullAddress;
+                address.City = updateAddressDTO.City;
+                address.Region = updateAddressDTO.Region;
+                address.PostalCode = updateAddressDTO.PostalCode;
+                address.CountryId = updateAddressDTO.CountryId;
+                _addressRepository.Update(address);
+                return true;
+            }
+            return false;
+        }
+
+        public bool DeleteAddress(int addressId)
+        {
+            var address = _addressRepository.GetById(addressId);
+
+            if (address != null)
+            {
+                _addressRepository.Remove(address);
+                return true;
+            }
+            return false;
+        }
+
+        public bool DeactivateAddress(int addressId)
+        {
+            var address = _addressRepository.GetById(addressId);
+            if (address != null && address.EntityStatus != EntityStatus.Deactive)
+            {
+                address.EntityStatus = EntityStatus.Deactive;
+                _addressRepository.Deactivate(address);
+                return true;
+            }
+            return false;
+        }
+
+        public bool ActivateAddress(int addressId)
+        {
+            var address = _addressRepository.GetById(addressId);
+            if (address != null && address.EntityStatus != EntityStatus.Active)
+            {
+                address.EntityStatus = EntityStatus.Active;
+                _addressRepository.Activate(address);
+                return true;
+            }
+            return false;
+        }
+
+        public List<GetAllAddressDropDown> AllAddressForDropDown()
+        {
+            List<GetAllAddressDropDown> addresses = null;
+
+            var addressEntities = _addressRepository.GetAll();
+
+            addresses = addressEntities.Where(x => x.EntityStatus == EntityStatus.Active)
+                .OrderBy(u => u.Id)
+                .Select(x => new GetAllAddressDropDown() { Key = x.Id, Value = x.FullAddress }).ToList();
+            return addresses;
+        }
+
+        public void CreateAddresses(List<CreateAddressDTO> createAddressDTOs)
+        {
+            foreach (var addressDTO in createAddressDTOs)
+            {
+                var address = _mapper.Map<Address>(addressDTO);
+                _addressRepository.Add(address);
+            }
+        }
+
+        public bool DeleteAddresses(List<int> addresses)
+        {
+            List<Address> addressesToDelete = new List<Address>();
+            foreach (var id in addresses)
+            {
+                var address = _addressRepository.GetById(id);
+                if (address != null)
+                {
+                    addressesToDelete.Add(address);
+                }
+            }
+            if (addressesToDelete.Count > 0)
+            {
+                _addressRepository.RemoveRange(addressesToDelete);
+                return true;
+            }
+            return false;
+        }
+
+        public bool UpdateAddresses(List<UpdateAddressDTO> updateAddressesDTO)
+        {
+            List<Address> addressesToUpdate = new List<Address>();
+
+            foreach (var addressDTO in updateAddressesDTO)
+            {
+                var address = _addressRepository.GetById(addressDTO.Id);
+                if (address != null)
+                {
+                    address.UnitNumber = addressDTO.UnitNumber;
+                    address.StreetNumber = addressDTO.StreetNumber;
+                    address.FullAddress = addressDTO.FullAddress;
+                    address.City = addressDTO.City;
+                    address.Region = addressDTO.Region;
+                    address.PostalCode = addressDTO.PostalCode;
+                    address.CountryId = addressDTO.CountryId;
+                    addressesToUpdate.Add(address);
+                }
+            }
+            if (addressesToUpdate.Count > 0)
+            {
+                _addressRepository.UpdateRange(addressesToUpdate);
                 return true;
             }
             return false;

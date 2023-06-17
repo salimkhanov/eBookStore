@@ -1,5 +1,6 @@
 ﻿using eBookStore.Application.DTOs.Role;
 using eBookStore.Application.DTOs.RoleDTO;
+using eBookStore.Application.DTOs.User;
 
 namespace IdentityTask.Services.Abstract;
 
@@ -16,4 +17,5 @@ public interface IRoleService
     Task<bool> AddRolesToUserAsync(int UserId, List<int> RoleIds);
     Task<bool> RemoveUserFromRoleAsync(int UserId, int RoleId);
     Task<bool> UpdateUserRoles(int UserId, List<int> RoleIds);
+    GetAllRoleDTO GetRoleById(int roleId);
 }

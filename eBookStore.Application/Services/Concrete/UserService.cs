@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using eBookStore.Application.DTOs.Role;
 using eBookStore.Application.DTOs.RoleDTO;
 using eBookStore.Application.DTOs.User;
 using eBookStore.Domain.Entities;
@@ -131,5 +132,81 @@ public class UserService : IUserService
             .OrderBy(u => u.UserName)
             .Select(x => new UsersDropDownDTO() { Key = x.Id, Value = x.UserName }).ToList();
         return users;
+    }
+
+    public List<GetAllUsersDTO> GetAllUsers()
+    {
+        List<GetAllUsersDTO> users = null;
+
+        users = _userManager.Users
+            .OrderBy(u => u.Id)
+            .Select(x => new GetAllUsersDTO()
+            {
+                Id = x.Id,
+                FirstName = x.FirstName,
+                LastName = x.LastName,
+                EntityStatus = x.EntityStatus,
+                UserName = x.UserName,
+                NormalizedUserName = x.NormalizedUserName,
+                Email = x.Email,
+                NormalizedEmail = x.NormalizedEmail,
+                EmailConfirmed = x.EmailConfirmed,
+                PasswordHash = x.PasswordHash,
+                SecurityStamp = x.SecurityStamp,
+                ConcurrencyStamp = x.ConcurrencyStamp,
+                PhoneNumber = x.PhoneNumber,
+                PhoneNumberConfirmed = x.PhoneNumberConfirmed,
+                TwoFactorEnabled = x.TwoFactorEnabled,
+                LockoutEnd = x.LockoutEnd,
+                LockoutEnabled = x.LockoutEnabled,
+                AccessFailed = x.AccessFailedCount
+            }).ToList();
+        return users;
+    }
+
+    public GetAllUsersDTO GetUsersById(int userId)
+    {
+        GetAllUsersDTO users = null;
+
+        User domain = _userManager.Users.FirstOrDefault(u => u.Id == userId);
+
+        if (domain != null)
+        {
+            users = new GetAllUsersDTO()
+            {
+                Id = domain.Id,
+                FirstName = domain.FirstName,
+                LastName = domain.LastName,
+                EntityStatus = domain.EntityStatus,
+                UserName = domain.UserName,
+                NormalizedUserName = domain.NormalizedUserName,
+                Email = domain.Email,
+                NormalizedEmail = domain.NormalizedEmail,
+                EmailConfirmed = domain.EmailConfirmed,
+                PasswordHash = domain.PasswordHash,
+                SecurityStamp = domain.SecurityStamp,
+                ConcurrencyStamp = domain.ConcurrencyStamp,
+                PhoneNumber = domain.PhoneNumber,
+                PhoneNumberConfirmed = domain.PhoneNumberConfirmed,
+                TwoFactorEnabled = domain.TwoFactorEnabled,
+                LockoutEnd = domain.LockoutEnd,
+                LockoutEnabled = domain.LockoutEnabled,
+                AccessFailed = domain.AccessFailedCount
+            };
+            return users;
+        }
+        return null;
+    }
+
+    public async Task<bool> DeleteUser(int userId)
+    {
+        User user = _userManager.Users.FirstOrDefault(x => x.Id == userId);
+
+        if (user != null)
+        {
+            _userManager.DeleteAsync(user);
+            return true;
+        }
+        return false;
     }
 }

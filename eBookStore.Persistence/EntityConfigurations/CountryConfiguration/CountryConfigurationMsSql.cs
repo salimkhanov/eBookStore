@@ -31,7 +31,7 @@ namespace eBookStore.Persistence.EntityConfigurations.CountryConfiguration
             #region Configurations
 
             builder.Property(x => x.CountryName)
-                .HasColumnName("COUNTRY")
+                .HasColumnName("COUNTRY_NAME")
                 .HasColumnType("nvarchar(30)")
                 .IsRequired();
 

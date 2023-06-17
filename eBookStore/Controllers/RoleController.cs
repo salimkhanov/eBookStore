@@ -1,4 +1,6 @@
 ﻿using eBookStore.Application.DTOs.Role;
+using eBookStore.Application.Services.Concrete;
+using eBookStore.Domain.Entities;
 using IdentityTask.Services.Abstract;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -118,15 +120,11 @@ namespace eBookStore.Controllers
         [HttpPut]
         public async Task<IActionResult> DeactivateRole(int RoleId)
         {
-            var result = await _roleService.DeactivateRole(RoleId);
-            if (true)
+            if (await _roleService.DeactivateRole(RoleId))
             {
-                return Ok("Successful to deactivate role");
+                return Ok("Successfully deactivated");
             }
-            else
-            {
-                return BadRequest("Failed to deactivate role");
-            }
+            return BadRequest($"Role with ID {RoleId} not found.");
         }
 
         [Route("/DeleteRole")]
@@ -134,13 +132,13 @@ namespace eBookStore.Controllers
         public async Task<IActionResult> DeleteRole(int RoleId)
         {
             var result = await _roleService.DeleteRole(RoleId);
-            if (true)
+            if (result)
             {
                 return Ok("Successful to delete role");
             }
             else
             {
-                return BadRequest("Failed to delete role");
+                return BadRequest($"Role with ID {RoleId} not found");
             }
         }
 
@@ -148,16 +146,23 @@ namespace eBookStore.Controllers
         [HttpPut]
         public async Task<IActionResult> ActivateRole(int RoleId)
         {
-            var result = await _roleService.ActivateRole(RoleId);
-            if (true)
+            if (await _roleService.ActivateRole(RoleId))
             {
-                return Ok("Successful to Activate role");
+                return Ok("Successfully activated");
             }
-            else
+            return BadRequest($"Role with ID {RoleId} not found.");
+        }
+
+        [Route("/GetRoleById")]
+        [HttpGet]
+        public IActionResult GetRoleById(int roleId)
+        {
+            var result = _roleService.GetRoleById(roleId);
+            if (result != null)
             {
-                return BadRequest("Failed to Activate role");
+                return Ok(result);
             }
+            return BadRequest($"Role with ID {roleId} not found");
         }
     }
-
 }

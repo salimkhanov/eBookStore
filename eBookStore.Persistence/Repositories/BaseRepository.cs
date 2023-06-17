@@ -58,7 +58,6 @@ public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : 
 
     public void Update(TEntity entity)
     {
-        _eBookStoreContext.ChangeTracker.Clear();
         _eBookStoreContext.Set<TEntity>().Update(entity);
         _eBookStoreContext.SaveChanges();
     }
@@ -67,5 +66,22 @@ public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : 
     {
         _eBookStoreContext.Set<TEntity>().UpdateRange(entities);
         _eBookStoreContext.SaveChanges();
+    }
+
+    public void Deactivate(TEntity entity)
+    {
+        _eBookStoreContext.Set<TEntity>().Update(entity);
+        _eBookStoreContext.SaveChanges();
+    }
+
+    public void Activate(TEntity entity)
+    {
+        _eBookStoreContext.Set<TEntity>().Update(entity);
+        _eBookStoreContext.SaveChanges();
+    }
+
+    public IEnumerable<TEntity> GetAllForDropDown()
+    {
+        return _eBookStoreContext.Set<TEntity>().OrderBy(c => c.Id).ToList();
     }
 }

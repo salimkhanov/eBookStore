@@ -1,12 +1,6 @@
 using eBookStore;
 using eBookStore.Application;
-using eBookStore.Domain.Entities;
-using eBookStore.Persistence.Data;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.IdentityModel.Tokens;
-using Microsoft.OpenApi.Models;
-using System.Text;
+using eBookStore.Persistence;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,18 +12,14 @@ builder.Services.AddEndpointsApiExplorer();
 
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-builder.Services.AddDbContext<eBookStoreContext>();
-builder.Services.AddIdentity<User, Role>()
-    .AddEntityFrameworkStores<eBookStoreContext>()
-    .AddDefaultTokenProviders();
 
+
+builder.Services.AddDataBase();
 builder.Services.AddSWG();
 builder.Services.AddAuth(builder.Configuration);
 
-
-
-
 builder.Services.AddApplicationLayerService();
+builder.Services.AddPersistenceLayerService();
 
 var app = builder.Build();
 
@@ -45,5 +35,7 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.UseMiddleware<ErrorHandlerMiddleware>();
 
 app.Run();

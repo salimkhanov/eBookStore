@@ -70,12 +70,14 @@ public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : 
 
     public void Deactivate(TEntity entity)
     {
+        entity.EntityStatus = Domain.Enums.EntityStatus.Deactive;
         _eBookStoreContext.Set<TEntity>().Update(entity);
         _eBookStoreContext.SaveChanges();
     }
 
     public void Activate(TEntity entity)
     {
+        entity.EntityStatus = Domain.Enums.EntityStatus.Active;
         _eBookStoreContext.Set<TEntity>().Update(entity);
         _eBookStoreContext.SaveChanges();
     }

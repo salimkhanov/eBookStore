@@ -63,7 +63,6 @@ public class CountryService : ICountryService
         var country = _countryRepository.GetById(countryId);
         if (country != null && country.EntityStatus != EntityStatus.Deactive)
         {
-            country.EntityStatus = EntityStatus.Deactive;
             _countryRepository.Deactivate(country);
             return true;
         }

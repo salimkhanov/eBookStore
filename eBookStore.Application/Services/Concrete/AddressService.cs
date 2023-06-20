@@ -4,6 +4,7 @@ using eBookStore.Application.Services.Abstract;
 using eBookStore.Domain.Entities;
 using eBookStore.Domain.Enums;
 using eBookStore.Domain.Repositories.EntityRepositories;
+using System.Linq;
 
 namespace eBookStore.Application.Services.Concrete
 {
@@ -113,25 +114,34 @@ namespace eBookStore.Application.Services.Concrete
             }
         }
 
-        public bool DeleteAddresses(List<int> addresses)
+        public bool DeleteAddresses(List<int> addressIds)
         {
-            List<Address> addressesToDelete = new List<Address>();
-            foreach (var id in addresses)
+            var x = _addressRepository.GetAll(). // for example rewrite to IQuerable
+                Where(x => addressIds.Contains(x.Id))
+                .ToList();
+            if (x != null && x.Count > 0)
             {
-                var address = _addressRepository.GetById(id);
-                if (address != null)
-                {
-                    addressesToDelete.Add(address);
-                }
+                _addressRepository.RemoveRange(x);
             }
-            if (addressesToDelete.Count > 0)
-            {
-                _addressRepository.RemoveRange(addressesToDelete);
-                return true;
-            }
-            return false;
-        }
+            return true;
 
+            //List<Address> addressesToDelete = new List<Address>();
+            //foreach (var id in addressIds)
+            //{
+            //    var address = _addressRepository.GetById(id);
+            //    if (address != null)
+            //    {
+            //        addressesToDelete.Add(address);
+            //    }
+            //}
+            //if (addressesToDelete.Count > 0)
+            //{
+            //    _addressRepository.RemoveRange(addressesToDelete);
+            //    return true;
+            //}
+            //return false;
+        }
+        s
         public bool UpdateAddresses(List<UpdateAddressDTO> updateAddressesDTO)
         {
             List<Address> addressesToUpdate = new List<Address>();

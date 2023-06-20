@@ -140,8 +140,7 @@ namespace eBookStore.Application.Services.Concrete
             //    return true;
             //}
             //return false;
-        }
-        s
+        }      
         public bool UpdateAddresses(List<UpdateAddressDTO> updateAddressesDTO)
         {
             List<Address> addressesToUpdate = new List<Address>();

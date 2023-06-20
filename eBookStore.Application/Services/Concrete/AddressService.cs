@@ -7,7 +7,7 @@ using eBookStore.Domain.Repositories.EntityRepositories;
 
 namespace eBookStore.Application.Services.Concrete
 {
-    public class AddressService:IAddressService
+    public class AddressService : IAddressService
     {
         private readonly IAddressRepository _addressRepository;
         private readonly IMapper _mapper;
@@ -22,7 +22,8 @@ namespace eBookStore.Application.Services.Concrete
         public List<GetAddressDTO> GetAddresses()
         {
             var addresses = _addressRepository.GetAll();
-            return _mapper.Map<List<GetAddressDTO>>(addresses);
+            var result = _mapper.Map<List<GetAddressDTO>>(addresses); ;
+            return result;
         }
 
         public GetAddressDTO GetAddressById(int addressId)

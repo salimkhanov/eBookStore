@@ -2,14 +2,14 @@
 
 namespace eBookStore.Domain.Entities;
 
-public class Address:BaseEntity
+public class Address : BaseEntity
 {
     public int UnitNumber { get; set; }
     public int StreetNumber { get; set; }
     public string FullAddress { get; set; }
-    public string City { get; set;}
-    public string Region { get; set;}
-    public string PostalCode { get; set;}
+    public string City { get; set; }
+    public string Region { get; set; }
+    public string PostalCode { get; set; }
 
     #region Relations
     public int CountryId { get; set; }

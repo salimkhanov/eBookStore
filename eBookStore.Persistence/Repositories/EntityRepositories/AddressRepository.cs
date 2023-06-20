@@ -3,6 +3,6 @@ using eBookStore.Domain.Repositories.EntityRepositories;
 
 namespace eBookStore.Persistence.Repositories.EntityRepositories;
 
-public class AddressRepository : BaseRepository<Address>,IAddressRepository
+public class AddressRepository : BaseRepository<Address>, IAddressRepository
 {
 }

@@ -2,12 +2,11 @@
 
 namespace eBookStore.Domain.Entities;
 
-public class UserAddress:BaseEntity
+public class UserAddress : BaseEntity
 {
     public int UserId { get; set; }
     public User User { get; set; }
-    public int AddressId { get; set;}
+    public int AddressId { get; set; }
     public Address Address { get; set; }
     public bool IsDefault { get; set; }
-
 }

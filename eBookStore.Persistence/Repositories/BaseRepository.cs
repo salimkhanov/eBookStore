@@ -3,6 +3,7 @@ using eBookStore.Domain.Repositories;
 using System.Linq.Expressions;
 using System;
 using eBookStore.Persistence.Data;
+using eBookStore.Domain.Enums;
 
 namespace eBookStore.Persistence.Repositories;
 
@@ -70,12 +71,14 @@ public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : 
 
     public void Deactivate(TEntity entity)
     {
+        entity.EntityStatus = EntityStatus.Deactive;
         _eBookStoreContext.Set<TEntity>().Update(entity);
         _eBookStoreContext.SaveChanges();
     }
 
     public void Activate(TEntity entity)
     {
+        entity.EntityStatus = EntityStatus.Active;
         _eBookStoreContext.Set<TEntity>().Update(entity);
         _eBookStoreContext.SaveChanges();
     }

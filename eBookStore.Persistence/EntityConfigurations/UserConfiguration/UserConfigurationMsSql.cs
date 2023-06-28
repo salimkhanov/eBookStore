@@ -35,6 +35,14 @@ public class UserConfigurationMsSql : IEntityTypeConfiguration<User>
             .WithOne(x => x.User)
             .HasForeignKey(x => x.UserId);
 
+        builder.HasMany(x => x.ShoppingCart)
+            .WithOne(x => x.User)
+            .HasForeignKey(x => x.UserId);
+
+        builder.HasMany(x => x.UserPaymentMethod)
+            .WithOne(x => x.User)
+            .HasForeignKey(x => x.UserId);
+
         #endregion
     }
 }

@@ -12,5 +12,7 @@ public class User : IdentityUser<int>
 
     #region Relations
     public ICollection<UserAddress> UserAddress { get; set; }
+    public ICollection<ShoppingCart> ShoppingCart { get; set; }
+    public ICollection<UserPaymentMethod> UserPaymentMethod { get; set; }
     #endregion
 }

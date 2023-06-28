@@ -1,7 +1,5 @@
 ﻿using eBookStore.Application.DTOs.Address;
 using eBookStore.Application.Services.Abstract;
-using eBookStore.Domain.Entities;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace eBookStore.Controllers
@@ -11,11 +9,9 @@ namespace eBookStore.Controllers
     public class AddressController : ControllerBase
     {
         private readonly IAddressService _addressService;
-        private readonly ICountryService _countryService;
-        public AddressController(IAddressService addressService, ICountryService countryService)
+        public AddressController(IAddressService addressService)
         {
             _addressService = addressService;
-            _countryService = countryService;
         }
 
         [Route("/GetAllAddresses")]
@@ -41,30 +37,22 @@ namespace eBookStore.Controllers
         [HttpPost]
         public IActionResult CreateAddress(CreateAddressDTO createAddressDTO)
         {
-            var country = _countryService.GetCountryById(createAddressDTO.CountryId);
-            if (country != null)
+            if (_addressService.CreateAddress(createAddressDTO))
             {
-                _addressService.CreateAddress(createAddressDTO);
                 return Ok("Successfully created");
             }
-            return BadRequest($"CountryId with ID {createAddressDTO.CountryId} not found.");
+            return BadRequest("Failed to Create Address");
         }
 
         [Route("/UpdateAddress")]
         [HttpPut]
         public IActionResult UpdateAddress(UpdateAddressDTO updateAddressDTO)
         {
-            var countryId = _countryService.GetCountryById(updateAddressDTO.CountryId);
-
-            if (countryId != null)
+            if (_addressService.UpdateAddress(updateAddressDTO))
             {
-                if (_addressService.UpdateAddress(updateAddressDTO))
-                {
-                    return Ok("Successfully updated");
-                }
-                return BadRequest($"Address with ID {updateAddressDTO.Id} not found.");
+                return Ok("Successfully updated");
             }
-            return BadRequest($"CountryId with ID {updateAddressDTO.CountryId} not found.");
+            return BadRequest($"Failed to Update Address");
         }
 
         [Route("/DeleteAddress")]
@@ -111,17 +99,12 @@ namespace eBookStore.Controllers
         [HttpPost]
         public IActionResult CreateAddresses(List<CreateAddressDTO> createAddressesDTO)
         {
-            foreach (var createAddressDTO in createAddressesDTO)
-            {
-                var countryId = _countryService.GetCountryById(createAddressDTO.CountryId);
 
-                if (countryId == null)
-                {
-                    return BadRequest($"CountryId with ID {createAddressDTO.CountryId} not found.");
-                }
+            if (_addressService.CreateAddresses(createAddressesDTO))
+            {
+                 return Ok("Successfully created");
             }
-            _addressService.CreateAddresses(createAddressesDTO);
-            return Ok("Successfully created");
+            return BadRequest("Failed to created");
         }
 
         [Route("/DeleteAddresses")]
@@ -139,16 +122,6 @@ namespace eBookStore.Controllers
         [HttpPut]
         public IActionResult UpdateAddresses(List<UpdateAddressDTO> updateAddressesDTO)
         {
-            foreach (var updateAddressDTO in updateAddressesDTO)
-            {
-                var countryId = _countryService.GetCountryById(updateAddressDTO.CountryId);
-
-                if (countryId == null)
-                {
-                    return BadRequest($"CountryId with ID {updateAddressDTO.CountryId} not found.");
-                }
-            }
-
             if (_addressService.UpdateAddresses(updateAddressesDTO))
             {
                 return Ok("Successfully updated");

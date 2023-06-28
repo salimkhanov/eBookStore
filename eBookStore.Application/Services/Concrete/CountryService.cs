@@ -24,13 +24,11 @@ public class CountryService : ICountryService
         var country = _countryRepository.GetById(countryId);
         if (country != null && country.EntityStatus != EntityStatus.Active)
         {
-            country.EntityStatus = EntityStatus.Active;
             _countryRepository.Activate(country);
             return true;
         }
         return false;
     }
-
     public List<GetAllCountryDropDown> AllCountriesForDropDown()
     {
         List<GetAllCountryDropDown> countries = null;
@@ -42,7 +40,6 @@ public class CountryService : ICountryService
             .Select(x => new GetAllCountryDropDown() { Key = x.Id, Value = x.CountryName }).ToList();
         return countries;
     }
-
     public void CreateCountries(List<CreateCountryDTO> createCountryDTOs)
     {
         foreach (var countryDTO in createCountryDTOs)
@@ -51,25 +48,21 @@ public class CountryService : ICountryService
             _countryRepository.Add(country);
         }
     }
-
     public void CreateCountry(CreateCountryDTO createCountryDTO)
     {
         var country = _mapper.Map<Country>(createCountryDTO);
         _countryRepository.Add(country);
     }
-
     public bool DeactivateCountry(int countryId)
     {
         var country = _countryRepository.GetById(countryId);
         if (country != null && country.EntityStatus != EntityStatus.Deactive)
         {
-            country.EntityStatus = EntityStatus.Deactive;
             _countryRepository.Deactivate(country);
             return true;
         }
         return false;
     }
-
     public bool DeleteCountries(List<int> countries)
     {
         List<Country> countriesToDelete = new List<Country>();
@@ -88,7 +81,6 @@ public class CountryService : ICountryService
         }
         return false;
     }
-
     public bool DeleteCountry(int countryId)
     {
         var country = _countryRepository.GetById(countryId);
@@ -100,19 +92,16 @@ public class CountryService : ICountryService
         }
         return false;
     }
-
     public List<GetCountryDTO> GetCountries()
     {
         var countries = _countryRepository.GetAll();
         return _mapper.Map<List<GetCountryDTO>>(countries);
     }
-
     public GetCountryDTO GetCountryById(int CountryId)
     {
         var country = _countryRepository.GetById(CountryId);
         return _mapper.Map<GetCountryDTO>(country);
     }
-
     public bool UpdateCountries(List<UpdateCountryDTO> updateCountryDTOs)
     {
         List<Country> countriesToUpdate = new List<Country>();

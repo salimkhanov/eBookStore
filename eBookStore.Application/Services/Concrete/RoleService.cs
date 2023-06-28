@@ -1,12 +1,10 @@
 ﻿using eBookStore.Application.DTOs.Role;
 using eBookStore.Application.DTOs.RoleDTO;
-using eBookStore.Application.DTOs.User;
 using eBookStore.Domain.Entities;
 using eBookStore.Domain.Enums;
 using IdentityTask.Services.Abstract;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using System.Security.Cryptography.X509Certificates;
 
 namespace eBookStore.Application.Services.Concrete;
 

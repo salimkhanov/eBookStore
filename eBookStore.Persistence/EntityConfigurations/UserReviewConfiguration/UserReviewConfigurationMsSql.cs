@@ -3,15 +3,15 @@ using eBookStore.Persistence.DbObjects;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace eBookStore.Persistence.EntityConfigurations.ShoppingCartConfiguration;
+namespace eBookStore.Persistence.EntityConfigurations.UserReviewConfiguration;
 
-public class ShoppingCartConfigurationMsSql : IEntityTypeConfiguration<ShoppingCart>
+public class UserReviewConfigurationMsSql : IEntityTypeConfiguration<UserReview>
 {
-    public void Configure(EntityTypeBuilder<ShoppingCart> builder)
+    public void Configure(EntityTypeBuilder<UserReview> builder)
     {
-        #region BaseConfiguration
+        #region BaseConfigurations
 
-        builder.ToTable("ShoppingCarts", DbObject.SchemaNameShoppingCart).HasKey(k => k.Id);
+        builder.ToTable("UserReviews", DbObject.SchemaNameUserReview).HasKey(k => k.Id);
 
         builder.Property(x => x.Id)
             .HasColumnName("ID");
@@ -28,22 +28,28 @@ public class ShoppingCartConfigurationMsSql : IEntityTypeConfiguration<ShoppingC
 
         #endregion
 
-        #region Configuration
+        #region Configurations
 
         builder.Property(x => x.UserId)
             .HasColumnName("USER_ID");
+
+        builder.Property(x => x.OrderLineId)
+            .HasColumnName("ORDER_LINE_ID");
+
+        builder.Property(x => x.RatingValue)
+            .HasColumnName("RATING_VALUE");
+
+        builder.Property(x => x.Comment)
+            .HasColumnName("COMMENT")
+            .HasColumnType("nvarchar(max)");
 
         #endregion
 
         #region Relations
 
         builder.HasOne(x => x.User)
-            .WithMany(x => x.ShoppingCart)
+            .WithMany(x => x.UserReview)
             .HasForeignKey(x => x.UserId);
-
-        builder.HasMany(x => x.ShoppingCartItem)
-            .WithOne(x => x.ShoppingCart)
-            .HasForeignKey(x => x.CartId);
 
         #endregion
     }

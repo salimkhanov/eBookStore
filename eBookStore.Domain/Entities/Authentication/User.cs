@@ -14,5 +14,6 @@ public class User : IdentityUser<int>
     public ICollection<UserAddress> UserAddress { get; set; }
     public ICollection<ShoppingCart> ShoppingCart { get; set; }
     public ICollection<UserPaymentMethod> UserPaymentMethod { get; set; }
+    public ICollection<UserReview> UserReview { get; set; }
     #endregion
 }

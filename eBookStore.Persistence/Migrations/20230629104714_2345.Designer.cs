@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using eBookStore.Persistence.Data;
 
@@ -11,9 +12,11 @@ using eBookStore.Persistence.Data;
 namespace eBookStore.Persistence.Migrations
 {
     [DbContext(typeof(eBookStoreContext))]
-    partial class eBookStoreContextModelSnapshot : ModelSnapshot
+    [Migration("20230629104714_2345")]
+    partial class _2345
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -244,7 +247,7 @@ namespace eBookStore.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("PaymentTypes", "PaymentTypes");
+                    b.ToTable("PaymentTypes", "PaymentType");
                 });
 
             modelBuilder.Entity("eBookStore.Domain.Entities.Role", b =>
@@ -314,7 +317,7 @@ namespace eBookStore.Persistence.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("ShoppingCarts", "ShoppingCarts");
+                    b.ToTable("ShoppingCarts", "ShoppingCart");
                 });
 
             modelBuilder.Entity("eBookStore.Domain.Entities.ShoppingCartItem", b =>
@@ -354,7 +357,7 @@ namespace eBookStore.Persistence.Migrations
 
                     b.HasIndex("CartId");
 
-                    b.ToTable("ShoppingCartItems", "ShoppingCartItems");
+                    b.ToTable("ShoppingCartItems", "ShoppingCartItem");
                 });
 
             modelBuilder.Entity("eBookStore.Domain.Entities.User", b =>
@@ -478,7 +481,7 @@ namespace eBookStore.Persistence.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("UsersAddresses", "UserAdresses");
+                    b.ToTable("UsersAddresses", "UsersAdresses");
                 });
 
             modelBuilder.Entity("eBookStore.Domain.Entities.UserPaymentMethod", b =>
@@ -533,7 +536,7 @@ namespace eBookStore.Persistence.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("UserPaymentMethods", "UserPaymentMethods");
+                    b.ToTable("UserPaymentMethods", "UserPaymentMethod");
                 });
 
             modelBuilder.Entity("eBookStore.Domain.Entities.UserReview", b =>
@@ -578,7 +581,7 @@ namespace eBookStore.Persistence.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("UserReviews", "UserReviews");
+                    b.ToTable("UserReviews", "UserReview");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>

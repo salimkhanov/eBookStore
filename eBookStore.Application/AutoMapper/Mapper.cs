@@ -6,6 +6,7 @@ using eBookStore.Application.DTOs.ShoppingCart;
 using eBookStore.Application.DTOs.ShoppingCartItem;
 using eBookStore.Application.DTOs.User;
 using eBookStore.Application.DTOs.UserPaymentMethod;
+using eBookStore.Application.DTOs.UserReview;
 using eBookStore.Domain.Entities;
 
 namespace IdentityTask.AutoMapper;
@@ -61,6 +62,14 @@ public class Mapper : Profile
         CreateMap<UserPaymentMethod, GetUserPaymentMethodDTO>();
         CreateMap<CreateUserPaymentMethodDTO, UserPaymentMethod>();
         CreateMap<UpdateUserPaymentMethodDTO,UserPaymentMethod>();
+
+        #endregion
+
+        #region UserReview
+
+        CreateMap<UserReview, GetUserReviewDTO>();
+        CreateMap<CreateUserReviewDTO, UserReview>();
+        CreateMap<UpdateUserReviewDTO, UserReview>();
 
         #endregion
     }

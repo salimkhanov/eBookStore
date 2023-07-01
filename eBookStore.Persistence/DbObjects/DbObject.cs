@@ -12,4 +12,6 @@ public class DbObject
     public const string SchemaNamePaymentType = "PaymentTypes";
     public const string SchemaNameUserPaymentMethod = "UserPaymentMethods";
     public const string SchemaNameUserReview = "UserReviews";
+    public const string SchemaNameOrderStatus = "OrderStatus";
+    public const string SchemaNameShippingMethods = "ShippingMethods";
 }

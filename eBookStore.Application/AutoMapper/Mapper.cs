@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
 using eBookStore.Application.DTOs.Address;
 using eBookStore.Application.DTOs.Country;
+using eBookStore.Application.DTOs.OrderStatus;
 using eBookStore.Application.DTOs.PaymentType;
+using eBookStore.Application.DTOs.ShippingMethod;
 using eBookStore.Application.DTOs.ShoppingCart;
 using eBookStore.Application.DTOs.ShoppingCartItem;
 using eBookStore.Application.DTOs.User;
@@ -70,6 +72,22 @@ public class Mapper : Profile
         CreateMap<UserReview, GetUserReviewDTO>();
         CreateMap<CreateUserReviewDTO, UserReview>();
         CreateMap<UpdateUserReviewDTO, UserReview>();
+
+        #endregion
+
+        #region OrderStatus
+
+        CreateMap<OrderStatus, GetOrderStatusDTO>();
+        CreateMap<CreateOrderStatusDTO, OrderStatus>();
+        CreateMap<UpdateOrderStatusDTO, OrderStatus>();
+
+        #endregion
+
+        #region ShippingMethod
+
+        CreateMap<ShippingMethod, GetShippingMethodDTO>();
+        CreateMap<CreateShippingMethodDTO, ShippingMethod>();
+        CreateMap<UpdateShippingMethodDTO, ShippingMethod>();
 
         #endregion
     }

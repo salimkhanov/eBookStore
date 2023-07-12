@@ -1,6 +1,8 @@
 using eBookStore.Domain.Entities;
+using eBookStore.Persistence;
 using eBookStore.Persistence.EFContext;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 
@@ -48,8 +50,7 @@ builder.Services.AddSwaggerGen(swagger =>
 });
 
 
-
-builder.Services.AddDbContext<AppDbContext>();
+builder.Services.AddContext();
 builder.Services.AddIdentity<User, Role>()
                 .AddEntityFrameworkStores<AppDbContext>()
                 .AddDefaultTokenProviders();

@@ -1,14 +1,8 @@
 ﻿using eBookStore.Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace eBookStore.Domain.Repositories.EntityRepositories
+namespace eBookStore.Domain.Repositories.EntityRepositories;
+
+public interface IUserAddressRepository : IBaseRepository<UserAddress>
 {
-    public interface IUserAddressRepository : IBaseRepository<UserAddress>
-    {
 
-    }
 }

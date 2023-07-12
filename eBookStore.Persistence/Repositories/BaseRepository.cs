@@ -1,11 +1,13 @@
 ﻿using eBookStore.Domain.Entities.Base;
+using eBookStore.Domain.Enums;
 using eBookStore.Domain.Repositories;
 using eBookStore.Persistence.EFContext;
+using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 
 namespace eBookStore.Persistence.Repositories;
 
-public class BaseRepository<TEntity> : IBaseRepository<TEntity> 
+public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : BaseEntity
 {
     protected readonly AppDbContext _dbContext;
     public BaseRepository(AppDbContext dbContext)
@@ -16,52 +18,69 @@ public class BaseRepository<TEntity> : IBaseRepository<TEntity>
     {
         _dbContext = new AppDbContext();
     }
-    public void Add(TEntity entity)
+
+    public async Task<TEntity> GetByIdAsync(int id)
+    {
+        return await _dbContext.Set<TEntity>().FindAsync(id);
+    }
+
+    public async Task<IEnumerable<TEntity>> GetAllAsync()
+    {
+        return await _dbContext.Set<TEntity>().OrderBy(c => c.Id).ToListAsync();
+    }
+
+    public async Task<IEnumerable<TEntity>> FindAsync(Expression<Func<TEntity, bool>> expression)
+    {
+        return await _dbContext.Set<TEntity>().Where(expression).ToListAsync();
+    }
+
+    public async Task AddAsync(TEntity entity)
     {
         _dbContext.Set<TEntity>().Add(entity);
-        _dbContext.SaveChanges();
-    }
-    public void AddRange(IEnumerable<TEntity> entities)
-    {
-        _dbContext.Set<TEntity>().AddRange(entities);
-        _dbContext.SaveChanges();
-    }
-    public IEnumerable<TEntity> Find(Expression<Func<TEntity, bool>> expression)
-    {
-        return _dbContext.Set<TEntity>().Where(expression);
+        await _dbContext.SaveChangesAsync();
     }
 
-    public IEnumerable<TEntity> GetAll()
-    {
-        return _dbContext.Set<TEntity>().OrderBy(c => c.Id).ToList();
-    }
-
-    public TEntity GetById(int id)
-    {
-        return _dbContext.Set<TEntity>().Find(id);
-    }
-
-    public void Remove(TEntity entity)
-    {
-        _dbContext.Set<TEntity>().Remove(entity);
-        _dbContext.SaveChanges();
-    }
-
-    public void RemoveRange(IEnumerable<TEntity> entities)
-    {
-        _dbContext.Set<TEntity>().RemoveRange(entities);
-        _dbContext.SaveChanges();
-    }
-
-    public void Update(TEntity entity)
+    public async Task UpdateAsync(TEntity entity)
     {
         _dbContext.Set<TEntity>().Update(entity);
-        _dbContext.SaveChanges();
+        await _dbContext.SaveChangesAsync();
     }
 
-    public void UpdateRange(IEnumerable<TEntity> entities)
+    public async Task UpdateRangeAsync(IEnumerable<TEntity> entities)
     {
         _dbContext.Set<TEntity>().UpdateRange(entities);
-        _dbContext.SaveChanges();
+        await _dbContext.SaveChangesAsync();
+    }
+
+    public async Task AddRangeAsync(IEnumerable<TEntity> entities)
+    {
+        _dbContext.Set<TEntity>().AddRange(entities);
+        await _dbContext.SaveChangesAsync();
+    }
+
+    public async Task RemoveAsync(TEntity entity)
+    {
+        _dbContext.Set<TEntity>().Remove(entity);
+        await _dbContext.SaveChangesAsync();
+    }
+
+    public async Task RemoveRangeAsync(IEnumerable<TEntity> entities)
+    {
+        _dbContext.Set<TEntity>().RemoveRange(entities);
+        await _dbContext.SaveChangesAsync();
+    }
+
+    public async Task ActivateAsync(TEntity entity)
+    {
+        entity.EntityStatus = EntityStatus.Active;
+        _dbContext.Set<TEntity>().Update(entity);
+        await _dbContext.SaveChangesAsync();
+    }
+
+    public async Task DeactivateAsync(TEntity entity)
+    {
+        entity.EntityStatus = EntityStatus.Deactive;
+        _dbContext.Set<TEntity>().Update(entity);
+        await _dbContext.SaveChangesAsync();
     }
 }

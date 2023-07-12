@@ -18,10 +18,4 @@
     <None Remove="Mappings\**" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="DTOs\" />
-    <Folder Include="Services\Abstract\" />
-    <Folder Include="Services\Concrete\" />
-  </ItemGroup>
-
 </Project>

@@ -3,7 +3,6 @@ using eBookStore.Domain.Repositories.EntityRepositories;
 
 namespace eBookStore.Persistence.Repositories.EntityRepositories;
 
-public class UserRepository : BaseRepository<User>, IUserRepository 
+public class ShippingMethodRepository : BaseRepository<ShippingMethod>, IShippingMethodRepository
 {
-
 }

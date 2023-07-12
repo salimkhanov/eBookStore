@@ -14,6 +14,6 @@ public class AppDbContext : IdentityDbContext<User, Role, int>
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     { 
-        optionsBuilder.UseSqlServer(@"Data Source = DESKTOP - 3QONI5I\SQLEXPRESS; Initial Catalog = eBookStoreDB; Integrated Security = True; TrustServerCertificate = True; ");
+        optionsBuilder.UseSqlServer(@"Server=DESKTOP-3QONI5I\SQLEXPRESS;Database=eBookStoreDB;Trusted_Connection=True;TrustServerCertificate=True;");
     }
 }

@@ -4,5 +4,5 @@ namespace eBookStore.Application.Services.Abstract;
 
 public interface IAuthenticationService
 {
-    Task<string> Login(LoginDTO login);
+    Task<string> Login(LoginDto login);
 }

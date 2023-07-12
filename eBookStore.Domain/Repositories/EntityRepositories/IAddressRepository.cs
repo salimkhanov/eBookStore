@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using eBookStore.Domain.Entities;
 
-namespace eBookStore.Domain.Repositories.EntityRepositories
+namespace eBookStore.Domain.Repositories.EntityRepositories;
+
+public interface IAddressRepository : IBaseRepository<Address>
 {
-    internal interface IAddressRepository
-    {
-    }
+    
 }

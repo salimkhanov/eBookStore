@@ -2,7 +2,7 @@
 
 namespace eBookStore.Application.Services.Abstract;
 
-public interface IAuthenticationService
-{
-    Task<string> Login(LoginDto login);
+public interface IAuthService
+{   
+    Task<string> Login(LoginDTO login);
 }

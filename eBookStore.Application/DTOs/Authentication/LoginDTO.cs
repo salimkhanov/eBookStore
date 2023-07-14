@@ -1,5 +1,5 @@
 ﻿namespace eBookStore.Application.DTOs.Authentication;
 
-public record LoginDto(
+public record LoginDTO(
     string Email,
     string Password);

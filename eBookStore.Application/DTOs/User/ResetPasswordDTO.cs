@@ -1,4 +1,4 @@
-﻿namespace eBookStore.Application.DTOs.User.Request;
+﻿namespace eBookStore.Application.DTOs.User;
 
 public class ResetPasswordDTO
 {

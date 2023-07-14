@@ -4,7 +4,7 @@ namespace eBookStore.Domain.Entities;
 
 public class BookLanguage : BaseEntity
 {
-    public int LanguageCode { get; set; }
+    public string LanguageCode { get; set; } = default!;
     public string Name { get; set; } = default!;
     public ICollection<Book> Books { get; set; } = new List<Book>();
 }

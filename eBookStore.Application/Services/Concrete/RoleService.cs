@@ -1,38 +1,124 @@
-﻿using eBookStore.Application.DTOs.Role.Request;
-using eBookStore.Application.DTOs.Role.Response;
+﻿using AutoMapper;
+using eBookStore.Application.DTOs.Role;
 using eBookStore.Application.Services.Abstract;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using eBookStore.Domain.Entities;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
 namespace eBookStore.Application.Services.Concrete;
 
 public class RoleService : IRoleService
 {
-    public Task<bool> AddRoleToUserAsync(UserRoleDto userRoleDTO)
+    private readonly UserManager<User> _userManager;
+    private readonly RoleManager<Role> _roleManager;
+    private readonly IMapper _mapper;
+
+    public RoleService(
+        UserManager<User> userManager,
+        RoleManager<Role> roleManager,
+        IMapper mapper)
     {
-        throw new NotImplementedException();
+        _userManager = userManager;
+        _roleManager = roleManager;
+        _mapper = mapper;
     }
 
-    public Task<bool> CreateRoleAsync(RoleCreateDto roleCreateDTO)
+    public async Task<bool> CreateRole(RoleDTO roleDTO)
     {
-        throw new NotImplementedException();
+        var role = _mapper.Map<Role>(roleDTO);
+
+        var result = await _roleManager.CreateAsync(role);
+
+        return result.Succeeded;
     }
 
-    public Task<bool> DeleteRole(int roleId)
+    public async Task<bool> DeleteRole(int roleId)
     {
-        throw new NotImplementedException();
+        var role = await _roleManager.FindByIdAsync(roleId.ToString());
+
+        if (role == null)
+        {
+            return false; // Role not found
+        }
+
+        var result = await _roleManager.DeleteAsync(role);
+
+        return result.Succeeded;
     }
 
-    public List<RoleResponseDto> GetAllRoles()
+    public async Task<List<RoleDTO>> GetAllRoles()
     {
-        throw new NotImplementedException();
+        var roles = await _roleManager.Roles.ToListAsync();
+        var roleDTOs = _mapper.Map<List<RoleDTO>>(roles);
+        return roleDTOs;
     }
 
-    public Task<bool> RemoveUserFromRoleAsync(UserRoleDto userRoleDTO)
+    public async Task<RoleDTO> GetRole(int roleId)
     {
-        throw new NotImplementedException();
+        var role = await _roleManager.FindByIdAsync(roleId.ToString());
+
+        if (role == null)
+        {
+            return null; // Role not found
+        }
+
+        var roleDTO = _mapper.Map<RoleDTO>(role);
+        return roleDTO;
     }
+
+    public async Task<bool> AddRoleToUserAsync(UserRoleDTO userRoleDTO)
+    {
+        var user = await _userManager.FindByIdAsync(userRoleDTO.UserId.ToString());
+
+        if (user == null)
+        {
+            return false; // User not found
+        }
+
+        var rolesToAdd = await _roleManager.Roles.Where(r => userRoleDTO.RoleIds.Contains(r.Id)).ToListAsync();
+
+        foreach (var role in rolesToAdd)
+        {
+            var result = await _userManager.AddToRoleAsync(user, role.Name);
+
+            if (!result.Succeeded)
+            {
+                return false; // Failed to add role to user
+            }
+        }
+
+        return true; // Successfully added roles to user
+    }
+
+    public async Task<bool> RemoveRoleFromUserAsync(UserRoleDTO userRoleDTO)
+    {
+        var user = await _userManager.FindByIdAsync(userRoleDTO.UserId.ToString());
+
+        if (user == null)
+        {
+            return false; // User not found
+        }
+
+        var rolesToRemove = await _roleManager.Roles.Where(r => userRoleDTO.RoleIds.Contains(r.Id)).ToListAsync();
+
+        foreach (var role in rolesToRemove)
+        {
+            var result = await _userManager.RemoveFromRoleAsync(user, role.Name);
+
+            if (!result.Succeeded)
+            {
+                return false; // Failed to remove role from user
+            }
+        }
+
+        return true; // Successfully removed roles from user
+    }
+
+    public async Task<bool> RoleExists(string roleName)
+    {
+        var role = await _roleManager.FindByNameAsync(roleName);
+        return role != null;
+    }   
 }
+
+

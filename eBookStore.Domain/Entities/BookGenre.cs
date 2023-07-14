@@ -4,6 +4,6 @@ namespace eBookStore.Domain.Entities;
 
 public class BookGenre : BaseEntity 
 {
-    public int Name { get; set; } = default!;
+    public string Name { get; set; } = default!;
     public ICollection<Book> Books { get; set; } = new List<Book>();   
 }

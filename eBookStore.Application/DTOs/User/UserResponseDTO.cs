@@ -1,6 +1,12 @@
-﻿namespace eBookStore.Application.DTOs.User.Request;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-public class UserUpdateDTO
+namespace eBookStore.Application.DTOs.User;
+
+public class UserResponseDTO
 {
     public int Id { get; set; }
     public string UserName { get; set; }

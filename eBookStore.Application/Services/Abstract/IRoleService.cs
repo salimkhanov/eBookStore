@@ -1,18 +1,14 @@
-﻿using eBookStore.Application.DTOs.Role.Request;
-using eBookStore.Application.DTOs.Role.Response;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using eBookStore.Application.DTOs.Role;
 
 namespace eBookStore.Application.Services.Abstract;
 
 public interface IRoleService
 {
-    Task<bool> CreateRoleAsync(RoleCreateDto roleCreateDTO);
-    List<RoleResponseDto> GetAllRoles();
+    Task<bool> CreateRole(RoleDTO roleDTO);
     Task<bool> DeleteRole(int roleId);
-    Task<bool> AddRoleToUserAsync(UserRoleDto userRoleDTO);
-    Task<bool> RemoveUserFromRoleAsync(UserRoleDto userRoleDTO);
+    Task<List<RoleDTO>> GetAllRoles();
+    Task<RoleDTO> GetRole(int roleId);
+    Task<bool> AddRoleToUserAsync(UserRoleDTO userRoleDTO);
+    Task<bool> RemoveRoleFromUserAsync(UserRoleDTO userRoleDTO);
+    Task<bool> RoleExists(string roleName);
 }

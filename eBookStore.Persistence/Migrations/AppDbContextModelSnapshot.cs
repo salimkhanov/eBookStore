@@ -171,6 +171,32 @@ namespace eBookStore.Persistence.Migrations
                     b.ToTable("Address");
                 });
 
+            modelBuilder.Entity("eBookStore.Domain.Entities.Author", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<byte>("EntityStatus")
+                        .HasColumnType("tinyint");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Author");
+                });
+
             modelBuilder.Entity("eBookStore.Domain.Entities.Book", b =>
                 {
                     b.Property<int>("Id")
@@ -234,6 +260,38 @@ namespace eBookStore.Persistence.Migrations
                     b.HasIndex("PublisherId");
 
                     b.ToTable("Book");
+                });
+
+            modelBuilder.Entity("eBookStore.Domain.Entities.BookAuthor", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("AuthorId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("BookId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<byte>("EntityStatus")
+                        .HasColumnType("tinyint");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AuthorId");
+
+                    b.HasIndex("BookId");
+
+                    b.ToTable("BookAuthor");
                 });
 
             modelBuilder.Entity("eBookStore.Domain.Entities.BookGenre", b =>
@@ -1179,6 +1237,25 @@ namespace eBookStore.Persistence.Migrations
                     b.Navigation("Publisher");
                 });
 
+            modelBuilder.Entity("eBookStore.Domain.Entities.BookAuthor", b =>
+                {
+                    b.HasOne("eBookStore.Domain.Entities.Author", "Author")
+                        .WithMany("BookAuthors")
+                        .HasForeignKey("AuthorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("eBookStore.Domain.Entities.Book", "Book")
+                        .WithMany("BookAuthors")
+                        .HasForeignKey("BookId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Author");
+
+                    b.Navigation("Book");
+                });
+
             modelBuilder.Entity("eBookStore.Domain.Entities.Cart", b =>
                 {
                     b.HasOne("eBookStore.Domain.Entities.User", "User")
@@ -1319,8 +1396,15 @@ namespace eBookStore.Persistence.Migrations
                     b.Navigation("UserAddress");
                 });
 
+            modelBuilder.Entity("eBookStore.Domain.Entities.Author", b =>
+                {
+                    b.Navigation("BookAuthors");
+                });
+
             modelBuilder.Entity("eBookStore.Domain.Entities.Book", b =>
                 {
+                    b.Navigation("BookAuthors");
+
                     b.Navigation("OrderLines");
                 });
 

@@ -80,5 +80,24 @@ public class UserController : ControllerBase
         }
         return NotFound();
     }
+    
+    [HttpPut("ChangePassword")]
+    public async Task<IActionResult> ChangePassword(ChangePasswordDTO changePasswordDTO)
+    {
+        if (await _userService.ChangePassword(changePasswordDTO))
+        {
+            return Ok("Password changed successfully");
+        }
+        return NotFound();
+    }
 
+    [HttpPut("ResetPassword")]
+    public async Task<IActionResult> ResetPassword(ResetPasswordDTO resetPasswordDTO)
+    {
+        if (await _userService.ResetPassword(resetPasswordDTO))
+        {
+            return Ok("Password reset successfully");
+        }
+        return NotFound();
+    }
 }

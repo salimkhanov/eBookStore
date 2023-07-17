@@ -1,6 +1,7 @@
 ﻿using eBookStore.Domain.Entities.Base;
 using Microsoft.AspNetCore.Http;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Reflection.Metadata.Ecma335;
 
 namespace eBookStore.Domain.Entities;
 
@@ -18,13 +19,16 @@ public class Book : BaseEntity
     public int QtyInStock { get; set; }
     public double Price { get; set; }
     public int BookGenreId { get; set; }
-    public int DiscountId { get; set; } 
+    public int DiscountId { get; set; }
+    public int AuthorId { get; set; }
 
     #region Nagigation Property
     public BookLanguage BookLanguage { get; set; } = default!;
     public BookGenre BookGenre { get; set; } = default!;
     public Publisher Publisher { get; set; } = default!;
     public Discount Discount { get; set; } = default!;
+    public Author Author { get; set; } = default!;
     public ICollection<OrderLine> OrderLines { get; set; } = new List<OrderLine>();
+
     #endregion
 }

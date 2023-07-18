@@ -1,9 +1,10 @@
 ﻿namespace eBookStore.Domain.Enums;
 
-public enum OrderStatus
+public enum OrderStatuses
 {
     Processing,
     Shipped,
     OutForDelivery,
-    Delivered
+    Delivered,
+    Cancelled
 }

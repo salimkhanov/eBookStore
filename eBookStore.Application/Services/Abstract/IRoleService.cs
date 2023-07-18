@@ -4,11 +4,11 @@ namespace eBookStore.Application.Services.Abstract;
 
 public interface IRoleService
 {
-    Task<bool> CreateRole(RoleDTO roleDTO);
-    Task<bool> DeleteRole(int roleId);
-    Task<List<RoleDTO>> GetAllRoles();
-    Task<RoleDTO> GetRole(int roleId);
+    Task<bool> CreateRoleAsync(RoleDTO roleDTO);
+    Task<bool> DeleteRoleAsync(int roleId);
+    Task<List<RoleDTO>> GetAllRolesAsync();
+    Task<RoleDTO> GetRoleAsync(int roleId);
     Task<bool> AddRoleToUserAsync(UserRoleDTO userRoleDTO);
     Task<bool> RemoveRoleFromUserAsync(UserRoleDTO userRoleDTO);
-    Task<bool> RoleExists(string roleName);
+    Task<bool> RoleExistsAsync(string roleName);
 }

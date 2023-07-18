@@ -36,35 +36,35 @@ public class UserController : ControllerBase
     [HttpGet("GetAll")]
     public async Task<IActionResult> GetUsers()
     {
-        return Ok(await _userService.GetUsers());
+        return Ok(await _userService.GetUsersAsync());
     }
 
     [HttpGet("{id:int}")]
     public async Task<IActionResult> GetUserById(int id)
     {
-        var result = await _userService.GetUser(id);
+        var result = await _userService.GetUserByIdAsync(id);
         if (result != null)
         {
             return Ok(result);
         }
-        return BadRequest($"User with ID {id} not found");
+        return NotFound($"User with ID {id} not found");
     }
 
     [HttpPost("Registration")]
     public async Task<IActionResult> Registration(RegistrationDTO registrationDTO)
     {
-        if (await _userService.UserExists(registrationDTO.Email))
+        if (await _userService.UserExistsAsync(registrationDTO.Email))
         {
             return BadRequest("User already exist");
         }
 
-        return Ok(await _userService.Registration(registrationDTO));
+        return Ok(await _userService.RegistrationAsync(registrationDTO));
     }
 
     [HttpPut("Update")]
     public async Task<IActionResult> UpdateUser(UserUpdateDTO userUpdateDTO)
     {
-        if (await _userService.UpdateUser(userUpdateDTO))
+        if (await _userService.UpdateUserAsync(userUpdateDTO))
         {
             return Ok("Successfully updated");
         }
@@ -72,9 +72,9 @@ public class UserController : ControllerBase
     }
 
     [HttpDelete("{id:int}")]
-    public async Task<IActionResult> DeleteUser(int userId)
+    public async Task<IActionResult> DeleteUser(int id)
     {
-        if (await _userService.DeleteUser(userId))
+        if (await _userService.DeleteUserAsync(id))
         {
             return Ok("Successfully deleted");
         }
@@ -84,7 +84,7 @@ public class UserController : ControllerBase
     [HttpPut("ChangePassword")]
     public async Task<IActionResult> ChangePassword(ChangePasswordDTO changePasswordDTO)
     {
-        if (await _userService.ChangePassword(changePasswordDTO))
+        if (await _userService.ChangePasswordAsync(changePasswordDTO))
         {
             return Ok("Password changed successfully");
         }
@@ -94,7 +94,7 @@ public class UserController : ControllerBase
     [HttpPut("ResetPassword")]
     public async Task<IActionResult> ResetPassword(ResetPasswordDTO resetPasswordDTO)
     {
-        if (await _userService.ResetPassword(resetPasswordDTO))
+        if (await _userService.ResetPasswordAsync(resetPasswordDTO))
         {
             return Ok("Password reset successfully");
         }

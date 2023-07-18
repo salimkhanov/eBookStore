@@ -14,5 +14,7 @@ public static partial class DataSeeder
         modelBuilder.Entity<OrderStatus>().HasData(OrderStatusSeeder());
         modelBuilder.Entity<PaymentMethod>().HasData(PaymentMethodSeeder());
         modelBuilder.Entity<ShippingMethod>().HasData(ShippingMethodSeeder());
+        modelBuilder.Entity<Author>().HasData(AuthorSeeder());
+        modelBuilder.Entity<Publisher>().HasData(PublisherSeeder());
     }
 }

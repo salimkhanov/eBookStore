@@ -1,4 +1,5 @@
 ﻿using eBookStore.Domain.Entities;
+using eBookStore.Domain.Enums;
 
 namespace eBookStore.Persistence.EFContext.SeedData;
 
@@ -11,22 +12,27 @@ public static partial class DataSeeder
             new OrderStatus()
             {
                 Id = 1,
-                Status = "Processing"
+                Status = OrderStatuses.Processing.ToString(),
             },
             new OrderStatus()
             {
                 Id = 2,
-                Status = "Shipped"
+                Status = OrderStatuses.Shipped.ToString(),
             },
             new OrderStatus()
             {
                 Id = 3,
-                Status = "Completed"
+                Status = OrderStatuses.OutForDelivery.ToString(),
             },
             new OrderStatus()
             {
                 Id = 4,
-                Status = "Cancelled"
+                Status = OrderStatuses.Delivered.ToString()
+            },
+            new OrderStatus()
+            {
+                Id = 5,
+                Status = OrderStatuses.Cancelled.ToString()
             }
         };
 

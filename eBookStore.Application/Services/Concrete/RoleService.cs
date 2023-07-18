@@ -23,7 +23,7 @@ public class RoleService : IRoleService
         _mapper = mapper;
     }
 
-    public async Task<bool> CreateRole(RoleDTO roleDTO)
+    public async Task<bool> CreateRoleAsync(RoleDTO roleDTO)
     {
         var role = _mapper.Map<Role>(roleDTO);
 
@@ -32,7 +32,7 @@ public class RoleService : IRoleService
         return result.Succeeded;
     }
 
-    public async Task<bool> DeleteRole(int roleId)
+    public async Task<bool> DeleteRoleAsync(int roleId)
     {
         var role = await _roleManager.FindByIdAsync(roleId.ToString());
 
@@ -46,14 +46,14 @@ public class RoleService : IRoleService
         return result.Succeeded;
     }
 
-    public async Task<List<RoleDTO>> GetAllRoles()
+    public async Task<List<RoleDTO>> GetAllRolesAsync()
     {
         var roles = await _roleManager.Roles.ToListAsync();
         var roleDTOs = _mapper.Map<List<RoleDTO>>(roles);
         return roleDTOs;
     }
 
-    public async Task<RoleDTO> GetRole(int roleId)
+    public async Task<RoleDTO> GetRoleAsync(int roleId)
     {
         var role = await _roleManager.FindByIdAsync(roleId.ToString());
 
@@ -114,7 +114,7 @@ public class RoleService : IRoleService
         return true; // Successfully removed roles from user
     }
 
-    public async Task<bool> RoleExists(string roleName)
+    public async Task<bool> RoleExistsAsync(string roleName)
     {
         var role = await _roleManager.FindByNameAsync(roleName);
         return role != null;

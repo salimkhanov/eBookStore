@@ -1,16 +1,12 @@
 ﻿using AutoMapper;
-using eBookStore.Application.AutoMapper;
 using eBookStore.Application.DTOs.User;
 using eBookStore.Application.Services.Abstract;
 using eBookStore.Domain.Entities;
 using eBookStore.Domain.Enums;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Security.Claims;
 
 namespace eBookStore.Application.Services.Concrete;
 
@@ -18,22 +14,26 @@ public class UserService : IUserService
 {
     private readonly UserManager<User> _userManager;
     private readonly IMapper _mapper;
+    private readonly IHttpContextAccessor _httpContextAccessor;
 
     public UserService(
-        UserManager<User> userManager, IMapper mapper)
+        UserManager<User> userManager, 
+        IMapper mapper,
+        IHttpContextAccessor httpContextAccessor)
     {
         _userManager = userManager;
         _mapper = mapper;
+        _httpContextAccessor = httpContextAccessor;
     }
 
-    public async Task<List<UserResponseDTO>> GetUsers()
+    public async Task<List<UserResponseDTO>> GetUsersAsync()
     {
         var users = await _userManager.Users.ToListAsync();
         var userDTOs = _mapper.Map<List<UserResponseDTO>>(users);
         return userDTOs;
     }
 
-    public async Task<UserResponseDTO> GetUser(int id)
+    public async Task<UserResponseDTO> GetUserByIdAsync(int id)
     {
         var user = await _userManager.FindByIdAsync(id.ToString());
 
@@ -46,7 +46,7 @@ public class UserService : IUserService
         return userDTO;
     }
 
-    public async Task<string> Registration(RegistrationDTO registrationDTO)
+    public async Task<string> RegistrationAsync(RegistrationDTO registrationDTO)
     {
         var user = _mapper.Map<User>(registrationDTO);
 
@@ -63,7 +63,7 @@ public class UserService : IUserService
         }
     }
 
-    public async Task<bool> ChangePassword(ChangePasswordDTO changePasswordDTO)
+    public async Task<bool> ChangePasswordAsync(ChangePasswordDTO changePasswordDTO)
     {
         var user = await _userManager.FindByEmailAsync(changePasswordDTO.Email);
 
@@ -83,7 +83,7 @@ public class UserService : IUserService
         return result.Succeeded;
     }
 
-    public async Task<bool> DeactivateUser(int UserId)
+    public async Task<bool> DeactivateUserAsync(int UserId)
     {
         User user = _userManager.Users.SingleOrDefault(u => u.Id == UserId && u.EntityStatus == EntityStatus.Active);
         if (user == null)
@@ -99,7 +99,7 @@ public class UserService : IUserService
         return true;
     }
 
-    public async Task<bool> ActivateUser(int UserId)
+    public async Task<bool> ActivateUserAsync(int UserId)
     {
         User user = _userManager.Users.SingleOrDefault(u => u.Id == UserId && u.EntityStatus == EntityStatus.Deactive);
         if (user == null)
@@ -115,7 +115,7 @@ public class UserService : IUserService
         return true;
     }
 
-    public async Task<bool> ResetPassword(ResetPasswordDTO resetPasswordDTO)
+    public async Task<bool> ResetPasswordAsync(ResetPasswordDTO resetPasswordDTO)
     {
         User user = _userManager.Users.SingleOrDefault(u => u.Id == resetPasswordDTO.UserId && u.EntityStatus == EntityStatus.Active);
         if (user == null)
@@ -131,7 +131,7 @@ public class UserService : IUserService
         return true;
     }
 
-    public async Task<bool> UpdateUser(UserUpdateDTO userUpdateDTO)
+    public async Task<bool> UpdateUserAsync(UserUpdateDTO userUpdateDTO)
     {
         var user = await _userManager.FindByIdAsync(userUpdateDTO.Id.ToString());
 
@@ -147,7 +147,7 @@ public class UserService : IUserService
         return result.Succeeded;
     }
 
-    public async Task<bool> DeleteUser(int id)
+    public async Task<bool> DeleteUserAsync(int id)
     {
         var user = await _userManager.FindByIdAsync(id.ToString());
 
@@ -161,9 +161,31 @@ public class UserService : IUserService
         return result.Succeeded;
     }
 
-    public async Task<bool> UserExists(string email)
+    public async Task<bool> UserExistsAsync(string email)
     {
         var user = await _userManager.FindByEmailAsync(email);
         return user != null;
+    }
+
+    public async Task<User> GetCurrentUserAsync()   
+    {
+        string currentUserId = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        if (string.IsNullOrEmpty(currentUserId))
+        {
+            return null;
+        }
+
+        var user = await _userManager.FindByIdAsync(currentUserId);
+        return user;
+    }
+
+    public async Task<int> GetCurrentUserIdAsync()
+    {
+        string currentUserId = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        if (string.IsNullOrEmpty(currentUserId))
+        {
+            return 0;
+        }
+        return Convert.ToInt32(currentUserId);
     }
 }

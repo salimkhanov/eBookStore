@@ -83,4 +83,8 @@ public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : 
         _dbContext.Set<TEntity>().Update(entity);
         await _dbContext.SaveChangesAsync();
     }
+    public async Task SaveChangesAsync()
+    {
+        await _dbContext.SaveChangesAsync();
+    }
 }

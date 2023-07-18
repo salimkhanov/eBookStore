@@ -1,13 +1,6 @@
-﻿using eBookStore.Domain.Entities;
-using eBookStore.Persistence.EFContext;
+﻿using eBookStore.Persistence.EFContext;
 using Microsoft.Extensions.DependencyInjection;
 using Scrutor;
-using eBookStore.Domain.Entities;
-using eBookStore.Persistence;
-using eBookStore.Persistence.EFContext;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.Data.SqlClient;
-using Microsoft.EntityFrameworkCore;
 
 namespace eBookStore.Persistence;
 

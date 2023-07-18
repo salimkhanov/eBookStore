@@ -195,6 +195,24 @@ namespace eBookStore.Persistence.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Author");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            EntityStatus = (byte)1,
+                            Name = "Stephen King",
+                            UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            EntityStatus = (byte)1,
+                            Name = "J. K. Rowling",
+                            UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        });
                 });
 
             modelBuilder.Entity("eBookStore.Domain.Entities.Book", b =>
@@ -204,6 +222,9 @@ namespace eBookStore.Persistence.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("AuthorId")
+                        .HasColumnType("int");
 
                     b.Property<int>("BookGenreId")
                         .HasColumnType("int");
@@ -218,7 +239,7 @@ namespace eBookStore.Persistence.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("DiscountId")
+                    b.Property<int?>("DiscountId")
                         .HasColumnType("int");
 
                     b.Property<byte>("EntityStatus")
@@ -251,6 +272,8 @@ namespace eBookStore.Persistence.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("AuthorId");
+
                     b.HasIndex("BookGenreId");
 
                     b.HasIndex("BookLanguageId");
@@ -259,39 +282,7 @@ namespace eBookStore.Persistence.Migrations
 
                     b.HasIndex("PublisherId");
 
-                    b.ToTable("Book");
-                });
-
-            modelBuilder.Entity("eBookStore.Domain.Entities.BookAuthor", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("AuthorId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("BookId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<byte>("EntityStatus")
-                        .HasColumnType("tinyint");
-
-                    b.Property<DateTime>("UpdatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AuthorId");
-
-                    b.HasIndex("BookId");
-
-                    b.ToTable("BookAuthor");
+                    b.ToTable("Books");
                 });
 
             modelBuilder.Entity("eBookStore.Domain.Entities.BookGenre", b =>
@@ -792,12 +783,20 @@ namespace eBookStore.Persistence.Migrations
                             Id = 3,
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             EntityStatus = (byte)1,
-                            Status = "Completed",
+                            Status = "OutForDelivery",
                             UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             Id = 4,
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            EntityStatus = (byte)1,
+                            Status = "Delivered",
+                            UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 5,
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             EntityStatus = (byte)1,
                             Status = "Cancelled",
@@ -894,6 +893,24 @@ namespace eBookStore.Persistence.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Publisher");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            EntityStatus = (byte)1,
+                            Name = "HarperCollins",
+                            UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            EntityStatus = (byte)1,
+                            Name = "Macmillan Publishers",
+                            UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        });
                 });
 
             modelBuilder.Entity("eBookStore.Domain.Entities.Role", b =>
@@ -1204,6 +1221,12 @@ namespace eBookStore.Persistence.Migrations
 
             modelBuilder.Entity("eBookStore.Domain.Entities.Book", b =>
                 {
+                    b.HasOne("eBookStore.Domain.Entities.Author", "Author")
+                        .WithMany("Books")
+                        .HasForeignKey("AuthorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("eBookStore.Domain.Entities.BookGenre", "BookGenre")
                         .WithMany("Books")
                         .HasForeignKey("BookGenreId")
@@ -1218,15 +1241,15 @@ namespace eBookStore.Persistence.Migrations
 
                     b.HasOne("eBookStore.Domain.Entities.Discount", "Discount")
                         .WithMany("Books")
-                        .HasForeignKey("DiscountId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("DiscountId");
 
                     b.HasOne("eBookStore.Domain.Entities.Publisher", "Publisher")
                         .WithMany("Books")
                         .HasForeignKey("PublisherId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Author");
 
                     b.Navigation("BookGenre");
 
@@ -1235,25 +1258,6 @@ namespace eBookStore.Persistence.Migrations
                     b.Navigation("Discount");
 
                     b.Navigation("Publisher");
-                });
-
-            modelBuilder.Entity("eBookStore.Domain.Entities.BookAuthor", b =>
-                {
-                    b.HasOne("eBookStore.Domain.Entities.Author", "Author")
-                        .WithMany("BookAuthors")
-                        .HasForeignKey("AuthorId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("eBookStore.Domain.Entities.Book", "Book")
-                        .WithMany("BookAuthors")
-                        .HasForeignKey("BookId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Author");
-
-                    b.Navigation("Book");
                 });
 
             modelBuilder.Entity("eBookStore.Domain.Entities.Cart", b =>
@@ -1398,13 +1402,11 @@ namespace eBookStore.Persistence.Migrations
 
             modelBuilder.Entity("eBookStore.Domain.Entities.Author", b =>
                 {
-                    b.Navigation("BookAuthors");
+                    b.Navigation("Books");
                 });
 
             modelBuilder.Entity("eBookStore.Domain.Entities.Book", b =>
                 {
-                    b.Navigation("BookAuthors");
-
                     b.Navigation("OrderLines");
                 });
 

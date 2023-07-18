@@ -4,10 +4,12 @@ public record BookResponseDTO(
     int Id,
     string Title,
     string Description,
-    int BookLanguageId,
+    string BookLanguageName,
+    string AuthorName,
     int PageCount,
     DateTime PublicationDate,
-    int PublisherId,
+    string PublisherName,
     int QtyInStock,
     double Price,
-    int BookGenreId);
+    string BookGenreName,
+    string DiscountName);

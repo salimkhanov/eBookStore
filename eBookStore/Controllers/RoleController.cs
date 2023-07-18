@@ -18,15 +18,15 @@ public class RoleController : ControllerBase
     }
 
     [HttpGet("GetAll")]
-    public async Task<IActionResult> GetRoles()
+    public async Task<IActionResult> GetAllRolesAsync()
     {
-        return Ok(await _roleService.GetAllRoles());
+        return Ok(await _roleService.GetAllRolesAsync());
     }
 
     [HttpGet("{id:int}")]
-    public async Task<IActionResult> GetRole(int id)
+    public async Task<IActionResult> GetRoleAsync(int id)
     {
-        var result = await _roleService.GetRole(id);
+        var result = await _roleService.GetRoleAsync(id);
         if (result != null)
         {
             return Ok(result);
@@ -35,13 +35,13 @@ public class RoleController : ControllerBase
     }
 
     [HttpPost("Create")]
-    public async Task<IActionResult> CreateRole(RoleDTO roleDTO)
+    public async Task<IActionResult> CreateRoleAsync(RoleDTO roleDTO)
     {
-        if (await _roleService.RoleExists(roleDTO.Id.ToString()))
+        if (await _roleService.RoleExistsAsync(roleDTO.Id.ToString()))
         {
             return BadRequest("Role already exist");
         }
-        if(!await _roleService.CreateRole(roleDTO))
+        if(!await _roleService.CreateRoleAsync(roleDTO))
         {
             return BadRequest("Something went wrong");
         }
@@ -49,9 +49,9 @@ public class RoleController : ControllerBase
     }
 
     [HttpDelete("{id:int}")]
-    public async Task<IActionResult> DeleteRole(int id)
+    public async Task<IActionResult> DeleteRoleAsync(int id)
     {
-        if (await _roleService.DeleteRole(id))
+        if (await _roleService.DeleteRoleAsync(id))
         {
             return Ok("Successfully deleted");
         }
@@ -59,7 +59,7 @@ public class RoleController : ControllerBase
     }
 
     [HttpPut("AddRoleToUser")]
-    public async Task<IActionResult> AddRoleToUser(UserRoleDTO userRoleDTO)
+    public async Task<IActionResult> AddRoleToUserAsync(UserRoleDTO userRoleDTO)
     {
         if(!await _roleService.AddRoleToUserAsync(userRoleDTO))
         {
@@ -68,10 +68,10 @@ public class RoleController : ControllerBase
         return Ok("Roles added to user");
     }
 
-    [HttpPut("RemoveRoleFromUser")]
-    public async Task<IActionResult> RemoveRoleFromUser(UserRoleDTO userRoleDTO)
+    [HttpPut("RemoveRoleFromUser")] 
+    public async Task<IActionResult> RemoveRoleFromUserAsync(UserRoleDTO userRoleDTO)
     {
-        if (!await _roleService.AddRoleToUserAsync(userRoleDTO))
+        if (!await _roleService.RemoveRoleFromUserAsync(userRoleDTO))
         {
             return BadRequest();
         }

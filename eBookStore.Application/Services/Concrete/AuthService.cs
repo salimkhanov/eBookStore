@@ -28,16 +28,14 @@ public class AuthService : IAuthService
 
     private async Task<string> GenerateToken(User user) 
     {
-        var claims = new List<Claim>();
+        var claims = new List<Claim>
+            {
+                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
+                new Claim(ClaimTypes.Email, user.Email)
+            };
+
         var roles = await _userManager.GetRolesAsync(user);
-
-
-        claims.Add(new Claim(ClaimTypes.Email, user.Email));
-
-        foreach (var role in roles)
-        {
-            claims.Add(new Claim(ClaimTypes.Role, role));
-        }
+        claims.AddRange(roles.Select(role => new Claim(ClaimTypes.Role, role)));
 
 
         var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));

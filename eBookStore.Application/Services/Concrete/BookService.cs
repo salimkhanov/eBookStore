@@ -18,30 +18,45 @@ public class BookService : IBookService
         _bookRepository = bookRepository;
         _mapper = mapper;
     }
-    public async Task<bool> CreateBook(BookRequestDTO bookRequestDTO)
+    public async Task<bool> CreateBookAsync(BookRequestDTO bookRequestDTO)
     {
         var book = _mapper.Map<Book>(bookRequestDTO);
         await _bookRepository.AddAsync(book);
         return true;
     }
 
-    public async Task<bool> DeleteBook(int bookId)
+    public async Task<bool> DeleteBookAsync(int id)
     {
-        throw new NotImplementedException();
+        var book = await _bookRepository.GetByIdAsync(id);
+        if (book != null)
+        {
+            await _bookRepository.RemoveAsync(book);
+            return true;
+        }
+        return false;
     }
 
-    public async Task<BookResponseDTO> GetBookById(int bookId)
+    public async Task<BookResponseDTO> GetBookByIdAsync(int id)
     {
-        throw new NotImplementedException();
+        var book = await _bookRepository.GetBookByIdIncludeAsync(id);
+        return _mapper.Map<BookResponseDTO>(book);
     }
 
-    public async Task<List<BookResponseDTO>> GetBooks()
+    public async Task<List<BookResponseDTO>> GetBooksAsync()
     {
-        throw new NotImplementedException();
+        var books = await _bookRepository.GetBooksIncludeAsync();
+        return _mapper.Map<List<BookResponseDTO>>(books);
     }
 
-    public async Task<bool> UpdateBook(BookRequestDTO book)
+    public async Task<bool> UpdateBookAsync(BookRequestDTO bookRequestDTO)
     {
-        throw new NotImplementedException();
+        var book = await _bookRepository.GetByIdAsync(bookRequestDTO.Id);
+        if (book != null)
+        {
+            var mapped = _mapper.Map<Book>(bookRequestDTO);
+            await _bookRepository.UpdateAsync(mapped);
+            return true;
+        }
+        return false;
     }
 }

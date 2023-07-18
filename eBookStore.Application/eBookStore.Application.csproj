@@ -30,6 +30,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\eBookStore.Domain\eBookStore.Domain.csproj" />
+    <ProjectReference Include="..\eBookStore.Shared\eBookStore.Shared.csproj" />
   </ItemGroup>
 
 </Project>

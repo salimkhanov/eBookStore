@@ -1,5 +1,6 @@
 ﻿using eBookStore.Domain.Entities.Base;
 using eBookStore.Domain.Enums;
+using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 
 namespace eBookStore.Domain.Repositories;
@@ -17,4 +18,5 @@ public interface IBaseRepository<TEntity> where TEntity : BaseEntity
     Task RemoveRangeAsync(IEnumerable<TEntity> entities);
     Task ActivateAsync(TEntity entity);
     Task DeactivateAsync(TEntity entity);
+    Task SaveChangesAsync();
 }

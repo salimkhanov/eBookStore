@@ -1,6 +1,4 @@
 ﻿using eBookStore.Domain.Entities.Base;
-using System.Reflection.Metadata.Ecma335;
-using System.Reflection.PortableExecutable;
 
 namespace eBookStore.Domain.Entities;
 

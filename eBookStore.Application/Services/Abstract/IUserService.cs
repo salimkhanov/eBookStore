@@ -1,22 +1,20 @@
 ﻿using eBookStore.Application.DTOs.User;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using eBookStore.Domain.Entities;
 
 namespace eBookStore.Application.Services.Abstract;
 
 public interface IUserService
 {
-    Task<List<UserResponseDTO>> GetUsers();
-    Task<UserResponseDTO> GetUser(int id);
-    Task<bool> DeactivateUser(int UserId);
-    Task<bool> ActivateUser(int UserId);
-    Task<string> Registration(RegistrationDTO registrationDTO);
-    Task<bool> ChangePassword(ChangePasswordDTO changePasswordDTO);
-    Task<bool> ResetPassword(ResetPasswordDTO resetPasswordDTO);
-    Task<bool> DeleteUser(int id);
-    Task<bool> UpdateUser(UserUpdateDTO userUpdateDTO);
-    Task<bool> UserExists(string email);
+    Task<List<UserResponseDTO>> GetUsersAsync();
+    Task<UserResponseDTO> GetUserByIdAsync(int id);
+    Task<bool> DeactivateUserAsync(int UserId);
+    Task<bool> ActivateUserAsync(int UserId);
+    Task<string> RegistrationAsync(RegistrationDTO registrationDTO);
+    Task<bool> ChangePasswordAsync(ChangePasswordDTO changePasswordDTO);
+    Task<bool> ResetPasswordAsync(ResetPasswordDTO resetPasswordDTO);
+    Task<bool> DeleteUserAsync(int id);
+    Task<bool> UpdateUserAsync(UserUpdateDTO userUpdateDTO);
+    Task<bool> UserExistsAsync(string email);
+    Task<User> GetCurrentUserAsync();
+    Task<int> GetCurrentUserIdAsync();
 }

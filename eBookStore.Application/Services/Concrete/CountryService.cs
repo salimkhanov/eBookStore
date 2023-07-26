@@ -68,8 +68,8 @@ public class CountryService : ICountryService
         var country = await _countryRepository.GetByIdAsync(countryDTO.Id);
         if (country != null)
         {
-            var mapped = _mapper.Map<Country>(countryDTO);
-            await _countryRepository.UpdateAsync(mapped);
+            _mapper.Map(countryDTO, country);
+            await _countryRepository.UpdateAsync(country);
             return true;
         }
         return false;

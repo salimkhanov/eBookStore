@@ -68,8 +68,8 @@ public class BookGenreService : IBookGenreService
         var genre = await _bookGenreRepository.GetByIdAsync(bookGenreDTO.Id);
         if (genre != null)
         {
-            var mapped = _mapper.Map<BookGenre>(bookGenreDTO);
-            await _bookGenreRepository.UpdateAsync(mapped);
+            _mapper.Map(bookGenreDTO, genre);
+            await _bookGenreRepository.UpdateAsync(genre);
             return true;
         }
         return false;

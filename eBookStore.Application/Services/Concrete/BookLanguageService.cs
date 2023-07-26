@@ -68,8 +68,8 @@ public class BookLanguageService : IBookLanguageService
         var language = await _bookLanguageRepository.GetByIdAsync(bookLanguageDTO.Id);
         if (language != null)
         {
-            var mapped = _mapper.Map<BookLanguage>(bookLanguageDTO);
-            await _bookLanguageRepository.UpdateAsync(mapped);
+            _mapper.Map(bookLanguageDTO, language);
+            await _bookLanguageRepository.UpdateAsync(language);
             return true;
         }
         return false;

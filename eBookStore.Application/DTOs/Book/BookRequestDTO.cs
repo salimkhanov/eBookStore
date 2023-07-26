@@ -14,4 +14,4 @@ public record BookRequestDTO(
     int QtyInStock,
     double Price,
     int BookGenreId,
-    IFormFile FilePath);
+    IFormFile BookImage);   

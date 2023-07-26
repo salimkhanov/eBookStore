@@ -56,7 +56,7 @@ public class BookController : ControllerBase
     }
 
     [HttpPost("Create")]
-    public async Task<IActionResult> CreateBookAsync(BookRequestDTO bookRequestDTO)
+    public async Task<IActionResult> CreateBookAsync([FromForm]BookRequestDTO bookRequestDTO)
     {
         return Ok(await _bookService.CreateBookAsync(bookRequestDTO));
     }

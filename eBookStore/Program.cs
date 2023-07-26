@@ -3,6 +3,7 @@ using eBookStore.Application;
 using eBookStore.Domain.Entities;
 using eBookStore.Persistence;
 using eBookStore.Persistence.EFContext;
+using eBookStore.Shared.Helper.FileHelper;
 using Microsoft.AspNetCore.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -19,6 +20,8 @@ builder.Services.AddSwagger();
 builder.Services.AddApplicationLayerService();
 builder.Services.AddPersistenceLayerService();
 builder.Services.AddAuth(builder.Configuration);
+
+builder.Services.AddScoped<IFileService, FileService>();
 
 builder.Services.AddContext();
 builder.Services.AddIdentity<User, Role>()

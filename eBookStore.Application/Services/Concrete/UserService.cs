@@ -3,6 +3,7 @@ using eBookStore.Application.DTOs.User;
 using eBookStore.Application.Services.Abstract;
 using eBookStore.Domain.Entities;
 using eBookStore.Domain.Enums;
+using eBookStore.Domain.Repositories.EntityRepositories;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -14,15 +15,18 @@ public class UserService : IUserService
 {
     private readonly UserManager<User> _userManager;
     private readonly IMapper _mapper;
+    private readonly ICartRepository _cartRepository;
     private readonly IHttpContextAccessor _httpContextAccessor;
 
     public UserService(
         UserManager<User> userManager, 
         IMapper mapper,
+        ICartRepository cartRepository,
         IHttpContextAccessor httpContextAccessor)
     {
         _userManager = userManager;
         _mapper = mapper;
+        _cartRepository = cartRepository;
         _httpContextAccessor = httpContextAccessor;
     }
 
@@ -54,7 +58,14 @@ public class UserService : IUserService
 
         if (result.Succeeded)
         {
+            var cart = new Cart
+            {
+                UserId = user.Id
+            };
+            await _cartRepository.AddAsync(cart);
+            await _cartRepository.SaveChangesAsync();
             return "User registration successful.";
+            
         }
         else
         {

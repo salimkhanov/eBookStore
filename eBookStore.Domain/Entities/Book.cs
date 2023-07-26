@@ -28,7 +28,6 @@ public class Book : BaseEntity
     public Publisher Publisher { get; set; } = default!;
     public Discount? Discount { get; set; } = default!;
     public Author Author { get; set; } = default!;
-    public ICollection<OrderLine> OrderLines { get; set; } = new List<OrderLine>();
 
     #endregion
 }

@@ -80,7 +80,8 @@ public class UserController : ControllerBase
         }
         return NotFound();
     }
-    
+
+    [Authorize(Roles = "User, Admin")]
     [HttpPut("ChangePassword")]
     public async Task<IActionResult> ChangePassword(ChangePasswordDTO changePasswordDTO)
     {
@@ -91,6 +92,7 @@ public class UserController : ControllerBase
         return NotFound();
     }
 
+    [Authorize(Roles = "Admin")]
     [HttpPut("ResetPassword")]
     public async Task<IActionResult> ResetPassword(ResetPasswordDTO resetPasswordDTO)
     {

@@ -68,8 +68,8 @@ public class PublisherService : IPublisherService
         var publisher = await _publisherRepository.GetByIdAsync(publisherDTO.Id);
         if (publisher != null)
         {
-            var mapped = _mapper.Map<Publisher>(publisherDTO);
-            await _publisherRepository.UpdateAsync(mapped);
+            _mapper.Map(publisherDTO, publisher);
+            await _publisherRepository.UpdateAsync(publisher);
             return true;
         }
         return false;

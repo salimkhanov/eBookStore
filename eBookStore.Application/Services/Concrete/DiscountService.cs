@@ -21,7 +21,6 @@ public class DiscountService : IDiscountService
         _bookRepository = bookRepository;
         _mapper = mapper;
     }
-    
 
     public async Task CreateDiscountAsync(DiscountDTO discountDTO)
     {
@@ -57,8 +56,8 @@ public class DiscountService : IDiscountService
         var discount = await _discountRepository.GetByIdAsync(discountDTO.Id);
         if (discount != null)
         {
-            var mapped = _mapper.Map<Discount>(discountDTO);
-            await _discountRepository.UpdateAsync(mapped);
+            _mapper.Map(discountDTO, discount);
+            await _discountRepository.UpdateAsync(discount);
             return true;
         }
         return false;

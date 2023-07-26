@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using eBookStore.Application.DTOs.Author;
+using eBookStore.Application.DTOs.Book;
 using eBookStore.Application.Services.Abstract;
 using eBookStore.Domain.Entities;
 using eBookStore.Domain.Repositories.EntityRepositories;
@@ -68,8 +69,8 @@ public class AuthorService : IAuthorService
         var author = await _authorRepository.GetByIdAsync(authorDTO.Id);
         if (author != null)
         {
-            var mapped = _mapper.Map<Author>(authorDTO);
-            await _authorRepository.UpdateAsync(mapped);
+            _mapper.Map(authorDTO, author);
+            await _authorRepository.UpdateAsync(author);
             return true;
         }
         return false;

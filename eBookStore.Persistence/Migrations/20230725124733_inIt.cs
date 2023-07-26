@@ -297,7 +297,7 @@ namespace eBookStore.Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Cart",
+                name: "Carts",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -309,9 +309,9 @@ namespace eBookStore.Persistence.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Cart", x => x.Id);
+                    table.PrimaryKey("PK_Carts", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Cart_AspNetUsers_UserId",
+                        name: "FK_Carts_AspNetUsers_UserId",
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
@@ -450,6 +450,12 @@ namespace eBookStore.Persistence.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
+                        name: "FK_Order_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
                         name: "FK_Order_OrderStatus_OrderStatusId",
                         column: x => x.OrderStatusId,
                         principalTable: "OrderStatus",
@@ -500,7 +506,7 @@ namespace eBookStore.Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "CartItem",
+                name: "CartItems",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -514,17 +520,17 @@ namespace eBookStore.Persistence.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_CartItem", x => x.Id);
+                    table.PrimaryKey("PK_CartItems", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_CartItem_Books_BookId",
+                        name: "FK_CartItems_Books_BookId",
                         column: x => x.BookId,
                         principalTable: "Books",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_CartItem_Cart_CartId",
+                        name: "FK_CartItems_Carts_CartId",
                         column: x => x.CartId,
-                        principalTable: "Cart",
+                        principalTable: "Carts",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -547,12 +553,6 @@ namespace eBookStore.Persistence.Migrations
                 {
                     table.PrimaryKey("PK_OrderLine", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_OrderLine_Books_BookId",
-                        column: x => x.BookId,
-                        principalTable: "Books",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
                         name: "FK_OrderLine_Order_OrderId",
                         column: x => x.OrderId,
                         principalTable: "Order",
@@ -567,8 +567,7 @@ namespace eBookStore.Persistence.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     UserId = table.Column<int>(type: "int", nullable: false),
-                    OrderedBookId = table.Column<int>(type: "int", nullable: false),
-                    OrderLineId = table.Column<int>(type: "int", nullable: false),
+                    BookId = table.Column<int>(type: "int", nullable: false),
                     RatingValue = table.Column<int>(type: "int", nullable: false),
                     Comment = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     OrderId = table.Column<int>(type: "int", nullable: true),
@@ -586,9 +585,9 @@ namespace eBookStore.Persistence.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_UserReview_OrderLine_OrderLineId",
-                        column: x => x.OrderLineId,
-                        principalTable: "OrderLine",
+                        name: "FK_UserReview_Books_BookId",
+                        column: x => x.BookId,
+                        principalTable: "Books",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
@@ -761,20 +760,19 @@ namespace eBookStore.Persistence.Migrations
                 column: "PublisherId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Cart_UserId",
-                table: "Cart",
-                column: "UserId",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_CartItem_BookId",
-                table: "CartItem",
+                name: "IX_CartItems_BookId",
+                table: "CartItems",
                 column: "BookId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_CartItem_CartId",
-                table: "CartItem",
+                name: "IX_CartItems_CartId",
+                table: "CartItems",
                 column: "CartId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Carts_UserId",
+                table: "Carts",
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Order_AddressId",
@@ -797,9 +795,9 @@ namespace eBookStore.Persistence.Migrations
                 column: "ShippingMethodId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_OrderLine_BookId",
-                table: "OrderLine",
-                column: "BookId");
+                name: "IX_Order_UserId",
+                table: "Order",
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_OrderLine_OrderId",
@@ -822,14 +820,14 @@ namespace eBookStore.Persistence.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_UserReview_BookId",
+                table: "UserReview",
+                column: "BookId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_UserReview_OrderId",
                 table: "UserReview",
                 column: "OrderId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_UserReview_OrderLineId",
-                table: "UserReview",
-                column: "OrderLineId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_UserReview_UserId",
@@ -856,7 +854,10 @@ namespace eBookStore.Persistence.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "CartItem");
+                name: "CartItems");
+
+            migrationBuilder.DropTable(
+                name: "OrderLine");
 
             migrationBuilder.DropTable(
                 name: "UserAddress");
@@ -868,10 +869,7 @@ namespace eBookStore.Persistence.Migrations
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
-                name: "Cart");
-
-            migrationBuilder.DropTable(
-                name: "OrderLine");
+                name: "Carts");
 
             migrationBuilder.DropTable(
                 name: "Books");

@@ -12,7 +12,7 @@ using eBookStore.Persistence.EFContext;
 namespace eBookStore.Persistence.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20230717112009_inIt")]
+    [Migration("20230725124733_inIt")]
     partial class inIt
     {
         /// <inheritdoc />
@@ -462,10 +462,9 @@ namespace eBookStore.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId")
-                        .IsUnique();
+                    b.HasIndex("UserId");
 
-                    b.ToTable("Cart");
+                    b.ToTable("Carts");
                 });
 
             modelBuilder.Entity("eBookStore.Domain.Entities.CartItem", b =>
@@ -500,7 +499,7 @@ namespace eBookStore.Persistence.Migrations
 
                     b.HasIndex("CartId");
 
-                    b.ToTable("CartItem");
+                    b.ToTable("CartItems");
                 });
 
             modelBuilder.Entity("eBookStore.Domain.Entities.Country", b =>
@@ -698,6 +697,8 @@ namespace eBookStore.Persistence.Migrations
 
                     b.HasIndex("ShippingMethodId");
 
+                    b.HasIndex("UserId");
+
                     b.ToTable("Order");
                 });
 
@@ -731,8 +732,6 @@ namespace eBookStore.Persistence.Migrations
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("BookId");
 
                     b.HasIndex("OrderId");
 
@@ -1121,6 +1120,9 @@ namespace eBookStore.Persistence.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<int>("BookId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Comment")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -1134,12 +1136,6 @@ namespace eBookStore.Persistence.Migrations
                     b.Property<int?>("OrderId")
                         .HasColumnType("int");
 
-                    b.Property<int>("OrderLineId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("OrderedBookId")
-                        .HasColumnType("int");
-
                     b.Property<int>("RatingValue")
                         .HasColumnType("int");
 
@@ -1151,9 +1147,9 @@ namespace eBookStore.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("OrderId");
+                    b.HasIndex("BookId");
 
-                    b.HasIndex("OrderLineId");
+                    b.HasIndex("OrderId");
 
                     b.HasIndex("UserId");
 
@@ -1266,8 +1262,8 @@ namespace eBookStore.Persistence.Migrations
             modelBuilder.Entity("eBookStore.Domain.Entities.Cart", b =>
                 {
                     b.HasOne("eBookStore.Domain.Entities.User", "User")
-                        .WithOne("Cart")
-                        .HasForeignKey("eBookStore.Domain.Entities.Cart", "UserId")
+                        .WithMany()
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -1319,6 +1315,12 @@ namespace eBookStore.Persistence.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("eBookStore.Domain.Entities.User", "User")
+                        .WithMany("Orders")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Address");
 
                     b.Navigation("OrderStatus");
@@ -1326,32 +1328,26 @@ namespace eBookStore.Persistence.Migrations
                     b.Navigation("PaymentMethod");
 
                     b.Navigation("ShippingMethod");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("eBookStore.Domain.Entities.OrderLine", b =>
                 {
-                    b.HasOne("eBookStore.Domain.Entities.Book", "Book")
-                        .WithMany("OrderLines")
-                        .HasForeignKey("BookId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("eBookStore.Domain.Entities.Order", "Order")
+                    b.HasOne("eBookStore.Domain.Entities.Order", null)
                         .WithMany("OrderLines")
                         .HasForeignKey("OrderId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Book");
-
-                    b.Navigation("Order");
                 });
 
             modelBuilder.Entity("eBookStore.Domain.Entities.PaymentMethod", b =>
                 {
-                    b.HasOne("eBookStore.Domain.Entities.User", null)
+                    b.HasOne("eBookStore.Domain.Entities.User", "User")
                         .WithMany("PaymentMethods")
                         .HasForeignKey("UserId");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("eBookStore.Domain.Entities.UserAddress", b =>
@@ -1375,15 +1371,15 @@ namespace eBookStore.Persistence.Migrations
 
             modelBuilder.Entity("eBookStore.Domain.Entities.UserReview", b =>
                 {
+                    b.HasOne("eBookStore.Domain.Entities.Book", "Book")
+                        .WithMany()
+                        .HasForeignKey("BookId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("eBookStore.Domain.Entities.Order", null)
                         .WithMany("UserReviews")
                         .HasForeignKey("OrderId");
-
-                    b.HasOne("eBookStore.Domain.Entities.OrderLine", "OrderLine")
-                        .WithMany("UserReviews")
-                        .HasForeignKey("OrderLineId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
 
                     b.HasOne("eBookStore.Domain.Entities.User", "User")
                         .WithMany("UserReviews")
@@ -1391,7 +1387,7 @@ namespace eBookStore.Persistence.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("OrderLine");
+                    b.Navigation("Book");
 
                     b.Navigation("User");
                 });
@@ -1406,11 +1402,6 @@ namespace eBookStore.Persistence.Migrations
             modelBuilder.Entity("eBookStore.Domain.Entities.Author", b =>
                 {
                     b.Navigation("Books");
-                });
-
-            modelBuilder.Entity("eBookStore.Domain.Entities.Book", b =>
-                {
-                    b.Navigation("OrderLines");
                 });
 
             modelBuilder.Entity("eBookStore.Domain.Entities.BookGenre", b =>
@@ -1445,11 +1436,6 @@ namespace eBookStore.Persistence.Migrations
                     b.Navigation("UserReviews");
                 });
 
-            modelBuilder.Entity("eBookStore.Domain.Entities.OrderLine", b =>
-                {
-                    b.Navigation("UserReviews");
-                });
-
             modelBuilder.Entity("eBookStore.Domain.Entities.OrderStatus", b =>
                 {
                     b.Navigation("Orders");
@@ -1472,8 +1458,7 @@ namespace eBookStore.Persistence.Migrations
 
             modelBuilder.Entity("eBookStore.Domain.Entities.User", b =>
                 {
-                    b.Navigation("Cart")
-                        .IsRequired();
+                    b.Navigation("Orders");
 
                     b.Navigation("PaymentMethods");
 

@@ -9,7 +9,9 @@ namespace eBookStore.Persistence.EFContext;
 
 public class AppDbContext : IdentityDbContext<User, Role, int>
 {
-    public DbSet<Book> Books { get; set; }  
+    public DbSet<Book> Books { get; set; }
+    public DbSet<CartItem> CartItems { get; set; }
+    public DbSet<Cart> Carts { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     { 

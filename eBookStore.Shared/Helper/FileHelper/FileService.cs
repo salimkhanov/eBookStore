@@ -2,15 +2,15 @@
 
 namespace eBookStore.Shared.Helper.FileHelper;
 
-public class FileService
+public class FileService : IFileService
 {
-    public string Upload(IFormFile file, string location)
+    public string Upload(IFormFile file)
     {
         string fileName = Path.GetFileNameWithoutExtension(file.FileName);
         string fileExtension = Path.GetExtension(file.FileName);
         string uniqueFileName = fileName + "_" + Guid.NewGuid().ToString() + fileExtension;
 
-        string filePath = Path.Combine( $"assets/{location}", uniqueFileName);
+        string filePath = Path.Combine( @"D:\eBook", uniqueFileName);
         using (var fileStream = new FileStream(filePath, FileMode.Create))
         {
             file.CopyTo(fileStream);
@@ -18,13 +18,13 @@ public class FileService
         return filePath;
     }
 
-    public bool Delete(string fileName, string location)
+    public bool Delete(string fileName)
     {
         if (string.IsNullOrEmpty(fileName))
         {
             return false;
         }
-        var path = Path.Combine( $"assets/{location}", fileName);
+        var path = Path.Combine(fileName);
 
         if (File.Exists(path))
         {

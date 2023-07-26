@@ -3,6 +3,7 @@ using eBookStore.Application.DTOs.Book;
 using eBookStore.Application.Services.Abstract;
 using eBookStore.Domain.Entities;
 using eBookStore.Domain.Repositories.EntityRepositories;
+using eBookStore.Shared.Helper.FileHelper;
 
 namespace eBookStore.Application.Services.Concrete;
 
@@ -10,19 +11,27 @@ public class BookService : IBookService
 {
     private readonly IBookRepository _bookRepository;
     private readonly IMapper _mapper;
+    private readonly IFileService _fileService; 
 
     public BookService(
         IBookRepository bookRepository,
-        IMapper mapper)
+        IMapper mapper,
+        IFileService fileService)
     {
         _bookRepository = bookRepository;
         _mapper = mapper;
+        _fileService = fileService;
     }
     public async Task<bool> CreateBookAsync(BookRequestDTO bookRequestDTO)
     {
         var book = _mapper.Map<Book>(bookRequestDTO);
-        await _bookRepository.AddAsync(book);
-        return true;
+        if(_fileService.IsImage(bookRequestDTO.BookImage))
+        {
+            book.ImagePath = _fileService.Upload(bookRequestDTO.BookImage);
+            await _bookRepository.AddAsync(book);
+            return true;
+        }
+        return false;
     }
 
     public async Task<bool> DeleteBookAsync(int id)
@@ -53,8 +62,8 @@ public class BookService : IBookService
         var book = await _bookRepository.GetByIdAsync(bookRequestDTO.Id);
         if (book != null)
         {
-            var mapped = _mapper.Map<Book>(bookRequestDTO);
-            await _bookRepository.UpdateAsync(mapped);
+            _mapper.Map(bookRequestDTO, book);
+            await _bookRepository.UpdateAsync(book);
             return true;
         }
         return false;

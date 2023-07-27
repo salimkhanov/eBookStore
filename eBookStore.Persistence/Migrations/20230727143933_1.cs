@@ -504,6 +504,13 @@ namespace eBookStore.Persistence.Migrations
                         principalTable: "UserPaymentMethods",
                         principalColumn: "ID",
                         onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ShopOrders_Users_USER_ID",
+                        column: x => x.USER_ID,
+                        principalSchema: "Users",
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
@@ -557,6 +564,12 @@ namespace eBookStore.Persistence.Migrations
                 schema: "ShopOrders",
                 table: "ShopOrders",
                 column: "SHIPPING_METHOD_ID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ShopOrders_USER_ID",
+                schema: "ShopOrders",
+                table: "ShopOrders",
+                column: "USER_ID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ShopOrders_USER_PAYMENT_METHOD_ID",

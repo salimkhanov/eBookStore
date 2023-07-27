@@ -408,6 +408,8 @@ namespace eBookStore.Persistence.Migrations
 
                     b.HasIndex("ShippingMethodId");
 
+                    b.HasIndex("UserId");
+
                     b.HasIndex("UserPaymentMethodId");
 
                     b.ToTable("ShopOrders", "ShopOrders");
@@ -791,6 +793,12 @@ namespace eBookStore.Persistence.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("eBookStore.Domain.Entities.User", "User")
+                        .WithMany("ShopOrders")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("eBookStore.Domain.Entities.UserPaymentMethod", "UserPaymentMethod")
                         .WithMany("ShopOrders")
                         .HasForeignKey("UserPaymentMethodId")
@@ -802,6 +810,8 @@ namespace eBookStore.Persistence.Migrations
                     b.Navigation("OrderStatus");
 
                     b.Navigation("ShippingMethod");
+
+                    b.Navigation("User");
 
                     b.Navigation("UserPaymentMethod");
                 });
@@ -911,6 +921,8 @@ namespace eBookStore.Persistence.Migrations
 
             modelBuilder.Entity("eBookStore.Domain.Entities.User", b =>
                 {
+                    b.Navigation("ShopOrders");
+
                     b.Navigation("ShoppingCart");
 
                     b.Navigation("UserAddress");

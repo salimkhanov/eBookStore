@@ -55,9 +55,9 @@ public class ShopOrderConfigurationMsSql : IEntityTypeConfiguration<ShopOrder>
 
         #region Relations
 
-        //builder.HasOne(x => x.User)
-        //    .WithMany(x => x.ShopOrders)
-        //    .HasForeignKey(x => x.UserId);
+        builder.HasOne(x => x.User)
+            .WithMany(x => x.ShopOrders)
+            .HasForeignKey(x => x.UserId);
 
         builder.HasOne(x => x.UserPaymentMethod)
             .WithMany(x => x.ShopOrders)

@@ -11,7 +11,7 @@ public class ShoppingCartConfigurationMsSql : IEntityTypeConfiguration<ShoppingC
     {
         #region BaseConfiguration
 
-        builder.ToTable("ShoppingCarts", DbObject.SchemaNameShoppingCart).HasKey(k => k.Id);
+        builder.ToTable("ShoppingCarts", DbObject.SchemaNameShoppingCarts).HasKey(k => k.Id);
 
         builder.Property(x => x.Id)
             .HasColumnName("ID");

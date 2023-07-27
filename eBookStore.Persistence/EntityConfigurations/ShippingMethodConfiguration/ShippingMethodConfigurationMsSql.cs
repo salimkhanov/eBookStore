@@ -41,6 +41,10 @@ public class ShippingMethodConfigurationMsSql : IEntityTypeConfiguration<Shippin
 
         #region Relations
 
+        builder.HasMany(x => x.ShopOrders)
+            .WithOne(x => x.ShippingMethod)
+            .HasForeignKey(x => x.ShippingMethodId);
+
         #endregion
     }
 }

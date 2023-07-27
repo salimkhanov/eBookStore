@@ -11,7 +11,7 @@ public class UserReviewConfigurationMsSql : IEntityTypeConfiguration<UserReview>
     {
         #region BaseConfigurations
 
-        builder.ToTable("UserReviews", DbObject.SchemaNameUserReview).HasKey(k => k.Id);
+        builder.ToTable("UserReviews", DbObject.SchemaNameUserReviews).HasKey(k => k.Id);
 
         builder.Property(x => x.Id)
             .HasColumnName("ID");

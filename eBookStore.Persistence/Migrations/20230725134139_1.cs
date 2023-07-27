@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace eBookStore.Persistence.Migrations
 {
     /// <inheritdoc />
-    public partial class Init1 : Migration
+    public partial class _1 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -18,13 +18,37 @@ namespace eBookStore.Persistence.Migrations
                 name: "Countries");
 
             migrationBuilder.EnsureSchema(
+                name: "OrderStatus");
+
+            migrationBuilder.EnsureSchema(
+                name: "PaymentTypes");
+
+            migrationBuilder.EnsureSchema(
                 name: "Roles");
+
+            migrationBuilder.EnsureSchema(
+                name: "ShippingMethods");
+
+            migrationBuilder.EnsureSchema(
+                name: "ShopOrders");
+
+            migrationBuilder.EnsureSchema(
+                name: "ShoppingCartItems");
+
+            migrationBuilder.EnsureSchema(
+                name: "ShoppingCarts");
+
+            migrationBuilder.EnsureSchema(
+                name: "UserPaymentMethods");
+
+            migrationBuilder.EnsureSchema(
+                name: "UserReviews");
 
             migrationBuilder.EnsureSchema(
                 name: "Users");
 
             migrationBuilder.EnsureSchema(
-                name: "UsersAdresses");
+                name: "UserAdresses");
 
             migrationBuilder.CreateTable(
                 name: "Countries",
@@ -33,7 +57,7 @@ namespace eBookStore.Persistence.Migrations
                 {
                     ID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    COUNTRY = table.Column<string>(type: "nvarchar(30)", nullable: false),
+                    COUNTRY_NAME = table.Column<string>(type: "nvarchar(30)", nullable: false),
                     CREATED_AT = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UPDATED_AT = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ENTITY_STATUS = table.Column<int>(type: "int", nullable: false)
@@ -41,6 +65,40 @@ namespace eBookStore.Persistence.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Countries", x => x.ID);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "OrderStatus",
+                schema: "OrderStatus",
+                columns: table => new
+                {
+                    ID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    STATUS = table.Column<string>(type: "nvarchar(100)", nullable: false),
+                    CREATED_AT = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UPDATED_AT = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ENTITY_STATUS = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_OrderStatus", x => x.ID);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "PaymentTypes",
+                schema: "PaymentTypes",
+                columns: table => new
+                {
+                    ID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    VALUE = table.Column<string>(type: "nvarchar(50)", nullable: false),
+                    CREATED_AT = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UPDATED_AT = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ENTITY_STATUS = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PaymentTypes", x => x.ID);
                 });
 
             migrationBuilder.CreateTable(
@@ -59,6 +117,24 @@ namespace eBookStore.Persistence.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Roles", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ShippingMethods",
+                schema: "ShippingMethods",
+                columns: table => new
+                {
+                    ID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    NAME = table.Column<string>(type: "nvarchar(120)", nullable: false),
+                    PRICE = table.Column<double>(type: "float", nullable: false),
+                    CREATED_AT = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UPDATED_AT = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ENTITY_STATUS = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ShippingMethods", x => x.ID);
                 });
 
             migrationBuilder.CreateTable(
@@ -234,8 +310,95 @@ namespace eBookStore.Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "ShoppingCarts",
+                schema: "ShoppingCarts",
+                columns: table => new
+                {
+                    ID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    USER_ID = table.Column<int>(type: "int", nullable: false),
+                    CREATED_AT = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UPDATED_AT = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ENTITY_STATUS = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ShoppingCarts", x => x.ID);
+                    table.ForeignKey(
+                        name: "FK_ShoppingCarts_Users_USER_ID",
+                        column: x => x.USER_ID,
+                        principalSchema: "Users",
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "UserPaymentMethods",
+                schema: "UserPaymentMethods",
+                columns: table => new
+                {
+                    ID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    USER_ID = table.Column<int>(type: "int", nullable: false),
+                    PAYMENT_TYPE_ID = table.Column<int>(type: "int", nullable: false),
+                    PROVIDER = table.Column<string>(type: "nvarchar(70)", nullable: false),
+                    ACCOUNT_NUMBER = table.Column<int>(type: "int", nullable: false),
+                    EXPIRY_DATE = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    IS_DEFAULT = table.Column<bool>(type: "bit", nullable: false),
+                    CREATED_AT = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UPDATED_AT = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ENTITY_STATUS = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserPaymentMethods", x => x.ID);
+                    table.ForeignKey(
+                        name: "FK_UserPaymentMethods_PaymentTypes_PAYMENT_TYPE_ID",
+                        column: x => x.PAYMENT_TYPE_ID,
+                        principalSchema: "PaymentTypes",
+                        principalTable: "PaymentTypes",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_UserPaymentMethods_Users_USER_ID",
+                        column: x => x.USER_ID,
+                        principalSchema: "Users",
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "UserReviews",
+                schema: "UserReviews",
+                columns: table => new
+                {
+                    ID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    USER_ID = table.Column<int>(type: "int", nullable: false),
+                    ORDER_LINE_ID = table.Column<int>(type: "int", nullable: false),
+                    RATING_VALUE = table.Column<int>(type: "int", nullable: false),
+                    COMMENT = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CREATED_AT = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UPDATED_AT = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ENTITY_STATUS = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserReviews", x => x.ID);
+                    table.ForeignKey(
+                        name: "FK_UserReviews_Users_USER_ID",
+                        column: x => x.USER_ID,
+                        principalSchema: "Users",
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "UsersAddresses",
-                schema: "UsersAdresses",
+                schema: "UserAdresses",
                 columns: table => new
                 {
                     ID = table.Column<int>(type: "int", nullable: false)
@@ -263,6 +426,83 @@ namespace eBookStore.Persistence.Migrations
                         principalSchema: "Users",
                         principalTable: "Users",
                         principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ShoppingCartItems",
+                schema: "ShoppingCartItems",
+                columns: table => new
+                {
+                    ID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    CART_ID = table.Column<int>(type: "int", nullable: false),
+                    BOOK_ITEM_ID = table.Column<int>(type: "int", nullable: false),
+                    QUANTITY = table.Column<int>(type: "int", nullable: false),
+                    CREATED_AT = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UPDATED_AT = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ENTITY_STATUS = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ShoppingCartItems", x => x.ID);
+                    table.ForeignKey(
+                        name: "FK_ShoppingCartItems_ShoppingCarts_CART_ID",
+                        column: x => x.CART_ID,
+                        principalSchema: "ShoppingCarts",
+                        principalTable: "ShoppingCarts",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ShopOrders",
+                schema: "ShopOrders",
+                columns: table => new
+                {
+                    ID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    USER_ID = table.Column<int>(type: "int", nullable: false),
+                    ORDER_DATE = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    USER_PAYMENT_METHOD_ID = table.Column<int>(type: "int", nullable: false),
+                    ADDRESS_ID = table.Column<int>(type: "int", nullable: false),
+                    SHIPPING_METHOD_ID = table.Column<int>(type: "int", nullable: false),
+                    ORDER_TOTAL = table.Column<int>(type: "int", nullable: false),
+                    ORDER_STATUS_ID = table.Column<int>(type: "int", nullable: false),
+                    CREATED_AT = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UPDATED_AT = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ENTITY_STATUS = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ShopOrders", x => x.ID);
+                    table.ForeignKey(
+                        name: "FK_ShopOrders_Addresses_ADDRESS_ID",
+                        column: x => x.ADDRESS_ID,
+                        principalSchema: "Adresses",
+                        principalTable: "Addresses",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ShopOrders_OrderStatus_ORDER_STATUS_ID",
+                        column: x => x.ORDER_STATUS_ID,
+                        principalSchema: "OrderStatus",
+                        principalTable: "OrderStatus",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ShopOrders_ShippingMethods_SHIPPING_METHOD_ID",
+                        column: x => x.SHIPPING_METHOD_ID,
+                        principalSchema: "ShippingMethods",
+                        principalTable: "ShippingMethods",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ShopOrders_UserPaymentMethods_USER_PAYMENT_METHOD_ID",
+                        column: x => x.USER_PAYMENT_METHOD_ID,
+                        principalSchema: "UserPaymentMethods",
+                        principalTable: "UserPaymentMethods",
+                        principalColumn: "ID",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -301,6 +541,60 @@ namespace eBookStore.Persistence.Migrations
                 filter: "[NormalizedName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
+                name: "IX_ShopOrders_ADDRESS_ID",
+                schema: "ShopOrders",
+                table: "ShopOrders",
+                column: "ADDRESS_ID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ShopOrders_ORDER_STATUS_ID",
+                schema: "ShopOrders",
+                table: "ShopOrders",
+                column: "ORDER_STATUS_ID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ShopOrders_SHIPPING_METHOD_ID",
+                schema: "ShopOrders",
+                table: "ShopOrders",
+                column: "SHIPPING_METHOD_ID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ShopOrders_USER_PAYMENT_METHOD_ID",
+                schema: "ShopOrders",
+                table: "ShopOrders",
+                column: "USER_PAYMENT_METHOD_ID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ShoppingCartItems_CART_ID",
+                schema: "ShoppingCartItems",
+                table: "ShoppingCartItems",
+                column: "CART_ID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ShoppingCarts_USER_ID",
+                schema: "ShoppingCarts",
+                table: "ShoppingCarts",
+                column: "USER_ID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserPaymentMethods_PAYMENT_TYPE_ID",
+                schema: "UserPaymentMethods",
+                table: "UserPaymentMethods",
+                column: "PAYMENT_TYPE_ID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserPaymentMethods_USER_ID",
+                schema: "UserPaymentMethods",
+                table: "UserPaymentMethods",
+                column: "USER_ID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserReviews_USER_ID",
+                schema: "UserReviews",
+                table: "UserReviews",
+                column: "USER_ID");
+
+            migrationBuilder.CreateIndex(
                 name: "EmailIndex",
                 schema: "Users",
                 table: "Users",
@@ -316,13 +610,13 @@ namespace eBookStore.Persistence.Migrations
 
             migrationBuilder.CreateIndex(
                 name: "IX_UsersAddresses_ADDRESS_ID",
-                schema: "UsersAdresses",
+                schema: "UserAdresses",
                 table: "UsersAddresses",
                 column: "ADDRESS_ID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_UsersAddresses_USER_ID",
-                schema: "UsersAdresses",
+                schema: "UserAdresses",
                 table: "UsersAddresses",
                 column: "USER_ID");
         }
@@ -346,16 +640,48 @@ namespace eBookStore.Persistence.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "ShopOrders",
+                schema: "ShopOrders");
+
+            migrationBuilder.DropTable(
+                name: "ShoppingCartItems",
+                schema: "ShoppingCartItems");
+
+            migrationBuilder.DropTable(
+                name: "UserReviews",
+                schema: "UserReviews");
+
+            migrationBuilder.DropTable(
                 name: "UsersAddresses",
-                schema: "UsersAdresses");
+                schema: "UserAdresses");
 
             migrationBuilder.DropTable(
                 name: "Roles",
                 schema: "Roles");
 
             migrationBuilder.DropTable(
+                name: "OrderStatus",
+                schema: "OrderStatus");
+
+            migrationBuilder.DropTable(
+                name: "ShippingMethods",
+                schema: "ShippingMethods");
+
+            migrationBuilder.DropTable(
+                name: "UserPaymentMethods",
+                schema: "UserPaymentMethods");
+
+            migrationBuilder.DropTable(
+                name: "ShoppingCarts",
+                schema: "ShoppingCarts");
+
+            migrationBuilder.DropTable(
                 name: "Addresses",
                 schema: "Adresses");
+
+            migrationBuilder.DropTable(
+                name: "PaymentTypes",
+                schema: "PaymentTypes");
 
             migrationBuilder.DropTable(
                 name: "Users",

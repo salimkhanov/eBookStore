@@ -38,6 +38,10 @@ public class OrderStatusConfigurationMsSql : IEntityTypeConfiguration<OrderStatu
 
         #region Relations
 
+        builder.HasMany(x => x.ShopOrders)
+            .WithOne(x => x.OrderStatus)
+            .HasForeignKey(x => x.OrderStatusId);
+
         #endregion
     }
 }

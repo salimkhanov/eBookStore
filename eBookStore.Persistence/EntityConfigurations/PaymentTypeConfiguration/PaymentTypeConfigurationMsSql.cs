@@ -11,7 +11,7 @@ namespace eBookStore.Persistence.EntityConfigurations.PaymentTypeConfiguration
         {
             #region BaseConfigurations
 
-            builder.ToTable("PaymentTypes", DbObject.SchemaNamePaymentType).HasKey(k => k.Id);
+            builder.ToTable("PaymentTypes", DbObject.SchemaNamePaymentTypes).HasKey(k => k.Id);
 
             builder.Property(x => x.Id)
                 .HasColumnName("ID");

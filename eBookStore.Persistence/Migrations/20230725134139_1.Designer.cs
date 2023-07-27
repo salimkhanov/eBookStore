@@ -12,8 +12,8 @@ using eBookStore.Persistence.Data;
 namespace eBookStore.Persistence.Migrations
 {
     [DbContext(typeof(eBookStoreContext))]
-    [Migration("20230609185459_Init1")]
-    partial class Init1
+    [Migration("20230725134139_1")]
+    partial class _1
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -200,7 +200,7 @@ namespace eBookStore.Persistence.Migrations
                     b.Property<string>("CountryName")
                         .IsRequired()
                         .HasColumnType("nvarchar(30)")
-                        .HasColumnName("COUNTRY");
+                        .HasColumnName("COUNTRY_NAME");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2")
@@ -217,6 +217,68 @@ namespace eBookStore.Persistence.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Countries", "Countries");
+                });
+
+            modelBuilder.Entity("eBookStore.Domain.Entities.OrderStatus", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasColumnName("ID");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("CREATED_AT");
+
+                    b.Property<int>("EntityStatus")
+                        .HasColumnType("int")
+                        .HasColumnName("ENTITY_STATUS");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(100)")
+                        .HasColumnName("STATUS");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("UPDATED_AT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("OrderStatus", "OrderStatus");
+                });
+
+            modelBuilder.Entity("eBookStore.Domain.Entities.PaymentType", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasColumnName("ID");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("CREATED_AT");
+
+                    b.Property<int>("EntityStatus")
+                        .HasColumnType("int")
+                        .HasColumnName("ENTITY_STATUS");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("UPDATED_AT");
+
+                    b.Property<string>("Value")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(50)")
+                        .HasColumnName("VALUE");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("PaymentTypes", "PaymentTypes");
                 });
 
             modelBuilder.Entity("eBookStore.Domain.Entities.Role", b =>
@@ -255,6 +317,175 @@ namespace eBookStore.Persistence.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("Roles", "Roles");
+                });
+
+            modelBuilder.Entity("eBookStore.Domain.Entities.ShippingMethod", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasColumnName("ID");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("CREATED_AT");
+
+                    b.Property<int>("EntityStatus")
+                        .HasColumnType("int")
+                        .HasColumnName("ENTITY_STATUS");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(120)")
+                        .HasColumnName("NAME");
+
+                    b.Property<double>("Price")
+                        .HasColumnType("float")
+                        .HasColumnName("PRICE");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("UPDATED_AT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ShippingMethods", "ShippingMethods");
+                });
+
+            modelBuilder.Entity("eBookStore.Domain.Entities.ShopOrder", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasColumnName("ID");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("AddressId")
+                        .HasColumnType("int")
+                        .HasColumnName("ADDRESS_ID");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("CREATED_AT");
+
+                    b.Property<int>("EntityStatus")
+                        .HasColumnType("int")
+                        .HasColumnName("ENTITY_STATUS");
+
+                    b.Property<DateTime>("OrderDate")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("ORDER_DATE");
+
+                    b.Property<int>("OrderStatusId")
+                        .HasColumnType("int")
+                        .HasColumnName("ORDER_STATUS_ID");
+
+                    b.Property<int>("OrderTotal")
+                        .HasColumnType("int")
+                        .HasColumnName("ORDER_TOTAL");
+
+                    b.Property<int>("ShippingMethodId")
+                        .HasColumnType("int")
+                        .HasColumnName("SHIPPING_METHOD_ID");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("UPDATED_AT");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int")
+                        .HasColumnName("USER_ID");
+
+                    b.Property<int>("UserPaymentMethodId")
+                        .HasColumnType("int")
+                        .HasColumnName("USER_PAYMENT_METHOD_ID");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AddressId");
+
+                    b.HasIndex("OrderStatusId");
+
+                    b.HasIndex("ShippingMethodId");
+
+                    b.HasIndex("UserPaymentMethodId");
+
+                    b.ToTable("ShopOrders", "ShopOrders");
+                });
+
+            modelBuilder.Entity("eBookStore.Domain.Entities.ShoppingCart", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasColumnName("ID");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("CREATED_AT");
+
+                    b.Property<int>("EntityStatus")
+                        .HasColumnType("int")
+                        .HasColumnName("ENTITY_STATUS");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("UPDATED_AT");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int")
+                        .HasColumnName("USER_ID");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("ShoppingCarts", "ShoppingCarts");
+                });
+
+            modelBuilder.Entity("eBookStore.Domain.Entities.ShoppingCartItem", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasColumnName("ID");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("BookItemId")
+                        .HasColumnType("int")
+                        .HasColumnName("BOOK_ITEM_ID");
+
+                    b.Property<int>("CartId")
+                        .HasColumnType("int")
+                        .HasColumnName("CART_ID");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("CREATED_AT");
+
+                    b.Property<int>("EntityStatus")
+                        .HasColumnType("int")
+                        .HasColumnName("ENTITY_STATUS");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int")
+                        .HasColumnName("QUANTITY");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("UPDATED_AT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CartId");
+
+                    b.ToTable("ShoppingCartItems", "ShoppingCartItems");
                 });
 
             modelBuilder.Entity("eBookStore.Domain.Entities.User", b =>
@@ -378,7 +609,107 @@ namespace eBookStore.Persistence.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("UsersAddresses", "UsersAdresses");
+                    b.ToTable("UsersAddresses", "UserAdresses");
+                });
+
+            modelBuilder.Entity("eBookStore.Domain.Entities.UserPaymentMethod", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasColumnName("ID");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("AccountNumber")
+                        .HasColumnType("int")
+                        .HasColumnName("ACCOUNT_NUMBER");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("CREATED_AT");
+
+                    b.Property<int>("EntityStatus")
+                        .HasColumnType("int")
+                        .HasColumnName("ENTITY_STATUS");
+
+                    b.Property<DateTime>("ExpiryDate")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("EXPIRY_DATE");
+
+                    b.Property<bool>("IsDefault")
+                        .HasColumnType("bit")
+                        .HasColumnName("IS_DEFAULT");
+
+                    b.Property<int>("PaymentTypeId")
+                        .HasColumnType("int")
+                        .HasColumnName("PAYMENT_TYPE_ID");
+
+                    b.Property<string>("Provider")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(70)")
+                        .HasColumnName("PROVIDER");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("UPDATED_AT");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int")
+                        .HasColumnName("USER_ID");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PaymentTypeId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("UserPaymentMethods", "UserPaymentMethods");
+                });
+
+            modelBuilder.Entity("eBookStore.Domain.Entities.UserReview", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasColumnName("ID");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Comment")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("COMMENT");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("CREATED_AT");
+
+                    b.Property<int>("EntityStatus")
+                        .HasColumnType("int")
+                        .HasColumnName("ENTITY_STATUS");
+
+                    b.Property<int>("OrderLineId")
+                        .HasColumnType("int")
+                        .HasColumnName("ORDER_LINE_ID");
+
+                    b.Property<int>("RatingValue")
+                        .HasColumnType("int")
+                        .HasColumnName("RATING_VALUE");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("UPDATED_AT");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int")
+                        .HasColumnName("USER_ID");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("UserReviews", "UserReviews");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
@@ -443,6 +774,63 @@ namespace eBookStore.Persistence.Migrations
                     b.Navigation("Country");
                 });
 
+            modelBuilder.Entity("eBookStore.Domain.Entities.ShopOrder", b =>
+                {
+                    b.HasOne("eBookStore.Domain.Entities.Address", "Address")
+                        .WithMany("ShopOrders")
+                        .HasForeignKey("AddressId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("eBookStore.Domain.Entities.OrderStatus", "OrderStatus")
+                        .WithMany("ShopOrders")
+                        .HasForeignKey("OrderStatusId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("eBookStore.Domain.Entities.ShippingMethod", "ShippingMethod")
+                        .WithMany("ShopOrders")
+                        .HasForeignKey("ShippingMethodId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("eBookStore.Domain.Entities.UserPaymentMethod", "UserPaymentMethod")
+                        .WithMany("ShopOrders")
+                        .HasForeignKey("UserPaymentMethodId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Address");
+
+                    b.Navigation("OrderStatus");
+
+                    b.Navigation("ShippingMethod");
+
+                    b.Navigation("UserPaymentMethod");
+                });
+
+            modelBuilder.Entity("eBookStore.Domain.Entities.ShoppingCart", b =>
+                {
+                    b.HasOne("eBookStore.Domain.Entities.User", "User")
+                        .WithMany("ShoppingCart")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("eBookStore.Domain.Entities.ShoppingCartItem", b =>
+                {
+                    b.HasOne("eBookStore.Domain.Entities.ShoppingCart", "ShoppingCart")
+                        .WithMany("ShoppingCartItem")
+                        .HasForeignKey("CartId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ShoppingCart");
+                });
+
             modelBuilder.Entity("eBookStore.Domain.Entities.UserAddress", b =>
                 {
                     b.HasOne("eBookStore.Domain.Entities.Address", "Address")
@@ -462,8 +850,40 @@ namespace eBookStore.Persistence.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("eBookStore.Domain.Entities.UserPaymentMethod", b =>
+                {
+                    b.HasOne("eBookStore.Domain.Entities.PaymentType", "PaymentType")
+                        .WithMany("UserPaymentMethod")
+                        .HasForeignKey("PaymentTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("eBookStore.Domain.Entities.User", "User")
+                        .WithMany("UserPaymentMethod")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("PaymentType");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("eBookStore.Domain.Entities.UserReview", b =>
+                {
+                    b.HasOne("eBookStore.Domain.Entities.User", "User")
+                        .WithMany("UserReview")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("eBookStore.Domain.Entities.Address", b =>
                 {
+                    b.Navigation("ShopOrders");
+
                     b.Navigation("UserAddress");
                 });
 
@@ -472,9 +892,40 @@ namespace eBookStore.Persistence.Migrations
                     b.Navigation("Addresses");
                 });
 
+            modelBuilder.Entity("eBookStore.Domain.Entities.OrderStatus", b =>
+                {
+                    b.Navigation("ShopOrders");
+                });
+
+            modelBuilder.Entity("eBookStore.Domain.Entities.PaymentType", b =>
+                {
+                    b.Navigation("UserPaymentMethod");
+                });
+
+            modelBuilder.Entity("eBookStore.Domain.Entities.ShippingMethod", b =>
+                {
+                    b.Navigation("ShopOrders");
+                });
+
+            modelBuilder.Entity("eBookStore.Domain.Entities.ShoppingCart", b =>
+                {
+                    b.Navigation("ShoppingCartItem");
+                });
+
             modelBuilder.Entity("eBookStore.Domain.Entities.User", b =>
                 {
+                    b.Navigation("ShoppingCart");
+
                     b.Navigation("UserAddress");
+
+                    b.Navigation("UserPaymentMethod");
+
+                    b.Navigation("UserReview");
+                });
+
+            modelBuilder.Entity("eBookStore.Domain.Entities.UserPaymentMethod", b =>
+                {
+                    b.Navigation("ShopOrders");
                 });
 #pragma warning restore 612, 618
         }

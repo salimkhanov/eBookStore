@@ -12,4 +12,6 @@ public class UserPaymentMethod:BaseEntity
     public int AccountNumber { get; set; }
     public DateTime ExpiryDate { get; set; }
     public bool IsDefault { get; set; }
+
+    public ICollection<ShopOrder> ShopOrders { get; set; }
 }

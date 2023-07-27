@@ -66,13 +66,17 @@ namespace eBookStore.Persistence.EntityConfigurations.AddressConfiguration
 
             #region Relations
 
-            builder.HasOne<Country>(x => x.Country)
+            builder.HasOne(x => x.Country)
             .WithMany(x => x.Addresses)
             .HasForeignKey(x => x.CountryId);
 
             builder.HasMany(x => x.UserAddress)
             .WithOne(x => x.Address)
             .HasForeignKey(x => x.AddressId);
+
+            builder.HasMany(x => x.ShopOrders)
+                .WithOne(x => x.Address)
+                .HasForeignKey(x => x.AddressId);
 
             #endregion
         }

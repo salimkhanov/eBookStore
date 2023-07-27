@@ -16,5 +16,7 @@ public class Address:BaseEntity
     public Country Country { get; set; }
 
     public ICollection<UserAddress> UserAddress { get; set; }
+
+    public ICollection<ShopOrder> ShopOrders { get; set; }
     #endregion
 }

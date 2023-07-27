@@ -43,11 +43,11 @@ namespace eBookStore.Persistence.EntityConfigurations.UserAddressConfiguration
 
             #region Relations
 
-            builder.HasOne<User>(x => x.User)
+            builder.HasOne(x => x.User)
             .WithMany(x => x.UserAddress)
             .HasForeignKey(x => x.UserId);
 
-            builder.HasOne<Address>(x => x.Address)
+            builder.HasOne(x => x.Address)
             .WithMany(x => x.UserAddress)
             .HasForeignKey(x => x.AddressId);
 

@@ -5,4 +5,6 @@ namespace eBookStore.Domain.Entities;
 public class OrderStatus:BaseEntity
 {
     public string Status { get; set; }
+
+    public ICollection<ShopOrder> ShopOrders { get; set; }
 }

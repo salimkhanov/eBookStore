@@ -11,7 +11,7 @@ public class ShoppingCartItemConfigurationMsSql : IEntityTypeConfiguration<Shopp
     {
         #region BaseConfiguration
 
-        builder.ToTable("ShoppingCartItems", DbObject.SchemaNameShoppingCartItem).HasKey(k => k.Id);
+        builder.ToTable("ShoppingCartItems", DbObject.SchemaNameShoppingCartItems).HasKey(k => k.Id);
 
         builder.Property(x => x.Id)
             .HasColumnName("ID");
@@ -43,7 +43,7 @@ public class ShoppingCartItemConfigurationMsSql : IEntityTypeConfiguration<Shopp
 
         #region Relations
 
-        builder.HasOne<ShoppingCart>(x => x.ShoppingCart)
+        builder.HasOne(x => x.ShoppingCart)
             .WithMany(x => x.ShoppingCartItem)
             .HasForeignKey(x => x.CartId);
 

@@ -11,7 +11,7 @@ namespace eBookStore.Persistence.EntityConfigurations.UserPaymentMethodConfigura
         {
             #region BaseConfigurations
 
-            builder.ToTable("UserPaymentMethods", DbObject.SchemaNameUserPaymentMethod).HasKey(k => k.Id);
+            builder.ToTable("UserPaymentMethods", DbObject.SchemaNameUserPaymentMethods).HasKey(k => k.Id);
 
             builder.Property(x => x.Id)
                 .HasColumnName("ID");
@@ -60,6 +60,10 @@ namespace eBookStore.Persistence.EntityConfigurations.UserPaymentMethodConfigura
             builder.HasOne(x => x.PaymentType)
                 .WithMany(x => x.UserPaymentMethod)
                 .HasForeignKey(x => x.PaymentTypeId);
+
+            builder.HasMany(x => x.ShopOrders)
+                .WithOne(x => x.UserPaymentMethod)
+                .HasForeignKey(x => x.UserPaymentMethodId);
 
             #endregion
         }

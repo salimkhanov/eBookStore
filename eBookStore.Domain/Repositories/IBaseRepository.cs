@@ -17,6 +17,9 @@ public interface IBaseRepository<TEntity> where TEntity : BaseEntity
     Task RemoveAsync(TEntity entity);
     Task RemoveRangeAsync(IEnumerable<TEntity> entities);
     Task ActivateAsync(TEntity entity);
-    Task DeactivateAsync(TEntity entity);
+    Task DeactivateAsync(TEntity entity);   
     Task SaveChangesAsync();
+    Task<IEnumerable<TEntity>> GetIncludedAsync(Expression<Func<TEntity, bool>> filter = null,
+                                       Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
+                                       string includeProperties = "");
 }

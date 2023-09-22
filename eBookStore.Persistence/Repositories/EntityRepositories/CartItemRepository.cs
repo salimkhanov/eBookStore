@@ -12,4 +12,12 @@ public class CartItemRepository : BaseRepository<CartItem>, ICartItemRepository
         _dbContext.CartItems.RemoveRange(cartItemsToRemove);
         await _dbContext.SaveChangesAsync();
     }
+    public async Task<List<CartItem>> GetCartItemsByCartIdAsync(int cartId)
+    {
+        var cartItems = await _dbContext.CartItems
+            .Where(ci => ci.CartId == cartId)
+            .ToListAsync();
+        return cartItems;
+    }
+
 }

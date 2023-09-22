@@ -5,10 +5,9 @@ namespace eBookStore.Application.Services.Abstract;
 
 public interface ICartService
 {
-    Task<List<CartItemDTO>> GetCartItemsAsync();
-    Task<CartItemDTO> GetCartItemById(int id);
+    Task<List<CartItemDTO>> GetCartItemsAsync(int userId);
     Task<bool> AddItemToCart(CartItemDTO cartItemDTO);
     Task<bool> RemoveItemFromCart(int itemId);
-    Task<bool> SumbitCart(int userId);
-    Task ClearCart();
+    Task ClearCart(int userId);
+    Task UpdateCartItemQuantityAsync(int cartItemId, int quantity);
 }

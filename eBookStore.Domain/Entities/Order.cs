@@ -5,7 +5,7 @@ namespace eBookStore.Domain.Entities;
 public class Order : BaseEntity
 {
     public int UserId { get; set; }
-    public DateTime OrderDate { get; set; }
+    public DateTime OrderDate { get; set; } = DateTime.UtcNow;
     public int PaymentMethodId { get; set; }
     public int AddressId { get; set; }  
     public int ShippingMethodId { get; set; } = default!;
@@ -20,6 +20,6 @@ public class Order : BaseEntity
     public ShippingMethod ShippingMethod { get; set; } = default!;
     public OrderStatus OrderStatus { get; set; } = default!;
     public ICollection<UserReview> UserReviews { get; set; } = new List<UserReview>();
-    public ICollection<OrderLine> OrderLines { get; set; } = new List<OrderLine>();
+    public ICollection<Book> Books { get; set; } = new List<Book>();
     #endregion
 }

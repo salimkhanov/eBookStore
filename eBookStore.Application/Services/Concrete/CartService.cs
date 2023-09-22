@@ -49,21 +49,19 @@ public class CartService : ICartService
         return true;
     }
 
-    public async Task ClearCart()
+    public async Task ClearCart(int userId)
     {
-        throw new NotImplementedException();
+        var cart = await _cartRepository.GetCartByUserIdAsync(userId);
+        await _cartItemRepository.ClearCartItemsAsync(cart.Id);
     }
 
-    public async Task<CartItemDTO> GetCartItemById(int id)
+    public async Task<List<CartItemDTO>> GetCartItemsAsync(int userId)
     {
-        var cartItem = await _cartItemRepository.GetByIdAsync(id);
-        return _mapper.Map<CartItemDTO>(cartItem);
-    }
+        var cart = await _cartRepository.GetCartByUserIdAsync(userId);
+        var cartItems = await _cartItemRepository.GetCartItemsByCartIdAsync(cart.Id);
+        var cartItemDTOs = _mapper.Map<List<CartItemDTO>>(cartItems);
 
-    public async Task<List<CartItemDTO>> GetCartItemsAsync()
-    {
-        var cartItem = await _cartItemRepository.GetAllAsync();
-        return _mapper.Map<List<CartItemDTO>>(cartItem);
+        return cartItemDTOs;
     }
 
     public async Task<bool> RemoveItemFromCart(int itemId)
@@ -80,21 +78,10 @@ public class CartService : ICartService
         return true;
     }
 
-    public async Task<bool> SumbitCart(int userId)
+    public async Task UpdateCartItemQuantityAsync(int cartItemId, int quantity)
     {
-        var cart = await _cartRepository.GetCartByUserIdAsync(userId);
-
-        if (cart == null || cart.CartItems.Count == 0)
-        {
-
-            return false;
-        }
-
-
-
-
-        await _cartItemRepository.ClearCartItemsAsync(cart.Id);
-
-        return true;
+        var cartItem = await _cartItemRepository.GetByIdAsync(cartItemId);
+        cartItem.Qty = quantity;
+        await _cartItemRepository.UpdateAsync(cartItem);
     }
 }

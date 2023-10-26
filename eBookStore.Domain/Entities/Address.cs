@@ -9,12 +9,13 @@ public class Address : BaseEntity
     public string City { get; set; } = default!;
     public string Region { get; set; } = default!;
     public string PostalCode { get; set; } = default!;
+    public bool IsDefault { get; set; }
     public int CountryId { get; set; }
+    public int UserId { get; set; }
 
 
     #region Navigation Properties
-    public Country Country { get; set; } = default!;
-    public ICollection<UserAddress> UserAddress { get; set; } = new List<UserAddress>();
-    public ICollection<Order> Orders { get; set; } = new List<Order>();
+    public virtual Country Country { get; set; } = default!;
+    public virtual User User { get; set; } = default!;
     #endregion
 }

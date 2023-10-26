@@ -6,5 +6,5 @@ public class BookLanguage : BaseEntity
 {
     public string LanguageCode { get; set; } = default!;
     public string Name { get; set; } = default!;
-    public ICollection<Book> Books { get; set; } = new List<Book>();
+    public virtual ICollection<Book> Books { get; set; } = new List<Book>();
 }

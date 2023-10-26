@@ -47,13 +47,13 @@ public class BookService : IBookService
 
     public async Task<BookResponseDTO> GetBookByIdAsync(int id)
     {
-        var book = await _bookRepository.GetBookByIdIncludeAsync(id);
+        var book = await _bookRepository.GetByIdAsync(id);
         return _mapper.Map<BookResponseDTO>(book);
     }
 
     public async Task<List<BookResponseDTO>> GetBooksAsync()
     {
-        var books = await _bookRepository.GetBooksIncludeAsync();
+        var books = await _bookRepository.GetAllAsync();
         return _mapper.Map<List<BookResponseDTO>>(books);
     }
 

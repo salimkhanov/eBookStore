@@ -12,45 +12,57 @@ public class OrderService : IOrderService
     private readonly IOrderRepository _orderRepository;
     private readonly ICartRepository _cartRepository;
     private readonly IUserService _userService;
-    private readonly IBookRepository _bookRepository;
+    private readonly IShippingMethodRepository _shippingMethodRepository;
     private readonly IMapper _mapper;
 
     public OrderService(
         IOrderRepository orderRepository,
         ICartRepository cartRepository,
         IUserService userService,
-        IBookRepository bookRepository,
+        IShippingMethodRepository shippingMethodRepository,
         IMapper mapper)
     {
         _orderRepository = orderRepository;
         _cartRepository = cartRepository;
         _userService = userService;
-        _bookRepository = bookRepository;
+        _shippingMethodRepository = shippingMethodRepository;
         _mapper = mapper;
     }
     public async Task CreateOrder(OrderCreateDTO orderCreateDTO)
     {
         var userId = await _userService.GetCurrentUserIdAsync();
         var cart = await _cartRepository.GetCartByUserIdAsync(userId);
-        var cartItem = cart.CartItems.ToList();
-        
-        var books = new List<Book>();
+        var cartItems = cart.CartItems.ToList();
 
-        foreach(var item in cartItem)
+        double orderTotal = 0; 
+
+        foreach (var cartItem in cartItems)
         {
-            books.Add(await _bookRepository.GetByIdAsync(item.BookId));
+            double subtotal = cartItem.Price * cartItem.Qty;
+
+            if (cartItem.Book.Discount != null)
+            {
+                subtotal = subtotal - (subtotal * (cartItem.Book.Discount.DiscountRate / 100));
+            }
+
+            orderTotal += subtotal;
         }
+        var shippingMethod = await _shippingMethodRepository.GetByIdAsync(orderCreateDTO.ShippingMethodId);
 
-        var order = new Order
-        {
-            UserId = userId,
-            PaymentMethodId = orderCreateDTO.PaymentMethodId,
-            AddressId = orderCreateDTO.AddressId,
-            ShippingMethodId = orderCreateDTO.ShippingMethodId,
-            OrderStatusId = 0,
-            Books = books
-        };
+        orderTotal += shippingMethod.Price;
+
+        var order = _mapper.Map<Order>(orderCreateDTO);
+
+        // Order details
+        order.UserId = userId;
+        order.OrderDate = DateTime.UtcNow;
+        order.OrderTotal = orderTotal;
+        order.PaymentMethodId = orderCreateDTO.PaymentMethodId;
+        order.AddressId = orderCreateDTO.AddressId;
+
         await _orderRepository.AddAsync(order);
+
+        //clear
     }
 
     public async Task<bool> DeleteOrderAsync(int id)

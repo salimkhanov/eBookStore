@@ -6,5 +6,5 @@ public class ShippingMethod : BaseEntity
 {
     public string Name { get; set; } = default!;
     public double Price { get; set; }
-    public ICollection<Order> Orders { get; set; } = new List<Order>();
+    public virtual ICollection<Order> Orders { get; set; } = new List<Order>();
 }

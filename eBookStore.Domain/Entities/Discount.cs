@@ -9,5 +9,5 @@ public class Discount : BaseEntity
     public int DiscountRate { get; set; }
     public DateTime StartDate { get; set; }
     public DateTime EndDate { get; set; }
-    public ICollection<Book> Books { get; set; } = new List<Book>();
+    public virtual ICollection<Book> Books { get; set; } = new List<Book>();
 }

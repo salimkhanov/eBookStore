@@ -14,12 +14,12 @@ public class Order : BaseEntity
     
 
     #region Navigation Property
-    public User User { get; set; } = default!;
-    public PaymentMethod PaymentMethod { get; set; } = default!;
-    public Address Address { get; set; } = default!;
-    public ShippingMethod ShippingMethod { get; set; } = default!;
-    public OrderStatus OrderStatus { get; set; } = default!;
-    public ICollection<UserReview> UserReviews { get; set; } = new List<UserReview>();
-    public ICollection<Book> Books { get; set; } = new List<Book>();
+    public virtual User User { get; set; } = default!;
+    public virtual PaymentMethod PaymentMethod { get; set; } = default!;
+    public virtual Address Address { get; set; } = default!;
+    public virtual ShippingMethod ShippingMethod { get; set; } = default!;
+    public virtual OrderStatus OrderStatus { get; set; } = default!;
+    public virtual ICollection<UserReview> UserReviews { get; set; } = new List<UserReview>();
+    public virtual ICollection<CartItem> CartItems { get; set; } = new List<CartItem>();
     #endregion
 }

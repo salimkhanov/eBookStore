@@ -23,10 +23,10 @@ public class Book : BaseEntity
     public int AuthorId { get; set; }
 
     #region Nagigation Property
-    public BookLanguage BookLanguage { get; set; } = default!;
-    public BookGenre BookGenre { get; set; } = default!;
-    public Publisher Publisher { get; set; } = default!;
-    public Discount? Discount { get; set; } = default!;
-    public Author Author { get; set; } = default!;
+    public virtual BookLanguage BookLanguage { get; set; } = default!;
+    public virtual BookGenre BookGenre { get; set; } = default!;
+    public virtual Publisher Publisher { get; set; } = default!;
+    public virtual Discount? Discount { get; set; } = default!;
+    public virtual Author Author { get; set; } = default!;
     #endregion
 }

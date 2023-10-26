@@ -5,5 +5,5 @@ namespace eBookStore.Domain.Entities;
 public class OrderStatus : BaseEntity
 {
     public string Status { get; set; } = default!;
-    public ICollection<Order> Orders { get; set; } = new List<Order>();
+    public virtual ICollection<Order> Orders { get; set; } = new List<Order>();
 }

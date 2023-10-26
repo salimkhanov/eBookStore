@@ -8,6 +8,7 @@ using eBookStore.Domain.Repositories.EntityRepositories;
 namespace eBookStore.Application.Services.Concrete;
 
 public class CountryService : ICountryService
+
 {
     private readonly ICountryRepository _countryRepository;
     private readonly IMapper _mapper;

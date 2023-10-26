@@ -4,7 +4,14 @@ namespace eBookStore.Domain.Entities;
 
 public class PaymentMethod : BaseEntity
 {
-    public string Method { get; set; } = default!;
-    public ICollection<Order> Orders { get; set; } = new List<Order>();
-    public ICollection<UserPaymentMethod> UserPaymentMethods { get; set; } = new List<UserPaymentMethod>();
+    public string CardHolderName { get; set; } = default!;
+    public string CardNumber { get; set; } = default!;
+    public int ExpirationMonth { get; set; }
+    public int ExpirationYear { get; set; }
+    public bool IsDefault { get; set; }
+    public int UserId { get; set; } 
+
+
+    // Foreign key to link the payment method to a user
+    public virtual User User { get; set; } = default!;
 }

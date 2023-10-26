@@ -9,9 +9,9 @@ public class User : IdentityUser<int>
     public EntityStatus EntityStatus { get; set; } = EntityStatus.Active;
 
     #region Navigation Properties
-    public ICollection<UserAddress> UserAddress { get; set; } = new List<UserAddress>();
-    public ICollection<UserPaymentMethod> UserPaymentMethods { get; set; } = new List<UserPaymentMethod>();
-    public ICollection<UserReview> UserReviews { get; set; } = new List<UserReview>();
-    public ICollection<Order> Orders { get; set; } = new List<Order>();
+    public virtual ICollection<Address> Addresses { get; set; } = new List<Address>();
+    public virtual ICollection<PaymentMethod> PaymentMethods { get; set; } = new List<PaymentMethod>();
+    public virtual ICollection<UserReview> UserReviews { get; set; } = new List<UserReview>();
+    public virtual ICollection<Order> Orders { get; set; } = new List<Order>();
     #endregion
 }

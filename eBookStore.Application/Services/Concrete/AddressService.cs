@@ -25,6 +25,9 @@ public class AddressService : IAddressService
     {
         var address = _mapper.Map<Address>(addressRequestDTO);
         address.UserId = await _userService.GetCurrentUserIdAsync();
+
+        // First created address is set as default
+        address.IsDefault = true;
         await _addressRepository.AddAsync(address);
     }
 

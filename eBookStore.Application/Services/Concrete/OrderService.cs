@@ -13,6 +13,7 @@ public class OrderService : IOrderService
     private readonly ICartRepository _cartRepository;
     private readonly IUserService _userService;
     private readonly IShippingMethodRepository _shippingMethodRepository;
+    private readonly IOrderStatusRepository _orderStatusRepository;
     private readonly IMapper _mapper;
 
     public OrderService(
@@ -20,14 +21,33 @@ public class OrderService : IOrderService
         ICartRepository cartRepository,
         IUserService userService,
         IShippingMethodRepository shippingMethodRepository,
+        IOrderStatusRepository orderStatusRepository,
         IMapper mapper)
     {
         _orderRepository = orderRepository;
         _cartRepository = cartRepository;
         _userService = userService;
         _shippingMethodRepository = shippingMethodRepository;
+        _orderStatusRepository = orderStatusRepository;
         _mapper = mapper;
     }
+
+    public async Task<bool> ChangeOrderStatus(int orderId, int statusId)
+    {
+        var order = await _orderRepository.GetByIdAsync(orderId);
+        var status = await _orderStatusRepository.GetByIdAsync(statusId);
+
+        if (order != null && status != null)
+        {
+            order.OrderStatus = status;
+            //order.OrderStatusId = status.Id;
+            await _orderRepository.UpdateAsync(order);
+            return true;
+        }
+
+        return false;
+    }
+
     public async Task CreateOrder(OrderCreateDTO orderCreateDTO)
     {
         var userId = await _userService.GetCurrentUserIdAsync();

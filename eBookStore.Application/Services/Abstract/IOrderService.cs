@@ -10,4 +10,5 @@ public interface IOrderService
     Task<List<OrderResponseDTO>> GetOrdersByUserIdAsync(int userId);
     Task<bool> UpdateOrderAsync(BookGenreDTO bookGenreDTO);
     Task<bool> DeleteOrderAsync(int id);
+    Task<bool> ChangeOrderStatus(int orderId, int statusId);
 }

@@ -26,6 +26,9 @@ public class PaymentMethodService : IPaymentMethodService
     {
         var paymentMethod = _mapper.Map<PaymentMethod>(paymentMethodRequest);
         paymentMethod.UserId = await _userService.GetCurrentUserIdAsync();
+
+        // First created payment is set as default
+        paymentMethod.IsDefault = true;
         await _paymentMethodRepository.AddAsync(paymentMethod);
     }
 

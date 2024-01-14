@@ -8,6 +8,4 @@ public class CartItem : BaseEntity
     public int BookId { get; set; }
     public virtual Book Book { get; set; } = default!;
     public int Qty { get; set; }
-    public double Price { get; set; }
-
 }

@@ -58,7 +58,7 @@ public class OrderService : IOrderService
 
         foreach (var cartItem in cartItems)
         {
-            double subtotal = cartItem.Price * cartItem.Qty;
+            double subtotal = cartItem.Book.Price * cartItem.Qty;
 
             if (cartItem.Book.Discount != null)
             {
@@ -71,7 +71,7 @@ public class OrderService : IOrderService
 
         orderTotal += shippingMethod.Price;
 
-        var order = _mapper.Map<Order>(orderCreateDTO);
+        var order = new Order();
 
         // Order details
         order.UserId = userId;
@@ -79,10 +79,10 @@ public class OrderService : IOrderService
         order.OrderTotal = orderTotal;
         order.PaymentMethodId = orderCreateDTO.PaymentMethodId;
         order.AddressId = orderCreateDTO.AddressId;
+        order.OrderStatusId = 1;
+        order.CartItems = cartItems;
 
         await _orderRepository.AddAsync(order);
-
-        //clear
     }
 
     public async Task<bool> DeleteOrderAsync(int id)

@@ -36,6 +36,7 @@ public class FileService : IFileService
 
     public bool IsImage(IFormFile file)
     {
+
         if (file.ContentType.Contains("image"))
         {
             return true;

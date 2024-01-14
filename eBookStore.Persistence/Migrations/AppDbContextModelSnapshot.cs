@@ -498,9 +498,6 @@ namespace eBookStore.Persistence.Migrations
                     b.Property<int?>("OrderId")
                         .HasColumnType("int");
 
-                    b.Property<double>("Price")
-                        .HasColumnType("float");
-
                     b.Property<int>("Qty")
                         .HasColumnType("int");
 

@@ -8,6 +8,7 @@ namespace eBookStore.Controllers;
 
 [Route("User")]
 [ApiController]
+[Authorize(AuthenticationSchemes = "Bearer")]
 public class UserController : ControllerBase
 {
     private readonly IAuthService _authService;
@@ -51,6 +52,7 @@ public class UserController : ControllerBase
     }
 
     [HttpPost("Registration")]
+    [AllowAnonymous]
     public async Task<IActionResult> Registration(RegistrationDTO registrationDTO)
     {
         if (await _userService.UserExistsAsync(registrationDTO.Email))

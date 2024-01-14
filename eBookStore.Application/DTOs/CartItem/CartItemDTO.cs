@@ -1,7 +1,9 @@
 ﻿namespace eBookStore.Application.DTOs.CartItem;
 
-public record CartItemDTO(
-    int Id,
-    int UserId,
-    int BookId,
-    int Qty);
+public class CartItemDTO
+{
+    public int Id { get; set; }
+    public int UserId { get; set; }
+    public int BookId { get; set; }
+    public int Qty { get; set; }
+}

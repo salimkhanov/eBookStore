@@ -2,12 +2,14 @@
 using eBookStore.Application.DTOs.OrderStatus;
 using eBookStore.Application.Services.Abstract;
 using eBookStore.Application.Services.Concrete;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace eBookStore.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
+[Authorize(AuthenticationSchemes = "Bearer")]
 public class OrderStatusController : ControllerBase
 {
     private readonly IOrderStatusService _orderStatusService;

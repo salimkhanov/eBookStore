@@ -8,18 +8,16 @@ public static class ServiceRegistration
     {
         services.AddSwaggerGen(swagger =>
         {
-            //This is to generate the Default UI of Swagger Documentation  
             swagger.SwaggerDoc("v1", new OpenApiInfo
             {
                 Version = "v1",
                 Title = "eBookStore",
                 Description = "ASP.NET Core Web API"
             });
-            // To Enable authorization using Swagger (JWT)  
             swagger.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
             {
                 Name = "Authorization",
-                Type = SecuritySchemeType.ApiKey,
+                Type = SecuritySchemeType.Http,
                 Scheme = "Bearer",
                 BearerFormat = "JWT",
                 In = ParameterLocation.Header,
@@ -37,7 +35,6 @@ public static class ServiceRegistration
                                 }
                             },
                             new string[] {}
-
                     }
                 });
         });

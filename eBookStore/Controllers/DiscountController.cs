@@ -2,6 +2,7 @@
 using eBookStore.Application.DTOs.Discount;
 using eBookStore.Application.Services.Abstract;
 using eBookStore.Application.Services.Concrete;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,6 +10,7 @@ namespace eBookStore.Controllers;
 
 [Route("Discount")]
 [ApiController]
+[Authorize(AuthenticationSchemes = "Bearer")]
 public class DiscountController : ControllerBase
 {
     private readonly IDiscountService _discountService;

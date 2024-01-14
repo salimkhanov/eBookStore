@@ -2,7 +2,7 @@
 
 namespace eBookStore.Application.DTOs.Book;
 
-public record BookRequestDTO(
+public record BookUpdateDTO(
     int Id,
     string Title,
     string Description,

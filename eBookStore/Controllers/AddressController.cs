@@ -1,13 +1,13 @@
 ﻿using eBookStore.Application.DTOs.Address;
 using eBookStore.Application.Services.Abstract;
-using eBookStore.Application.Services.Concrete;
-using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace eBookStore.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
+[Authorize(AuthenticationSchemes = "Bearer")]
 public class AddressController : ControllerBase
 {
     private readonly IAddressService _addressService;
@@ -54,6 +54,7 @@ public class AddressController : ControllerBase
     [HttpGet("GetUserAddresses")]
     public async Task<IActionResult> GetUserAddressesAsync()
     {
+        var user = User;
         return Ok(await _addressService.GetUserAddressesAsync());   
     }
 

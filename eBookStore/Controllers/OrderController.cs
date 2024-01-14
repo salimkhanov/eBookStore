@@ -2,6 +2,7 @@
 using eBookStore.Application.DTOs.Order;
 using eBookStore.Application.Services.Abstract;
 using eBookStore.Application.Services.Concrete;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,6 +10,7 @@ namespace eBookStore.Controllers;
 
 [Route("Order")]
 [ApiController]
+[Authorize(AuthenticationSchemes = "Bearer")]
 public class OrderController : ControllerBase
 {
     private readonly IOrderService _orderService;

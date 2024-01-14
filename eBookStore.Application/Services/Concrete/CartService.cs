@@ -10,16 +10,19 @@ public class CartService : ICartService
 {
     private readonly ICartRepository _cartRepository;
     private readonly ICartItemRepository _cartItemRepository;
+    private readonly IUserService _userService;
     private readonly IMapper _mapper;
 
     public CartService(
         ICartRepository cartRepository,
         ICartItemRepository cartItemRepository,
+        IUserService userService,
         IMapper mapper)
     {
 
         _cartRepository = cartRepository;
         _cartItemRepository = cartItemRepository;
+        _userService = userService;
         _mapper = mapper;
     }
 
@@ -49,14 +52,16 @@ public class CartService : ICartService
         return true;
     }
 
-    public async Task ClearCart(int userId)
+    public async Task ClearCart()
     {
+        var userId = await _userService.GetCurrentUserIdAsync();
         var cart = await _cartRepository.GetCartByUserIdAsync(userId);
         await _cartItemRepository.ClearCartItemsAsync(cart.Id);
     }
 
-    public async Task<List<CartItemDTO>> GetCartItemsAsync(int userId)
+    public async Task<List<CartItemDTO>> GetCartItemsAsync()
     {
+        var userId = await _userService.GetCurrentUserIdAsync();
         var cart = await _cartRepository.GetCartByUserIdAsync(userId);
         var cartItems = await _cartItemRepository.GetCartItemsByCartIdAsync(cart.Id);
         var cartItemDTOs = _mapper.Map<List<CartItemDTO>>(cartItems);

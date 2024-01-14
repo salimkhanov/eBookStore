@@ -2,12 +2,14 @@
 using eBookStore.Application.Services.Abstract;
 using eBookStore.Application.Services.Concrete;
 using eBookStore.Domain.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace eBookStore.Controllers;
 
 [Route("Role")]
 [ApiController]
+[Authorize(AuthenticationSchemes = "Bearer")]
 public class RoleController : ControllerBase
 {
     private readonly IRoleService _roleService;

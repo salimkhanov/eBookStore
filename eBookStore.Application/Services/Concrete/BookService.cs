@@ -22,12 +22,12 @@ public class BookService : IBookService
         _mapper = mapper;
         _fileService = fileService;
     }
-    public async Task<bool> CreateBookAsync(BookRequestDTO bookRequestDTO)
+    public async Task<bool> CreateBookAsync(BookCreateDTO bookCreateDTO)
     {
-        var book = _mapper.Map<Book>(bookRequestDTO);
-        if(_fileService.IsImage(bookRequestDTO.BookImage))
+        var book = _mapper.Map<Book>(bookCreateDTO);
+        if(_fileService.IsImage(bookCreateDTO.BookImage))
         {
-            book.ImagePath = _fileService.Upload(bookRequestDTO.BookImage);
+            book.ImagePath = _fileService.Upload(bookCreateDTO.BookImage);
             await _bookRepository.AddAsync(book);
             return true;
         }
@@ -57,12 +57,12 @@ public class BookService : IBookService
         return _mapper.Map<List<BookResponseDTO>>(books);
     }
 
-    public async Task<bool> UpdateBookAsync(BookRequestDTO bookRequestDTO)
+    public async Task<bool> UpdateBookAsync(BookUpdateDTO bookUpdateDTO)
     {
-        var book = await _bookRepository.GetByIdAsync(bookRequestDTO.Id);
+        var book = await _bookRepository.GetByIdAsync(bookUpdateDTO.Id);
         if (book != null)
         {
-            _mapper.Map(bookRequestDTO, book);
+            _mapper.Map(bookUpdateDTO, book);
             await _bookRepository.UpdateAsync(book);
             return true;
         }

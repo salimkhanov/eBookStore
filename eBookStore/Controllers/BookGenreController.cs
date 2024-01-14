@@ -2,6 +2,7 @@
 using eBookStore.Application.DTOs.BookGenre;
 using eBookStore.Application.Services.Abstract;
 using eBookStore.Application.Services.Concrete;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,6 +10,7 @@ namespace eBookStore.Controllers;
 
 [Route("BookGenre")]
 [ApiController]
+[Authorize(AuthenticationSchemes = "Bearer")]
 public class BookGenreController : ControllerBase
 {
     private readonly IBookGenreService _bookGenreService;

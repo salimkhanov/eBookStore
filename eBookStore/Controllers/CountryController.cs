@@ -1,11 +1,13 @@
 ﻿using eBookStore.Application.DTOs.Country;
 using eBookStore.Application.Services.Abstract;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace eBookStore.Controllers;
 
 [Route("Country")]
 [ApiController]
+[Authorize(AuthenticationSchemes = "Bearer")]
 public class CountryController : ControllerBase
 {
     private readonly ICountryService _countryService;

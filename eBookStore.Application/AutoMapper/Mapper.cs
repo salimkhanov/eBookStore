@@ -4,6 +4,7 @@ using eBookStore.Application.DTOs.Author;
 using eBookStore.Application.DTOs.Book;
 using eBookStore.Application.DTOs.BookGenre;
 using eBookStore.Application.DTOs.BookLanguage;
+using eBookStore.Application.DTOs.CartItem;
 using eBookStore.Application.DTOs.Country;
 using eBookStore.Application.DTOs.Discount;
 using eBookStore.Application.DTOs.Order;
@@ -29,7 +30,8 @@ public class Mapper : Profile
             .ForMember(dest => dest.PublisherName, opt => opt.MapFrom(src => src.Publisher.Name))
             .ForMember(dest => dest.DiscountName, opt => opt.MapFrom(src => src.Discount.Name));
 
-        CreateMap<BookRequestDTO, Book>();
+        CreateMap<BookUpdateDTO, Book>();
+        CreateMap<BookCreateDTO, Book>();
 
         CreateMap<Address, AddressResponseDTO>();
         CreateMap<AddressRequestDTO, Address>();
@@ -55,6 +57,9 @@ public class Mapper : Profile
             .ForMember(dest => dest.AddressLine, opt => opt.MapFrom(src => src.Address.AddressLine))
             .ForMember(dest => dest.ShippingMethodName, opt => opt.MapFrom(src => src.ShippingMethod.Name))
             .ForMember(dest => dest.OrderStatus, opt => opt.MapFrom(src => src.OrderStatus.Status));
+
+
+        CreateMap<CartItem, CartItemDTO>().ReverseMap();
 
         CreateMap<OrderCreateDTO, Order>();
     }

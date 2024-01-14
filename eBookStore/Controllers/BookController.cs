@@ -2,6 +2,7 @@
 using eBookStore.Application.DTOs.User;
 using eBookStore.Application.Services.Abstract;
 using eBookStore.Application.Services.Concrete;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,6 +10,7 @@ namespace eBookStore.Controllers;
 
 [Route("Book")]
 [ApiController]
+[Authorize(AuthenticationSchemes = "Bearer")]
 public class BookController : ControllerBase
 {
     private readonly IBookService _bookService;
@@ -36,9 +38,9 @@ public class BookController : ControllerBase
     }
 
     [HttpPut("Update")]
-    public async Task<IActionResult> UpdateBookAsync(BookRequestDTO bookRequestDTO)
+    public async Task<IActionResult> UpdateBookAsync(BookUpdateDTO bookUpdateDTO)
     {
-        if (await _bookService.UpdateBookAsync(bookRequestDTO))
+        if (await _bookService.UpdateBookAsync(bookUpdateDTO))
         {
             return Ok("Successfully updated");
         }
@@ -56,8 +58,12 @@ public class BookController : ControllerBase
     }
 
     [HttpPost("Create")]
-    public async Task<IActionResult> CreateBookAsync([FromForm]BookRequestDTO bookRequestDTO)
+    public async Task<IActionResult> CreateBookAsync([FromForm] BookCreateDTO bookCreateDTO)
     {
-        return Ok(await _bookService.CreateBookAsync(bookRequestDTO));
+        if(await _bookService.CreateBookAsync(bookCreateDTO))
+        {
+            return Ok(bookCreateDTO);
+        }
+        return BadRequest();
     }
 }

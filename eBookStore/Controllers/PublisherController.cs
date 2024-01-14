@@ -4,6 +4,7 @@ using eBookStore.Application.DTOs.Publisher;
 using eBookStore.Application.Services.Abstract;
 using eBookStore.Application.Services.Concrete;
 using eBookStore.Domain.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,6 +12,7 @@ namespace eBookStore.Controllers;
 
 [Route("Publisher")]
 [ApiController]
+[Authorize(AuthenticationSchemes = "Bearer")]
 public class PublisherController : ControllerBase
 {
     private readonly IPublisherService _publisherService;

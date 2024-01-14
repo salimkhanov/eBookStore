@@ -12,7 +12,7 @@ using eBookStore.Persistence.EFContext;
 namespace eBookStore.Persistence.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20231017144711_InitialCreate")]
+    [Migration("20240109144415_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -500,9 +500,6 @@ namespace eBookStore.Persistence.Migrations
 
                     b.Property<int?>("OrderId")
                         .HasColumnType("int");
-
-                    b.Property<double>("Price")
-                        .HasColumnType("float");
 
                     b.Property<int>("Qty")
                         .HasColumnType("int");
